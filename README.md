@@ -7,10 +7,9 @@ javascript is the best
 
 ### Q : What is js?
 A : JavaScript is a programming language commonly used in web development. It was originally developed by Netscape as a means to add dynamic and interactive elements to websites.
+
 JavaScript is a synchronous, blocking, single-threaded language.
 JavaScript is a dynamically typed language. In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time.
-
-JavaScript is a dynamically typed language. In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time
 
 ### Q : What are the different data types present in javascript?
 A : There are two types of data types in JavaScript.
@@ -69,6 +68,12 @@ A : == compares value and === compares vlue and type
 
 ### Q : Difference between null and undefined
 A : both of them is an empty value but difference is that when you define a variable and not assign any value it automatically so you don't have to assign value undefine js do it for you. In case of null you have to assugn value null to variable. Typeof undefined will be undefined while typeof null will be object.
+
+### Q : What is scope in javascript
+A : Scope is the accessibility of variables, functions, and objects in some particular part of your code during runtime. In other words, scope determines the visibility of variables and other resources in areas of your code.
+
+### Q : What is a strict mode in javascript
+A : Strict Mode is a new feature in ECMAScript 5 that allows you to place a program, or a function, in a “strict” operating context. This way it prevents certain actions from being taken and throws more exceptions. The literal expression "use strict"; instructs the browser to use the javascript code in the Strict mode.
 
 ### Q : What are the possible ways to create objects in JavaScript
 A : 
@@ -207,7 +212,6 @@ let has a block scope
 result will be => VM250:5 Uncaught ReferenceError: a is not defined
 ```
 
-
 ### Q : JS array method
 A : 
 The pop() method removes the last element from an array. The pop() method returns the value that was "popped out".
@@ -293,17 +297,11 @@ The reduce() method reduces an array of values down to just one value. To get th
 
 ```
 const numbers = [1, 2, 3, 4];
-const sum = numbers.reduce(function (result, item) {
+const sum = numbers.reduce((result, item) => {
   return result + item;
 }, 0);
 console.log(sum); // 10
 ```
-
-### Q : What is scope in javascript
-A : Scope is the accessibility of variables, functions, and objects in some particular part of your code during runtime. In other words, scope determines the visibility of variables and other resources in areas of your code.
-
-### Q : What is a strict mode in javascript
-A : Strict Mode is a new feature in ECMAScript 5 that allows you to place a program, or a function, in a “strict” operating context. This way it prevents certain actions from being taken and throws more exceptions. The literal expression "use strict"; instructs the browser to use the javascript code in the Strict mode.
 
 ### Q : Different Types of Loops in JavaScript
 A : 
@@ -372,11 +370,10 @@ A :
 ### Q : What is use of arrow 
 A : arrow functions were introduced in ES6.
 * An arrow function is a shorter syntax for a function expression and does not have its own this, arguments, super, or new.target. These functions are best suited for non-method functions, and they cannot be used as constructors.
+* Arrow functions do not bind their own this value. Instead, they inherit the this value from the enclosing scope. This behavior can be advantageous in certain situations, especially when dealing with callbacks or functions inside other functions.
 * Unlike regular functions, arrow functions do not have their own this. The value of this inside an arrow function remains the same throughout the lifecycle of the function and is always bound to the value of this in the closest non-arrow parent function.
-* The handling of this is also different in arrow functions compared to regular functions.
 * In short, with arrow functions there are no binding of this.
 * In regular functions the this keyword represented the object that called the function, which could be the window, the document, a button or whatever.
-* With arrow functions the this keyword always represents the object that defined the arrow function.
 ```javascript
 let add = (x, y) => x + y;
 --------------------------
@@ -400,75 +397,37 @@ A : Both rest parameter and spread operator were introduced in the ES6 version o
 
 Rest parameter ( … )
 
-It provides an improved way of handling parameters of a function.
+The rest parameter allows a function to accept an indefinite number of arguments as an array.
 
-Using the rest parameter syntax, we can create functions that can take a variable number of arguments.
-
-Any number of arguments will be converted into an array using the rest parameter.
-
-The rest operator (…) allows us to call a function with any number of arguments and then access those excess arguments as an array. The rest operator also allows us in destructuring array or objects.
-
-The main difference between rest and spread is that the rest operator puts the rest of some specific user-supplied values into a JavaScript array.
+In the sum function, the ...numbers syntax allows it to accept any number of arguments, which are then treated as an array called numbers. This array can be processed using array methods like reduce in this example.
 ```
-function extractingArgs(...args){
-  return args[1];
+// Rest parameter in function declaration
+function sum(...numbers) {
+  return numbers.reduce((total, num) => total + num, 0);
 }
 
-// extractingArgs(8,9,1); // Returns 9
-
-function addAllArgs(...args){
-  let sumOfArgs = 0;
-  let i = 0;
-  while(i < args.length){
-    sumOfArgs += args[i];
-    i++;
-  }
-  return sumOfArgs;
-}
-
-addAllArgs(6, 5, 7, 99); // Returns 117
-addAllArgs(1, 3, 4); // Returns 8
+// Using the function with different numbers of arguments
+console.log(sum(1, 2, 3));         // Output: 6
+console.log(sum(4, 5, 6, 7));      // Output: 22
+console.log(sum(10));              // Output: 10
 ```
-- Rest parameter should always be used at the last parameter of a function:
 
 Spread operator (…)
 
-Although the syntax of spread operator is exactly the same as the rest parameter, spread operator is used to spread an array, and object literals. We also use spread operators where one or more arguments are expected in a function call. 
+The spread operator spreads the elements of an array (or characters of a string) or the properties of an object into another array, object, or function call.
 
 The spread operator (…) allows us to expand an iterable like array into its individual elements.
 
 ```
+// Spread operator in array
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5, 6];
 
-const myName = ["Sofela", "is", "my"];
-const aboutMe = ["Oluwatobi", ...myName, "name."];
+console.log(arr2);  // Output: [1, 2, 3, 4, 5, 6]
 
-console.log(aboutMe);
-
-// The invocation above will return:
-[ "Oluwatobi", "Sofela", "is", "my", "name." ]
-
-----------------------------------------------------------------------------------
-
-const myName = "Oluwatobi Sofela";
-
-console.log([...myName]);
-
-// The invocation above will return:
-[ "O", "l", "u", "w", "a", "t", "o", "b", "i", " ", "S", "o", "f", "e", "l", "a" ]
-
-----------------------------------------------------------------------------------
-
-const numbers = [1, 3, 5, 7];
-
-function addNumbers(a, b, c, d) {
-  return a + b + c + d;
-}
-
-console.log(addNumbers(...numbers));
-
-// The invocation above will return:
-16
-
+// Spread operator in function call
+const numbers = [10, 20, 30];
+console.log(Math.max(...numbers));  // Output: 30
 ```
 
 ### Q : What is Object Destructuring?
