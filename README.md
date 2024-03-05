@@ -646,6 +646,32 @@ Cons:
 It makes little complex code
 You need to load a polyfill if ES6 is not supported
 
+### Q : What is async await?
+* An async function is a function that always returns a promise. This allows you to use the await keyword within the function to handle asynchronous operations in a more synchronous-looking manner. The primary benefit of async functions is that they make it easier to write and reason about asynchronous code by avoiding callback hell and providing a more linear flow of control.
+* The await keyword is used inside an async function to wait for a promise to settle (either resolve or reject). It allows you to pause the execution of the async function until the promise is resolved, and then retrieve the result.
+```
+async function fetchData() {
+  // Simulating an asynchronous operation, e.g., fetching data from an API
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("Data successfully fetched!");
+    }, 1000);
+  });
+}
+
+async function exampleAsyncFunction() {
+  console.log("Start");
+
+  // Using await to wait for a promise to resolve
+  const result = await fetchData();
+
+  console.log(result);
+  console.log("End");
+}
+
+exampleAsyncFunction();
+```
+
 ### Q : What is an Immediately Invoked Function in JavaScript?
 A : An Immediately Invoked Function ( known as IIFE and pronounced as IIFY) is a function that runs as soon as it is defined.
 ```javascript
@@ -697,9 +723,7 @@ function memoizedAddTo256(){
     if(num in cache){
       console.log("cached value");
       return cache[num]
-
-    }
-    else{
+    }else{
       cache[num] = num + 256;
       return cache[num];
     }
@@ -774,13 +798,6 @@ A : DEBOUNCING
 * The debounced function will ignore all calls to it until the calls have stopped for a specified time period. Only then will it call the original function.
 * Debouncing forces a function to wait a certain amount of time before running again. In other words, it limits the rate at which a function gets invoked.
 
-Implementing Debounce:
-The general idea for debouncing is-
-1) Start with 0 timeout.
-2) If the debounced function is called again, reset the timer to the specified delay.
-3) In case of timeout, call the debounced function.
-Thus every call to a debounce function resets the timer and delays the call.
-
 ```
 const debounce = function(func, delay){
       let timer;
@@ -791,7 +808,7 @@ const debounce = function(func, delay){
 	timer = setTimeout(()=> {
 	    func.apply(context, args)
 	},delay);
-       }
+	}
 }
 ```
 
@@ -805,20 +822,9 @@ Implementing Throttle:
 Throttle can be a little taxing as its desired behavior has different interpretations. Let’s start by limiting the rate at which we execute a function.
 Gaming — In action games, the user often performs a key action by pushing a button (example: shooting, punching). But, as any gamer knows, users often press the buttons much more than is necessary, probably due to the excitement and intensity of the action. So the user might hit “Punch” 10 times in 5 seconds, but the game character can only throw one punch in one second. In such a situation, it makes sense to throttle the action. In this case, throttling the “Punch” action to one second would ignore the second button press each second.
 
-1. Throttling a button click so we can’t spam click
-2. Throttling an API call
-3. Throttling a mousemove/touchmove event handler
-~~~
-1) Debouncing is a technique where we can monitor the time delay of user action and once that delay reaches our predetermined threshold we can can make the function call.
-
-2) Throttling is a technique where we make the function call in a predetermined time interval irrespective of continuous user actions.
-
-3) Even though both debouncing and throttling seems like similar, both have their own use-cases. It’s not recommended to use throttling logic in search bar and we we cannot use debouncing in shooting game scenario or browser resizing or onScroll events.
-
-Throttling or sometimes is also called throttle function is a practice used in websites. Throttling is used to call a function after every millisecond or a particular interval of time only the first click is executed immediately.
-~~~
-
-Debouncing is a technique where we can monitor the time delay of user action and once that delay reaches our predetermined threshold we can can make the function call. Throttling is a technique where we make the function call in a predetermined time interval irrespective of continuous user actions.
+* It’s not recommended to use throttling logic in search bar and we we cannot use debouncing in shooting game scenario or browser resizing or onScroll events.
+* Throttling or sometimes is also called throttle function is a practice used in websites. Throttling is used to call a function after every millisecond or a particular interval of time only the first click is executed immediately.
+* Debouncing is a technique where we can monitor the time delay of user action and once that delay reaches our predetermined threshold we can can make the function call. Throttling is a technique where we make the function call in a predetermined time interval irrespective of continuous user actions.
 
 ### Q : What are the differences between cookie, local storage and session storage
 A : 
