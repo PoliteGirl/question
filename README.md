@@ -119,27 +119,35 @@ var object = new Person("Sudheer");
 ``` 
 
 ### Q : what is the diff between deep cloning and shallow cloning
-A : In Shallow copy, a copy of the original object is stored and only the reference address is finally copied. In Deep copy, the copy of the original object and the repetitive copies both are stored.
+A : 
+* In Shallow copy, a copy of the original object is stored and only the reference address is finally copied. In Deep copy, the copy of the original object and the repetitive copies both are stored.
+* A deep copying means that value of the new variable is disconnected from the original variable while a shallow copy means that some values are still connected to the original variable.
 
-A deep copying means that value of the new variable is disconnected from the original variable while a shallow copy means that some values are still connected to the original variable.
+For Shallow cloning
+
+```
+let originalObject = { a: 1, b: { c: 2 } };
+let shallowClone = Object.assign({}, originalObject);
+
+and
+
+//Spread Operator
+let originalObject = { a: 1, b: { c: 2 } };
+let shallowClone = { ...originalObject };
+```
 
 For Deep clone use lodash lobrary
-```_.cloneDeep(object)```
+```const _ = require('lodash');
 
-or use ... operator
-```var a = { ...obj }```
-
-or var student2 = Object.assign( {}, obj);
-
-or can use var cloned = JSON.parse(JSON.stringify(obj));  but it looses all undefined and function and converts it to null value. Because JSON.parse(JSON.stringify(obj)) has some limitations like you have mentioned, which are, they do not serialize the circular object or things like Map, Set, Date, RegEx etc.
-
-or structuredClone
-
+let originalObject = { a: 1, b: { c: 2 } };
+let deepClone = _.cloneDeep(originalObject);
+```
+* Deep cloning creates a new object and recursively copies all nested objects, ensuring that the new object is completely independent of the original object. There are several ways to perform deep cloning, but one common approach is to use a library like lodash or implement a custom deep cloning function.
+* This method works for simple JSON-serializable objects but has limitations with handling certain types like functions and circular references.Keep in mind that the JSON method may not be suitable for all cases, especially if the object contains functions, non-JSON-safe values, or circular references.
+```
 const a = { x: 20, date: new Date() };
 const b = structuredClone(a); 
-
-shallow cloning is just like assign value to var like let a = obj;
-
+```
 
 ### Q : call, apply and bind in JavaScript
 A : 
