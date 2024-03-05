@@ -220,65 +220,60 @@ let has a block scope
 result will be => VM250:5 Uncaught ReferenceError: a is not defined
 ```
 
-### Q : JS array method
+### Q : JS array method and interview questions
 A : 
-The pop() method removes the last element from an array. The pop() method returns the value that was "popped out".
+* The pop() method removes the last element from an array. The pop() method returns the value that was "popped out". The push() method adds a new element to an array (at the end).The push() method returns the new array length.
+
 ```
 let dailyActivities = ['work', 'eat', 'sleep', 'exercise'];
-
 dailyActivities.pop();
 console.log(dailyActivities); // ['work', 'eat', 'sleep']
-
-// remove the last element from ['work', 'eat', 'sleep']
-const removedElement = dailyActivities.pop();
-
-//get removed element
-console.log(removedElement); // 'sleep'
-console.log(dailyActivities);  // ['work', 'eat']
 ```
 
-The push() method adds a new element to an array (at the end).The push() method returns the new array length.
-
-The shift() method removes the first array element and "shifts" all other elements to a lower index.The shift() method returns the value that was "shifted out".
+* The shift() method removes the first array element and "shifts" all other elements to a lower index.The shift() method returns the value that was "shifted out".
 ```
 let dailyActivities = ['work', 'eat', 'sleep'];
-
-// remove the first element
 dailyActivities.shift();
-
 console.log(dailyActivities); // ['eat', 'sleep']
 ```
 
-The unshift() method adds a new element to an array (at the beginning), and "unshifts" older elements.The unshift() method returns the new array length.
+* The unshift() method adds a new element to an array (at the beginning), and "unshifts" older elements.The unshift() method returns the new array length.
+```
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.unshift("Lemon", "Pineapple"); // [Lemon,Pineapple,Banana,Orange,Apple,Mango]
+```
 
-The concat() method creates a new array by merging (concatenating) existing arrays, The concat() method does not change the existing arrays. It always returns a new array.The concat() method can take any number of array arguments.
+* The concat() method creates a new array by merging (concatenating) existing arrays, The concat() method does not change the existing arrays. It always returns a new array.The concat() method can take any number of array arguments.
 
-Splicing and Slicing Arrays :
-The splice() method can be used to add new items to an array
+* Splicing and Slicing Arrays : The splice() method can be used to add new items to an array
 
 ```
 const fruits = ["Banana", "Orange", "Apple", "Mango"];
 fruits.splice(2, 0, "Lemon", "Kiwi");
 ```
 
-The first parameter (2) defines the position where new elements should be added (spliced in).
-
-The second parameter (0) defines how many elements should be removed.
-
-The rest of the parameters ("Lemon" , "Kiwi") define the new elements to be added.
-
-The splice() method returns an array with the deleted items:
-
-The slice() method slices out a piece of an array into a new array.
+* check if it is array
 ```
-let dailyActivities = ['sleep', 'work', 'exercise']
-let newRoutine = ['eat'];
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+let result =  Array.isArray(fruits); //true
+``` 
 
-const newDailyActivities = dailyActivities.slice(1);
-console.log(newDailyActivities); // [ 'sleep', 'work']
+* Interview question 
 ```
+const arr = ['A', 'N', 'U'];
+arr[10] = 10;
+console.log(arr.length); //outout 11
 
-This example slices out a part of an array starting from array element 1 ("Orange"):The slice() method creates a new array.The slice() method does not remove any elements from the source array.
+let array = [1, 2, 3, 4, 5];
+array.length = 0;
+console.log(array) //[]
+
+const getUniqueValues = (arr) => [...new Set(arr)]; //get all unique element array
+
+let arr1 = [10, 12, 3.1];
+let arr2 = [10, 12, 3.1];
+console.log(arr1 == arr2); //false
+```
 
 ### Q : Map, Filter and Reduce
 A : 
@@ -403,7 +398,7 @@ me.thisInRegular();
 ### Q : What is the rest parameter and spread operator?
 A : Both rest parameter and spread operator were introduced in the ES6 version of javascript.
 
-Rest parameter ( … )
+* Rest parameter ( … )
 
 The rest parameter allows a function to accept an indefinite number of arguments as an array.
 
@@ -420,7 +415,7 @@ console.log(sum(4, 5, 6, 7));      // Output: 22
 console.log(sum(10));              // Output: 10
 ```
 
-Spread operator (…)
+* Spread operator (…)
 
 The spread operator spreads the elements of an array (or characters of a string) or the properties of an object into another array, object, or function call.
 
@@ -577,8 +572,6 @@ A Callback is a function that is to be executed after another function has finis
 
 A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action. The above example is a synchronous callback, as it is executed immediately.
 
-Callback: Callback is an asynchronous equivalent for a function. A callback function is called at the completion of a given task.  callback is a function that will be executed after another function gets executed.
-
 It is used to handle the execution of function after the completion of the execution of another function. A callback would be helpful in working with events. In the callback, a function can be passed as an argument to another function. It is a great way when we are dealing with basic cases such as minimal asynchronous operations.
 ```javascript
 // function
@@ -595,10 +588,6 @@ function callMe() {
 // passing function as an argument
 greet('Peter', callMe);
 ```
-The callbacks are needed because javascript is an event driven language. That means instead of waiting for a response javascript will keep executing while listening for other events. Let's take an example with the first function invoking an API call(simulated by setTimeout) and the next function which logs the message.
-
-As observed from the output, javascript didn't wait for the response of the first function and the remaining code block got executed. So callbacks are used in a way to make sure that certain code doesn’t execute until the other code finishes execution.
-
 Callback hell: When we develop a web application that includes a lot of code, then working with callback is messy. This excessive Callback nesting is often referred to as Callback hell.
 
 ### Q : What is promises?
@@ -674,6 +663,7 @@ var x = 3;
 var y = "3";
 x + y // Returns "33" 
 ```
+
 ### Q : Explain Hoisting in javascript.
 A : Hoisting is a default behaviour of javascript where all the variable and function declarations are moved on top. This means that irrespective of where the variables and functions are declared, they are moved on top of the scope. The scope can be both local and global.
 
@@ -729,13 +719,10 @@ It is a behaviour where we try to access a variable before it is initialized.
 ```
 javascript
 x = 23; // Gives reference error
-
 let x;
-
 
 function anotherRandomFunc(){
   message = "Hello"; // Throws a reference error
-
   let message;
 }
 anotherRandomFunc();
@@ -743,7 +730,6 @@ anotherRandomFunc();
 
 ### Q : What is a first order function
 A : First-order function is a function that doesn’t accept another function as an argument and doesn’t return a function as its return value.
-
 ```const firstOrder = () => console.log ('I am a first order function!');```
 
 ### Q : What is Higher-Order Functions?
@@ -764,10 +750,7 @@ const double = n => n * 2
 A : DOM stands for Document Object Model.
 
 DOM is a programming interface for HTML and XML documents.
-
 When the browser tries to render a HTML document, it creates an object based on the HTML document called DOM. Using this DOM, we can manipulate or change various elements inside the HTML document.
-
-
 
 ### Q : What are the falsy values in JavaScript?
 A : '', 0, null
@@ -786,10 +769,10 @@ false
 
 ### Q : Debouncing and Throttling in JavaScript
 A : DEBOUNCING
-Debounce function limits the execution of a function call and waits for a certain amount of time before running it again.
-
-Debouncing is a programming practice used to ensure that time-consuming tasks do not fire so often, that it stalls the performance of the web page. The debounced function will ignore all calls to it until the calls have stopped for a specified time period. Only then will it call the original function.
-Debouncing forces a function to wait a certain amount of time before running again. In other words, it limits the rate at which a function gets invoked.
+* Debounce function limits the execution of a function call and waits for a certain amount of time before running it again.
+* Debouncing is a programming practice used to ensure that time-consuming tasks do not fire so often, that it stalls the performance of the web page. 
+* The debounced function will ignore all calls to it until the calls have stopped for a specified time period. Only then will it call the original function.
+* Debouncing forces a function to wait a certain amount of time before running again. In other words, it limits the rate at which a function gets invoked.
 
 Implementing Debounce:
 The general idea for debouncing is-
@@ -814,14 +797,13 @@ const debounce = function(func, delay){
 
 Throttling
 
-Throttling or sometimes is also called throttle function is a practice used in websites. To throttle a function means to ensure that the function is called at most once in a specified time period (for instance, once every 10 seconds). This means throttling will prevent a function from running if it has run “recently”. Throttling also ensures a function is run regularly at a fixed rate.
-Throttling is used to call a function after every millisecond or a particular interval of time only the first click is executed immediately.
+* Throttling limits the rate at which a function can be called.
+* It ensures that the function is not called more than once in a specified time interval.
+* Unlike debouncing, throttling guarantees that the function will be called at regular intervals, preventing it from being invoked too frequently.
 
 Implementing Throttle:
 Throttle can be a little taxing as its desired behavior has different interpretations. Let’s start by limiting the rate at which we execute a function.
 Gaming — In action games, the user often performs a key action by pushing a button (example: shooting, punching). But, as any gamer knows, users often press the buttons much more than is necessary, probably due to the excitement and intensity of the action. So the user might hit “Punch” 10 times in 5 seconds, but the game character can only throw one punch in one second. In such a situation, it makes sense to throttle the action. In this case, throttling the “Punch” action to one second would ignore the second button press each second.
-
-Scroll event handler — Another application of throttling is in content-loading webpages like Facebook and Twitter where the user keeps on scrolling. In these scenarios, if the scroll event is fired too frequently, there might be a performance impact, as it contains lots of videos and images. Thus the scroll event must make use of throttling.
 
 1. Throttling a button click so we can’t spam click
 2. Throttling an API call
@@ -838,7 +820,6 @@ Throttling or sometimes is also called throttle function is a practice used in w
 
 Debouncing is a technique where we can monitor the time delay of user action and once that delay reaches our predetermined threshold we can can make the function call. Throttling is a technique where we make the function call in a predetermined time interval irrespective of continuous user actions.
 
-
 ### Q : What are the differences between cookie, local storage and session storage
 A : 
 | Feature     			          | Cookie 			   | Local storage      | Session storage  |
@@ -848,8 +829,14 @@ A :
 
 LocalStorage is the same as SessionStorage but it persists the data even when the browser is closed and reopened(i.e it has no expiration time) whereas in sessionStorage data gets cleared when the page session ends.
 
+* Session storage is designed to be session-specific, tied to a single tab or window. If you close one tab, the session storage for that tab will be cleared. However, the session storage in the other tab will remain unaffected.
+
+* Local storage persists across sessions and tabs, but each tab has its own separate local storage. Closing one tab will not affect the local storage of the other tab.
+
+* In summary, closing one tab does not automatically clear the session storage or local storage of another tab. Each tab maintains its own storage state. If you want to share data between tabs, you would need to use other mechanisms such as window.postMessage or a shared backend storage solution.
+
 ### Q : What is the use of setTimeout?
-A : The setTimeout() method is used to call a function or evaluate an expression after a specified number of milliseconds. For example, let's log a message after 2 seconds using setTimeout method,
+A : setTimeout is used to execute a function or evaluate an expression after a specified delay (in milliseconds). It schedules a one-time execution.
 ```
 setTimeout(function () {
   console.log("Good morning");
@@ -857,16 +844,16 @@ setTimeout(function () {
 ```
 
 ### Q : What is the use of setInterval?
-A : The setInterval() method is used to call a function or evaluate an expression at specified intervals (in milliseconds). For example, let's log a message after 2 seconds using setInterval method,
-
+A : setInterval is used to repeatedly execute a function or evaluate an expression at fixed intervals. It continues to execute the specified function at the specified interval until it is cleared with clearInterval.
 ```
-setInterval(function () {
-  console.log("Good morning");
-}, 2000);
+let counter = 0;
+const intervalId = setInterval(function() {
+  console.log("Interval count:", counter++);
+}, 1000);
 ```
 
-### Q : what is setImmediate?
-A : setImmediate() is designed to execute a script once the current poll (event loop) phase completes.
+### Q : what is setImmediate(Node.js)?
+A : setImmediate is a Node.js-specific function used to execute a callback function after the current event loop cycle. It provides a way to execute code immediately after the current I/O events and before the next event loop cycle.Note that setImmediate is not a standard part of the ECMAScript specification and is specific to Node.js.
 ```
 setImmediate(function () {
   console.log("Good morning");
