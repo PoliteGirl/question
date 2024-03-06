@@ -888,7 +888,7 @@ A new request coming in is one kind of event. The server starts processing it an
 
 Node.js Platform does not follow Request/Response Multi-Threaded Stateless Model. It follows Single Threaded with Event Loop Model. Node.js Processing model mainly based on Javascript Event based model with Javascript callback mechanism.
 
-![Screenshot (624)]([here you have to insert the image url](https://github.com/Mohamed-Hashem/nodejs-interview-questions/blob/master/assets/event-loop.png))
+![ALT TEXT]([here you have to insert the image url](https://raw.githubusercontent.com/Mohamed-Hashem/nodejs-interview-questions/master/assets/event-loop.png)
 
 Single Threaded Event Loop Model Processing Steps:
 
