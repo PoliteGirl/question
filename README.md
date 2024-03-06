@@ -880,14 +880,42 @@ A :
 
 # Node.js and REST APIs
 
+### Q : How does Node.js works?
+A : 
+Node.js is completely event-driven. Basically the server consists of one thread processing one event after another.
+
+A new request coming in is one kind of event. The server starts processing it and when there is a blocking IO operation, it does not wait until it completes and instead registers a callback function. The server then immediately starts to process another event ( maybe another request ). When the IO operation is finished, that is another kind of event, and the server will process it ( i.e. continue working on the request ) by executing the callback as soon as it has time.
+
+Node.js Platform does not follow Request/Response Multi-Threaded Stateless Model. It follows Single Threaded with Event Loop Model. Node.js Processing model mainly based on Javascript Event based model with Javascript callback mechanism.
+
+![Screenshot (624)]([here you have to insert the image url](https://github.com/Mohamed-Hashem/nodejs-interview-questions/blob/master/assets/event-loop.png))
+
+Single Threaded Event Loop Model Processing Steps:
+
+Clients Send request to Web Server.
+Node.js Web Server internally maintains a Limited Thread pool to provide services to the Client Requests.
+Node.js Web Server receives those requests and places them into a Queue. It is known as Event Queue.
+Node.js Web Server internally has a Component, known as Event Loop. Why it got this name is that it uses indefinite loop to receive requests and process them.
+Event Loop uses Single Thread only. It is main heart of Node.js Platform Processing Model.
+Event Loop checks any Client Request is placed in Event Queue. If no, then wait for incoming requests for indefinitely.
+If yes, then pick up one Client Request from Event Queue
+Starts process that Client Request
+If that Client Request Does Not requires any Blocking IO Operations, then process everything, prepare response and send it back to client.
+If that Client Request requires some Blocking IO Operations like interacting with Database, File System, External Services then it will follow different approach
+Checks Threads availability from Internal Thread Pool
+Picks up one Thread and assign this Client Request to that thread.
+That Thread is responsible for taking that request, process it, perform Blocking IO operations, prepare response and send it back to the Event Loop
+Event Loop in turn, sends that Response to the respective Client.
+
+
 ### Q : REPL Function
 A : 
 Read − Reads user's input, parses the input into JavaScript data-structure, and stores in memory.
 
-Eval − Takes and evaluates the data structure.
-Print − Prints the result.
-Loop − Loops the above command until the user presses ctrl-c twice.
-The REPL feature of Node is very useful in experimenting with Node.js codes and to debug JavaScript codes.
+* Eval − Takes and evaluates the data structure.
+* Print − Prints the result.
+* Loop − Loops the above command until the user presses ctrl-c twice.
+* The REPL feature of Node is very useful in experimenting with Node.js codes and to debug JavaScript codes.
 
 ### Q : Node advantage and disadvantage
 A : 
