@@ -788,6 +788,13 @@ If a value is falsy, then both will return false.
 false
 
 ### https://stackoverflow.com/questions/17502948/nexttick-vs-setimmediate-visual-explanatio
+### Q : Diff betweem setImediate and process.nexttick?
+A : In simple terms:
+process.nextTick: Executes a callback in the current event loop cycle, before continuing to the next phase, with higher priority.
+
+setImmediate: Executes a callback in the next event loop cycle, after I/O events, with slightly lower priority.
+
+Both are used for scheduling callbacks in Node.js, but their timing and priority within the event loop differ.
 
 ### Q : Debouncing and Throttling in JavaScript
 A : DEBOUNCING
@@ -1129,6 +1136,14 @@ Fewer resources are required in the operations carried out in the Node.js server
 Node.js can handle multiple concurrent requests with ease. This is made possible through the event queue and the thread pool.
 Node.js does not need multiple threads because the event loop helps handle the events one after the other.
 
+### Q : Why to use Express.js?
+Features of Express.js:
+* Fast Server-Side Development: The features of node js help express saving a lot of time.
+* Middleware: Middleware is a request handler that has access to the application's request-response cycle.
+* Routing: It refers to how an application's endpoint's URLs respond to client requests.
+* Templating: It provides templating engines to build dynamic content on the web pages by creating HTML templates on the server.
+* Debugging: Express makes it easier as it identifies the exact part where bugs are.
+
 ### Q : Node.js Worker Threads
 A : Worker Threads in Node.js is useful for performing heavy JavaScript tasks. With the help of threads, Worker makes it easy to run javascript codes in parallel making it much faster and efficient. We can do heavy tasks without even disturbing the main thread.
 
@@ -1331,6 +1346,83 @@ Start
 End
 Next Tick Callback
 ```
+
+### Q : Implement JWT with node.js 
+A: Implementing JWT (JSON Web Tokens) in a Node.js application typically involves using a library like jsonwebtoken. Here's a simple example of how you can implement JWT in a Node.js application:
+```
+const express = require('express');
+const jwt = require('jsonwebtoken');
+
+const app = express();
+const secretKey = 'your-secret-key'; // Replace with a secure secret key
+
+// Sample user data (replace with your authentication logic)
+const users = [
+  { id: 1, username: 'john_doe', password: 'password123' },
+  { id: 2, username: 'jane_smith', password: 'securepass' },
+];
+
+// Middleware to verify the JWT token
+function authenticateToken(req, res, next) {
+  const token = req.header('Authorization');
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, secretKey, (err, user) => {
+    if (err) return res.sendStatus(403);
+
+    req.user = user;
+    next();
+  });
+}
+
+app.use(express.json());
+
+// Endpoint to generate a JWT token
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  // Replace this with your authentication logic (e.g., querying a database)
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid username or password' });
+  }
+
+  const token = jwt.sign({ id: user.id, username: user.username }, secretKey, { expiresIn: '1h' });
+
+  res.json({ token });
+});
+
+// Protected endpoint - requires a valid JWT token
+app.get('/protected', authenticateToken, (req, res) => {
+  res.json({ message: 'Access granted to protected resource', user: req.user });
+});
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+```
+In this example:
+
+The /login endpoint receives a username and password, performs authentication (replace with your own authentication logic), and generates a JWT token using the jsonwebtoken library.
+The /protected endpoint is a sample protected resource that requires a valid JWT token for access. The authenticateToken middleware verifies the token.
+Remember to replace 'your-secret-key' with a secure secret key in your production application. Additionally, the example uses an in-memory user array for simplicity; in a real-world scenario, you would likely have a database and a more robust authentication mechanism.
+
+### Q : What is diff between authentication and authorisation?
+A :
+* Authentication:
+
+What it checks: Verifies "Who you are."
+Goal: Confirms the identity of a user or system.
+Example: Logging in with a username and password.
+
+* Authorization:
+
+What it checks: Determines "What you are allowed to do."
+Goal: Controls access and actions based on permissions.
+Example: Deciding if a logged-in user can view, edit, or delete certain data.
+In essence, authentication confirms identity, while authorization decides what actions or resources are permitted for the identified entity.
 
 ### Q : What are design patterns?
 A : First of all, let’s start with an explanation of what design patterns are. In the simplest terms, they allow us to reuse code for recurring problems. Instead of solving the same problems again and again, we can reuse efficient code that already works.
