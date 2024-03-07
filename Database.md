@@ -91,7 +91,13 @@ A :
 
 * Horizontal Scaling: Horizontal Scaling splits the datasets and circulates the data over multiple shards or servers. NoSQL databases are horizontally scalable
 
-| Syntax      | Description |
+## Diff between both DB
+
+| SQL      | MongoDB |
 | ----------- | ----------- |
-| Header      | Title       |
-| Paragraph   | Text        |
+| Represented in tables      | Represented in documents       |
+| Predifined Schema   | Dynamic Schema        |
+| Vertically Scalable   | Horizontally scalable        |
+| Supports Join   | Does not support join        |
+
+
