@@ -1722,3 +1722,42 @@ Web service mostly uses POST method to make operations, whereas REST uses GET to
 * Get - Read
 
 Here is a simple description of all: POST is always for creating a resource ( does not matter if it was duplicated ) PUT is for checking if resource exists then update, else create new resource. PATCH is always for updating a resource.
+
+### Q : What is the difference between PUT and POST?
+A : Answer: PUT is used to update a resource or create it if it doesn't exist, typically updating the entire resource. POST is used to create a new resource or submit data for processing.
+
+### Q : Explain the term "Idempotent" in the context of HTTP methods.
+A : Answer: An HTTP method is considered idempotent if making the same request multiple times has the same result as making it once. GET, PUT, and DELETE are idempotent, while POST is not.
+
+### Q : What is the difference between stateful and stateless communication?
+A : Stateless communication means each request from a client to a server is independent and contains all the information needed. In stateful communication, the server retains the client's state across requests.
+
+### Q : Explain the purpose of the OPTIONS HTTP method.
+A : The OPTIONS method is used to describe the communication options for the target resource. It can be used to retrieve the allowed methods, headers, or other meta-information about a resource.
+
+### Q : Explain the concept of content negotiation.
+Content negotiation is the process of selecting the best representation for a resource based on the client's preferences. It involves the Accept and Content-Type headers in the HTTP request and response.
+
+### Q: status code
+* 200 OK= success
+* 201 Created = A new resource has been created
+* 400 Bad Request: The request could not be understood or was missing required parameters.
+* 401 Unauthorized: Authentication is required, and the provided credentials are invalid.
+* 403 Forbidden: The server understood the request but refuses to authorize it.
+* 404 Not Found: The requested resource could not be found on the server.
+* 405 Method Not Allowed: The request method (GET, POST, etc.) is not supported for the specified resource.
+* 500 Internal Server Error: A generic error message indicating that something went wrong on the server.
+* 502 Bad Gateway: The server, while acting as a gateway, received an invalid response from an upstream server.
+* 503 Service Unavailable: The server is currently unable to handle the request due to temporary overloading or maintenance.
+
+### Q : What is GraphQL?
+A: GraphQL is a query language and runtime for APIs developed by Facebook. It allows clients to request only the data they need and receive a structured response.
+
+### Q : How does GraphQL differ from REST?
+A: GraphQL allows clients to specify the shape and structure of the response, enabling more efficient and flexible data retrieval compared to the fixed structure of REST.
+
+### Q : How does GraphQL handle versioning?
+A: GraphQL itself does not enforce versioning. Instead, it allows clients to request only the specific fields they need, reducing the impact of changes. Some APIs use versioning in the URL or headers if needed.
+
+### Q : Explain the concept of a subscription in GraphQL.
+A: Subscriptions in GraphQL enable real-time data updates. Clients can subscribe to specific events, and the server pushes updates to the subscribed clients when those events occur.
