@@ -51,11 +51,17 @@ A : MongoDB is a document-oriented database. It stores the data in the form of t
 * We store these documents in a collection. Data stored in NoSQL db is mostly unstructured.
 * Schema free dynamically typed data.
 
+### Q : What is a Collection in MongoDB?
+A : A collection in MongoDB is a group of MongoDB documents. It is similar to a table in relational databases but does not enforce a schema.
+
 ### Q : Explain Namespace?
 A : namespace is the series of the collection name and database name.
 
 ### Q : Explain Indexes in MongoDB?
-A : In MongoDB, we use Indexes for executing the queries efficiently; without using Indexes, MongoDB should carry out a collection scan, i.e., scan all the documents of a collection, for selecting the documents which match the query statement. If a suitable index is available for a query, MongoDB will use an index for restricting the number of documents it should examine.
+A : 
+* Indexing in MongoDB is the process of creating indexes (similar to database indexes in SQL) to improve query performance. Indexes allow MongoDB to locate data more quickly, reducing the amount of data that needs to be scanned.
+
+* In MongoDB, we use Indexes for executing the queries efficiently; without using Indexes, MongoDB should carry out a collection scan, i.e., scan all the documents of a collection, for selecting the documents which match the query statement. If a suitable index is available for a query, MongoDB will use an index for restricting the number of documents it should examine.
 
 * Single field Index
 * Compound Index
@@ -71,11 +77,14 @@ A : We can specify the replica as a set of the mongo instances which host a simi
 ### Q : What are Primary and Secondary Replica sets?
 A : Primary and master nodes are the nodes that can accept writes. MongoDB's replication is 'single-master:' only one node can accept write operations at a time.
 
-Secondary and slave nodes are read-only nodes that replicate from the primary.
+* Secondary and slave nodes are read-only nodes that replicate from the primary.
+
+* The Aggregation Framework is a powerful tool in MongoDB for processing and transforming documents in a collection. It supports various operations such as filtering, grouping, sorting, and projecting to analyze and aggregate data.
 
 ### Q : Explain Sharding and Aggregation in MongoDB?
-Aggregation: Aggregations are the activities that handle the data records and give the record results.
-Sharding: Sharding means storing the data on multiple machines.
+* Aggregation: Aggregations are the activities that handle the data records and give the record results.The Aggregation Framework is a powerful tool in MongoDB for processing and transforming documents in a collection. It supports various operations such as filtering, grouping, sorting, and projecting to analyze and aggregate data.
+
+* Sharding: Sharding means storing the data on multiple machines.Sharding is a method used to distribute data across multiple machines. In MongoDB, it involves splitting a collection's data across different servers to enable horizontal scaling and accommodate large datasets.
 
 ### Q : What does ObjectId contain?
 ObjectId contains the following:
