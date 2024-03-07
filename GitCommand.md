@@ -125,3 +125,54 @@ git diff-tree -r {commit id}
 It is use to change git username and email
 git config --global user.name "name"
 git config --global user.email "email"
+
+### Q : Check which branch already merged in current branch
+git branch --merged
+git branch --no-merged
+
+### Q : What is git cherry-pick?
+git cherry-pick is a Git command that allows you to apply a specific commit from one branch to another. It essentially lets you choose a commit from one branch and apply it onto another branch, bringing the changes made in that commit to the target branch.
+
+The basic syntax for git cherry-pick is:
+```
+git cherry-pick <commit_hash>
+```
+Example:
+Suppose you have a branch named feature_branch with a commit identified by abc123 that contains changes you want to bring into your main branch. You would execute:
+```
+git checkout main
+git cherry-pick abc123
+```
+
+This would apply the changes made in the abc123 commit from feature_branch onto the main branch.
+
+git cherry-pick is useful for selectively bringing changes from one branch to another, especially when merging branches or backporting specific fixes.
+
+### Q : Diff beetween revert and reset
+Both git revert and git reset are commands in Git used to undo changes, but they have different purposes and implications.
+
+* git revert:
+Purpose: Creates a new commit that undoes the changes made in a previous commit. It's a safe way to undo changes while preserving the commit history.
+```
+git revert <commit_hash>
+
+git revert abc123
+```
+Effect: Generates a new commit that undoes the changes introduced by the specified commit. It does not remove the original commit but adds a new commit that negates its changes.
+
+* git reset:
+Purpose: Resets the current branch to a specified commit, discarding changes or moving the branch pointer to a different commit. It's a more forceful operation that can rewrite history.
+```
+git reset <commit_hash> --soft|mixed|hard
+```
+
+--soft: Preserves changes in the working directory and staging area.
+--mixed (default): Preserves changes in the working directory but not in the staging area.
+--hard: Discards changes in the working directory, staging area, and reverts the branch to the specified commit.
+Effect: Depends on the chosen reset mode. It can move the branch pointer and reset the staging area and working directory accordingly. --hard can be used to discard changes entirely.
+
+* In summary:
+
+Use git revert to create a new commit that undoes the changes of a specific commit while preserving history.
+Use git reset to move the branch pointer and potentially discard changes. Be cautious with --hard as it can permanently remove changes.
+In general, git revert is safer for undoing changes in shared repositories, especially when working collaboratively, as it maintains a clear and traceable history. On the other hand, git reset can be more aggressive and is often used for local, private branches when you need to rework or discard changes.
