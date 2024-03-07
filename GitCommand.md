@@ -27,8 +27,14 @@ git pull fetches changes from a remote repository and merges them into the curre
 ### Q : Explain the Git rebase command.
 git rebase is used to combine a sequence of commits into a new base commit. It's often used to keep the commit history linear and clean.
 
-### Q : How do you undo the last Git commit?
+### Q : How do you undo or revert the last Git commit?
 You can use the git reset or git revert command to undo the last Git commit. The choice depends on whether the commit has been pushed to a remote repository.
+```
+git revert <commit id>
+```
+
+### Q : To check history of commit
+git log = it will give previous commit history with commit id, Author, Date
 
 ### Q : What is Git bisect used for?
 git bisect is a command used for binary searching through the commit history to find the commit where a bug was introduced.
