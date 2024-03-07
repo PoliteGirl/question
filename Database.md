@@ -47,7 +47,9 @@ If the indexed column is used to perform the comparison by using comparison oper
 ## MongoDB
 
 ### Q : What type of NoSQL database MongoDB is?
-A : MongoDB is a document-oriented database. It stores the data in the form of the BSON structure-oriented databases. We store these documents in a collection.
+A : MongoDB is a document-oriented database. It stores the data in the form of the BSON(Binary JSON) structure-oriented databases. 
+* We store these documents in a collection. Data stored in NoSQL db is mostly unstructured.
+* Schema free dynamically typed data.
 
 ### Q : Explain Namespace?
 A : namespace is the series of the collection name and database name.
@@ -88,3 +90,8 @@ A :
 * Vertical Scaling: Vertical Scaling increases storage and CPU resources for expanding the capacity. SQL databases are vertically scalable
 
 * Horizontal Scaling: Horizontal Scaling splits the datasets and circulates the data over multiple shards or servers. NoSQL databases are horizontally scalable
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
