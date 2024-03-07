@@ -1,3 +1,4 @@
+## PostgreSQL
 
 ### Q : What are the advantages of PostgreSQL?
 A : Some of the advantages of PostgreSQL are open-source DBMS, community support, ACID compliance, diverse indexing techniques, full-text search, a variety of replication methods, and diversified extension functions, etc.
@@ -42,6 +43,8 @@ If the indexed column is used to perform the comparison by using comparison oper
 5. GIN
 
 6. BRIN
+
+## MongoDB
 
 ### Q : What type of NoSQL database MongoDB is?
 A : MongoDB is a document-oriented database. It stores the data in the form of the BSON structure-oriented databases. We store these documents in a collection.
