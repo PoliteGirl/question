@@ -105,7 +105,7 @@ git stash clear
 ```
 The git stash command is handy when you need to switch branches, pull changes, or perform other operations that might conflict with your current changes. Stashing allows you to store your changes temporarily, switch to a different context, and later reapply the changes when needed.
 
-### Q :How do you delete a branch in Git?
+### Q : How do you delete a branch in Git?
 You can delete a branch using the git branch -d command.
 
 ### Q : To rename a file
@@ -113,3 +113,6 @@ You can delete a branch using the git branch -d command.
 git mv <source> <destination>
 git mv oldfile.txt newfile.txt
 ```
+
+### Q : How to find a list of file that has been changed in a commit
+git diff-tree -r {commit id}
