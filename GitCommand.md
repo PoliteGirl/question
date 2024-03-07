@@ -120,3 +120,8 @@ git mv oldfile.txt newfile.txt
 
 ### Q : How to find a list of file that has been changed in a commit
 git diff-tree -r {commit id}
+
+### Q : Config command
+It is use to change git username and email
+git config --global user.name "name"
+git config --global user.email "email"
