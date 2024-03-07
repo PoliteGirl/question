@@ -24,6 +24,8 @@ You can use the git status command to see the status of your working directory a
 ### Q : Explain the difference between Git pull and Git fetch.
 git pull fetches changes from a remote repository and merges them into the current branch, while git fetch only fetches changes but doesn't merge them.
 
+* git merge = git fetch + git merge
+
 ### Q : Explain the Git rebase command.
 git rebase is used to combine a sequence of commits into a new base commit. It's often used to keep the commit history linear and clean.
 
