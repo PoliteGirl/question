@@ -45,6 +45,8 @@ After this command, Git will replay the commits from feature_branch on top of ma
 Rebasing is commonly used in workflows to keep a clean and linear commit history. It's often preferred over merging because it avoids unnecessary merge commits, resulting in a more readable and understandable history. However, rebasing should be used with caution, especially when working in a collaborative environment, as it can rewrite history and potentially cause conflicts for other team members.
 
 ### Q : How do you undo or revert the last Git commit?
+one thing you can do is fix and remove bad file in previous commit and the commit that change and push that code.
+
 You can use the git reset or git revert command to undo the last Git commit. The choice depends on whether the commit has been pushed to a remote repository.
 ```
 git revert <commit id>
