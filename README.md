@@ -1150,13 +1150,59 @@ A : Worker Threads in Node.js is useful for performing heavy JavaScript tasks. W
 ### Q : Child process
 A : Node.js runs in a single-thread mode, but it uses an event-driven paradigm to handle concurrency. It also facilitates creation of child processes to leverage parallel processing on multi-core CPU based systems.
 
+Definition: A child process in Node.js is a spawned operating system process created by the main (parent) Node.js process. It allows Node.js to run other programs or scripts as separate processes.
+Use Cases: Commonly used for parallelizing tasks, running external commands, or offloading CPU-intensive operations to separate processes.
+Module: The child_process module in Node.js provides functionalities to spawn child processes, communicate with them, and handle their input/output.
+
 Child processes always have three streams child.stdin, child.stdout, and child.stderr which may be shared with the stdio streams of the parent process.
 
 Node provides child_process module which has the following three major ways to create a child process.
-
 * exec − child_process.exec method runs a command in a shell/console and buffers the output.
 * spawn − child_process.spawn launches a new process with a given command.
 * fork − The child_process.fork method is a special case of the spawn() to create child processes.
+```
+const { spawn } = require('child_process');
+const ls = spawn('ls', ['-l', '/']);
+
+ls.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
+
+ls.stderr.on('data', (data) => {
+  console.error(`stderr: ${data}`);
+});
+
+ls.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
+```
+## In summary, Node.js primarily relies on a single thread for execution and uses the event loop to handle concurrency. Child processes are used to spawn separate operating system processes for parallel execution, but Node.js does not create child threads within the same process for concurrency.
+
+### Q : Diff between import and require
+A : The differences between import and require are primarily related to the modules system used in JavaScript and its versions (ES5, CommonJS, and ES6+).
+
+* require (CommonJS): Traditionally used in Node.js and CommonJS modules. It is a synchronous statement and is used to load modules in a blocking manner.Typically used in Node.js environments or with bundlers like Webpack that understand CommonJS.
+
+* import (ES6+): Introduced in ECMAScript 2015 (ES6) and is the standard syntax for modules in modern JavaScript. It is asynchronous and allows for more advanced features like named exports and default exports.Standardized by ECMAScript, it is used in modern browsers that support ES6 modules. Additionally, it's commonly used with bundlers and transpilers like Babel.
+
+* In summary, while both require and import are used to include external modules in JavaScript, require is associated with CommonJS (Node.js) and is synchronous, while import is the standard syntax for ES6 modules and is asynchronous. The choice between them depends on the JavaScript environment and the module system being used.
+
+### Q : what is module wrapper function?
+A : 
+* The module wrapper function is a wrapper around each Node.js module's code, providing context-specific variables and encapsulation. It includes parameters like exports, require, module, __filename, and __dirname. It helps in modularizing code and preventing variable conflicts.
+
+* This wrapper is automatically applied by Node.js to every module, ensuring a level of encapsulation and providing access to module-specific features.
+
+Here's a short representation of the module wrapper function:
+```
+//if you run code like below
+console.log('1')
+//it will print : 1 coz it will be aexecuted like below
+
+(function (exports, require, module, __filename, __dirname) {
+	console.log('1')
+});
+```
 
 ### Q : Clustering in node.js
 A : In the context of Node.js, a cluster refers to a mechanism for parallelizing and distributing the load of a Node.js application across multiple processes, taking advantage of multi-core systems. The cluster module in Node.js provides an easy way to create child processes (workers) that share the same server port. Each worker runs on a separate core, allowing the application to handle more concurrent connections and distribute the processing load.
