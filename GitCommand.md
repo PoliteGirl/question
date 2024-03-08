@@ -176,3 +176,107 @@ Effect: Depends on the chosen reset mode. It can move the branch pointer and res
 Use git revert to create a new commit that undoes the changes of a specific commit while preserving history.
 Use git reset to move the branch pointer and potentially discard changes. Be cautious with --hard as it can permanently remove changes.
 In general, git revert is safer for undoing changes in shared repositories, especially when working collaboratively, as it maintains a clear and traceable history. On the other hand, git reset can be more aggressive and is often used for local, private branches when you need to rework or discard changes.
+
+## Docker
+Certainly! Here's a beginner-friendly guide to Docker, covering the basics and essential concepts:
+
+### What is Docker?
+
+**Docker** is a platform that allows you to develop, deploy, and run applications in containers. Containers are lightweight, portable, and self-sufficient environments that encapsulate an application and its dependencies.
+
+### Key Concepts:
+
+1. **Images:**
+   - Docker images are the blueprints for containers. They contain the application code, libraries, dependencies, and other configurations needed to run the application.
+
+2. **Containers:**
+   - Containers are instances of Docker images. They are isolated environments that run applications. Containers are portable and consistent across different environments.
+
+### Docker Installation:
+
+1. **Install Docker Desktop:**
+   - Download and install Docker Desktop from the official website (https://www.docker.com/products/docker-desktop) based on your operating system.
+
+2. **Verify Installation:**
+   - Open a terminal or command prompt and run:
+     ```bash
+     docker --version
+     docker run hello-world
+     ```
+
+### Basic Docker Commands:
+
+1. **Build an Image:**
+   - Create a Dockerfile in your project directory and build an image.
+     ```Dockerfile
+     FROM node:14
+     WORKDIR /app
+     COPY . .
+     CMD ["npm", "start"]
+     ```
+     ```bash
+     docker build -t my-node-app .
+     ```
+
+2. **Run a Container:**
+   - Start a container from the image.
+     ```bash
+     docker run -p 4000:3000 my-node-app
+     ```
+
+3. **List Running Containers:**
+   - View the list of running containers.
+     ```bash
+     docker ps
+     ```
+
+4. **Stop a Container:**
+   - Stop a running container.
+     ```bash
+     docker stop <container_id>
+     ```
+
+5. **Remove a Container:**
+   - Remove a stopped container.
+     ```bash
+     docker rm <container_id>
+     ```
+
+6. **List Images:**
+   - View the list of locally available images.
+     ```bash
+     docker images
+     ```
+
+7. **Remove an Image:**
+   - Remove an image.
+     ```bash
+     docker rmi <image_id>
+     ```
+
+### Additional Concepts:
+
+1. **Docker Compose:**
+   - Docker Compose is a tool for defining and running multi-container Docker applications. It uses a YAML file to configure application services, networks, and volumes.
+
+2. **Volumes:**
+   - Docker volumes allow you to persist data outside of containers. They provide a way to share data between a host machine and containers.
+
+3. **Networking:**
+   - Docker provides networking features to allow containers to communicate with each other. Containers can be connected to custom networks to control their communication.
+
+### Resources for Learning:
+
+1. **Docker Documentation:**
+   - [Docker Documentation](https://docs.docker.com/)
+   - The official documentation provides comprehensive guides and references.
+
+2. **Docker Tutorial for Beginners:**
+   - [Docker Tutorial for Beginners](https://www.tutorialspoint.com/docker/index.htm)
+   - A step-by-step tutorial covering Docker basics.
+
+3. **Docker Cheat Sheet:**
+   - [Docker Cheat Sheet](https://www.docker.com/sites/default/files/d8/2019-09/docker-cheat-sheet.pdf)
+   - A handy cheat sheet with commonly used Docker commands.
+
+Dive into these resources, practice with simple applications, and gradually explore more advanced Docker features as you become comfortable with the basics.
