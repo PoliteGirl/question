@@ -115,6 +115,9 @@ Table = Cars
 ### Q : How to remove duplicate data from table
 delete cars where model_id is not in (select min(id) from cars group by model_name, color, brand)
 
+### Q : find nth salary
+SELECT salary FROM employees ORDER BY salary DESC LIMIT 1 OFFSET 2;
+
 ### Q : Queries
 1. **SELECT Statement:**
    - Retrieve data from a table.
