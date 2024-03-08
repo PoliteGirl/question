@@ -58,44 +58,13 @@ If the indexed column is used to perform the comparison by using comparison oper
 6. BRIN
 
 ### Diff between delete and truncate
-+----------------+----------------------------+-------------------------+
-|   Characteristic   |          DELETE          |        TRUNCATE        |
-+----------------+----------------------------+-------------------------+
-| Functionality    | Deletes specific rows based  | Removes all rows from   |
-|                  | on a condition specified in  | a table, resetting it   |
-|                  | the WHERE clause. More       | to an empty state. Does |
-|                  | flexible, allowing selective| not use a WHERE clause.  |
-|                  | deletion of rows.           |                         |
-+----------------+----------------------------+-------------------------+
-| Transaction and  | Operates as a logged        | Typically minimizes     |
-| Logging          | operation. Generates        | logging. May not log    |
-|                  | individual row deletion     | individual row deletions|
-|                  | entries in the transaction  | and is more efficient   |
-|                  | log. Can be rolled back.    | for large-scale removals|
-+----------------+----------------------------+-------------------------+
-| Performance      | Can be slower, especially   | Generally faster for    |
-|                  | for large-scale removals or  | removing all rows due   |
-|                  | when indexes, triggers, or   | to its more            |
-|                  | foreign key constraints are  | straightforward         |
-|                  | involved.                    | operation. Efficient   |
-|                  |                            | for bulk removal.       |
-+----------------+----------------------------+-------------------------+
-| Constraints and  | Respects foreign key         | May not trigger certain|
-| Triggers         | constraints and triggers.   | constraints and triggers|
-|                  | Can trigger additional       | depending on the        |
-|                  | actions defined by           | database system. For    |
-|                  | constraints or triggers.     | example, foreign key   |
-|                  |                            | constraints might not   |
-|                  |                            | be checked during a     |
-|                  |                            | TRUNCATE.                |
-+----------------+----------------------------+-------------------------+
-| Usage            | Used when specific rows      | Used when you want to   |
-|                  | need to be removed based on  | quickly remove all rows|
-|                  | a condition. Suitable for    | from a table and reset  |
-|                  | removing a small number of   | it to an empty state.   |
-|                  | rows.                        | Efficient for bulk     |
-|                  |                            | removal of data.        |
-+----------------+----------------------------+-------------------------+
+* DELETE:
+Removes specific rows from a table based on a condition specified in the WHERE clause. It's a flexible but relatively slower operation, and each deleted row is logged.
+DELETE operations can be rolled back within a transaction if the database supports transactions. Any changes made by the DELETE statement can be undone by issuing a ROLLBACK command before committing the transaction.
+
+* TRUNCATE:
+Removes all rows from a table, resetting it to an empty state. It's faster for large-scale data removal, minimally logged, but doesn't allow specifying conditions for selective deletion.
+TRUNCATE operations, being a DDL (Data Definition Language) statement, typically cannot be rolled back in many database systems. Once a TRUNCATE statement is executed and committed, the operation is irreversible. It's essential to use caution and ensure the data to be truncated is no longer needed.
 
 ## SQL Query
 Table = Cars
