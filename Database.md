@@ -8,8 +8,29 @@ A : VARCHAR is variable length, while CHAR is fixed length.
 
 SQL varchar stores variable string length whereas SQL char stores fixed string length. This means SQL Server varchar holds only the characters we assign to it and char holds the maximum column space regardless of the string it holds.
 
+### Q : Explain the difference between INNER JOIN and LEFT JOIN.
+A : INNER JOIN returns only the rows that have matching values in both tables, while LEFT JOIN returns all rows from the left table and the matching rows from the right table. If there is no match, NULL values are returned for the columns from the right table.
+
 ### Q : What is the name of the process of splitting a large table into smaller pieces in PostgreSQL?
 A : The name of the process of splitting a large table into smaller pieces in PostgreSQL is known as table partitioning.
+
+### Q : What is a primary key in PostgreSQL?
+A primary key is a unique identifier for a record in a table. It ensures that each row in the table is uniquely identified and cannot contain NULL values.
+
+### Q : Explain ACID Properties in PostgreSQL.
+ACID stands for Atomicity, Consistency, Isolation, and Durability. In PostgreSQL, these properties ensure that database transactions are reliable and maintain data integrity.
+
+### Q : Explain the purpose of the SERIAL data type.
+SERIAL is used to create an auto-incrementing integer column. It is commonly used for creating primary key columns, ensuring each new row gets a unique identifier.
+
+### Q : How can you prevent SQL injection in PostgreSQL?
+Use parameterized queries or prepared statements to bind user inputs to SQL queries. This helps prevent malicious SQL injection attacks by treating user inputs as data rather than executable code.
+
+### Q : How do you backup and restore a PostgreSQL database?
+Use tools like pg_dump to create a backup of a PostgreSQL database and pg_restore to restore it. These tools are part of the PostgreSQL distribution and can be used from the command line.
+
+### Q : Explain the role of the EXPLAIN command in PostgreSQL.
+The EXPLAIN command is used to analyze the execution plan of a PostgreSQL query. It helps in understanding how PostgreSQL will execute a query and can be used for query optimization.
 
 ### Q : What is the maximum size for a table in PostgreSQL?
 A : PostgreSQL provides unlimited user database size, but it doesn't provide an unlimited size for tables. In PostgreSQL, the maximum size for a table is set to 32 TB.
@@ -23,26 +44,167 @@ ROLLBACK
 
 ### Q : index POSTGRESQL
 A : An Index is the structure or object by which we can retrieve specific rows or data faster. Indexes can be created using one or multiple columns or by using the partial data depending on your query requirement conditions.
-
 Index will create a pointer to the actual rows in the specified table.
-
 You can create an index by using the CREATE INDEX syntax.
 
 * types 
 
 1. B-tree : The most common and widely used index type is the B-tree index. This is the default index type for the CREATE INDEX command, unless you explicitly mention the type during index creation. 
-
 If the indexed column is used to perform the comparison by using comparison operators such as <, <=, =, >=, and >, then the  Postgres optimizer uses the index created by the B-tree option for the specified column.
-
 2. Hash index : The Hash index can be used only if the equality condition = is being used in the query.
-
 3. GiST
-
 4. SP-GiST
-
 5. GIN
-
 6. BRIN
+
+### Diff between delete and truncate
++----------------+----------------------------+-------------------------+
+|   Characteristic   |          DELETE          |        TRUNCATE        |
++----------------+----------------------------+-------------------------+
+| Functionality    | Deletes specific rows based  | Removes all rows from   |
+|                  | on a condition specified in  | a table, resetting it   |
+|                  | the WHERE clause. More       | to an empty state. Does |
+|                  | flexible, allowing selective| not use a WHERE clause.  |
+|                  | deletion of rows.           |                         |
++----------------+----------------------------+-------------------------+
+| Transaction and  | Operates as a logged        | Typically minimizes     |
+| Logging          | operation. Generates        | logging. May not log    |
+|                  | individual row deletion     | individual row deletions|
+|                  | entries in the transaction  | and is more efficient   |
+|                  | log. Can be rolled back.    | for large-scale removals|
++----------------+----------------------------+-------------------------+
+| Performance      | Can be slower, especially   | Generally faster for    |
+|                  | for large-scale removals or  | removing all rows due   |
+|                  | when indexes, triggers, or   | to its more            |
+|                  | foreign key constraints are  | straightforward         |
+|                  | involved.                    | operation. Efficient   |
+|                  |                            | for bulk removal.       |
++----------------+----------------------------+-------------------------+
+| Constraints and  | Respects foreign key         | May not trigger certain|
+| Triggers         | constraints and triggers.   | constraints and triggers|
+|                  | Can trigger additional       | depending on the        |
+|                  | actions defined by           | database system. For    |
+|                  | constraints or triggers.     | example, foreign key   |
+|                  |                            | constraints might not   |
+|                  |                            | be checked during a     |
+|                  |                            | TRUNCATE.                |
++----------------+----------------------------+-------------------------+
+| Usage            | Used when specific rows      | Used when you want to   |
+|                  | need to be removed based on  | quickly remove all rows|
+|                  | a condition. Suitable for    | from a table and reset  |
+|                  | removing a small number of   | it to an empty state.   |
+|                  | rows.                        | Efficient for bulk     |
+|                  |                            | removal of data.        |
++----------------+----------------------------+-------------------------+
+
+## SQL Query
+Table = Cars
++----------+------------+-------+-------+
+| model_id | model_name | color | brand |
++----------+------------+-------+-------+
+|    1     |   Civic    | Blue  | Honda |
+|    2     |   Accord   | Red   | Honda |
+|    3     |   Camry    | Silver|Toyota |
+|    4     |  Corolla   | Blue  |Toyota |
+|    5     |   Civic    | Black | Honda |
+|    6     |   Accord   | White | Honda |
+|    7     |  Mustang   | Yellow|  Ford |
+|    8     |   Fusion   | Gray  |  Ford |
++----------+------------+-------+-------+
+
+### Q : How to remove duplicate data from table
+delete cars where model_id is not in (select min(id) from cars group by model_name, color, brand)
+
+### Q : Queries
+1. **SELECT Statement:**
+   - Retrieve data from a table.
+   ```sql
+   SELECT column1, column2 FROM table_name;
+   ```
+
+2. **SELECT with WHERE Clause:**
+   - Filter data based on a condition.
+   ```sql
+   SELECT column1, column2 FROM table_name WHERE condition;
+   ```
+
+3. **ORDER BY Clause:**
+   - Sort the result set.
+   ```sql
+   SELECT column1, column2 FROM table_name ORDER BY column1 ASC;
+   ```
+
+4. **INSERT Statement:**
+   - Add new records to a table.
+   ```sql
+   INSERT INTO table_name (column1, column2) VALUES (value1, value2);
+   ```
+
+5. **UPDATE Statement:**
+   - Modify existing records in a table.
+   ```sql
+   UPDATE table_name SET column1 = value1 WHERE condition;
+   ```
+
+6. **DELETE Statement:**
+   - Remove records from a table.
+   ```sql
+   DELETE FROM table_name WHERE condition;
+   ```
+
+7. **Basic Joins:**
+   - Combine rows from multiple tables.
+   ```sql
+   SELECT t1.column1, t2.column2 FROM table1 t1 JOIN table2 t2 ON t1.id = t2.id;
+   ```
+
+8. **GROUP BY Clause:**
+   - Group rows based on a column.
+   ```sql
+   SELECT column1, COUNT(*) FROM table_name GROUP BY column1;
+   ```
+
+9. **HAVING Clause:**
+   - Filter results of a GROUP BY based on a condition.
+   ```sql
+   SELECT column1, COUNT(*) FROM table_name GROUP BY column1 HAVING COUNT(*) > 1;
+   ```
+
+10. **Aggregate Functions (SUM, AVG, MAX, MIN):**
+    - Perform calculations on grouped data.
+    ```sql
+    SELECT AVG(column1) FROM table_name;
+    ```
+
+11. **DISTINCT Keyword:**
+    - Retrieve unique values from a column.
+    ```sql
+    SELECT DISTINCT column1 FROM table_name;
+    ```
+
+12. **LIMIT Clause:**
+    - Restrict the number of rows returned.
+    ```sql
+    SELECT column1 FROM table_name LIMIT 10;
+    ```
+
+13. **Wildcard Characters (% and _):**
+    - Use in the WHERE clause for pattern matching.
+    ```sql
+    SELECT column1 FROM table_name WHERE column1 LIKE 'A%';
+    ```
+
+14. **IN Operator:**
+    - Filter data based on a list of values.
+    ```sql
+    SELECT column1 FROM table_name WHERE column1 IN ('value1', 'value2');
+    ```
+15. **OFFSET Operator:**
+    -- Retrieve rows 6 to 10 from the "products" table
+    ```sql
+    SELECT * FROM products LIMIT 5 OFFSET 5;
+    ```
+These queries cover the basics of selecting, inserting, updating, and deleting data, as well as handling multiple tables through joins and aggregating data. Understanding these fundamentals will give you a solid foundation for working with SQL databases.
 
 ## MongoDB
 
