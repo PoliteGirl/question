@@ -592,5 +592,14 @@ A : You can use Context in your application directly and is going to be great fo
 
 Whereas Redux is much more powerful and provides a large number of features that the Context API doesn't provide. Also, React Redux uses context internally but it doesn't expose this fact in the public API. React Redux is a state management library specifically designed for managing complex state logic in React applications, following the Flux architecture principles. It provides a predictable and centralized way to handle application state.
 
+### Q : What are Redux selectors and why to use them?
+A : Selectors are functions that take Redux state as an argument and return some data to pass to the component.
 
+For example, to get user details from the state:
+```
+const getUserData = (state) => state.user.data;
+```
+These selectors have two main benefits,
 
+The selector can compute derived data, allowing Redux to store the minimal possible state
+The selector is not recomputed unless one of its arguments changes
