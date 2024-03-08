@@ -3,25 +3,36 @@
 ### Q : What is React?
 A : React is a front-end and open-source JavaScript library which is useful in developing user interfaces specifically for applications with a single page. It is helpful in building complex and reusable user interface(UI) components of mobile and web applications as it follows the component-based approach.
 
+* react simplify the creating of SPA by using reusable components.
+
 * It supports server-side rendering.
 * It will make use of the virtual DOM rather than real DOM (Data Object Model) as RealDOM manipulations are expensive.
 * It follows unidirectional data binding or data flow.
 * It uses reusable or composable UI components for developing the view.
 
+* index.html is ebtry point of react app
+
+### Q : Features of react.
+A : 
+* Uses JSX syntax, a syntax extension of JS that allows developers to write HTML in their JS code.
+* It uses Virtual DOM instead of Real DOM considering that Real DOM manipulations are expensive.
+* Supports server-side rendering which is useful for Search Engine Optimizations(SEO).
+* Follows Unidirectional or one-way data flow or data binding.
+* Uses reusable/composable UI components to develop the view.
+
 ### Q : What are the advantages of using React?
 A : 
-* Use of Virtual DOM to improve efficiency: React uses virtual DOM to render the view. As the name suggests, virtual DOM is a virtual representation of the real DOM. Each time the data changes in a react app, a new virtual DOM gets created. Creating a virtual DOM is much faster than rendering the UI inside the browser. Therefore, with the use of virtual DOM, the efficiency of the app improves.
-
-* Gentle learning curve: React has a gentle learning curve when compared to frameworks like Angular. Anyone with little knowledge of javascript can start building web applications using React.
-
-* SEO friendly: React allows developers to develop engaging user interfaces that can be easily navigated in various search engines. It also allows server-side rendering, which boosts the SEO of an app.
-
-* Reusable components: React uses component-based architecture for developing applications. Components are independent and reusable bits of code. These components can be shared across various applications having similar functionality. The re-use of components increases the pace of development.
-
-* Huge ecosystem of libraries to choose from: React provides you with the freedom to choose the tools, libraries, and architecture for developing an application based on your requirement.
+* Increases the application's performance with Virtual DOM.
+* JSX makes code easy to read and write.
+* It renders both on client and server side (SSR).
+* Easy to integrate with frameworks (Angular, Backbone) since it is only a view library.
+* Easy to write unit and integration tests with tools such as Jest.
 
 ### Q : What is JSX?
-A : JSX stands for JavaScript XML. It allows us to write HTML inside JavaScript and place them in the DOM without using functions like appendChild( ) or createElement( ). As stated in the official docs of React, JSX provides syntactic sugar for React.createElement( ) function.
+A : 
+* with help of babel library jsx code gets convert to js code that browser can understand. Babel is a transpiler.
+
+JSX stands for JavaScript XML. It allows us to write HTML inside JavaScript and place them in the DOM without using functions like appendChild( ) or createElement( ). As stated in the official docs of React, JSX provides syntactic sugar for React.createElement( ) function.
 
 Note- We can create react applications without using JSX as well.
 
@@ -34,6 +45,8 @@ const container = (
 );
 ReactDOM.render(container,rootElement);
 ```
+### Q : What is Component?
+A : In react, a component is reusable building block for creating UI.
 
 ### Q : What are the differences between functional and class components?
 A : There are mainly two type
@@ -42,8 +55,7 @@ Before the introduction of Hooks in React, functional components were called sta
 
 Although functional components are the new trend, the react team insists on keeping class components in React. Therefore, it is important to know how these components differ.
 
-* functional component
-
+* Function Components: This is the simplest way to create a component. Those are pure JavaScript functions that accept props object as the first parameter and return React elements to render the output:
 ```
 function card(props){
    return(
@@ -51,17 +63,18 @@ function card(props){
         <h2>Title of the card</h2>
       </div>
     )
-   }
-   const card = (props) =>{
+}
+//---- OR
+const card = (props) =>{
     return(
       <div className="main-container">
         <h2>Title of the card</h2>
       </div>
     )
-   }
+}
 ```
 
-* class based component
+* Class Components: You can also use ES6 class to define a component. The above function component can be written as a class component:
 ```
  class Card extends React.Component{
   constructor(props){
@@ -77,12 +90,14 @@ function card(props){
    }
 ```
 
-If the component needs state or lifecycle methods then use class component otherwise use function component. However, from React 16.8 with the addition of Hooks, you could use state , lifecycle methods and other features that were only available in class component right in your function component. *So, it is always recommended to use Function components, unless you need a React functionality whose Function component equivalent is not present yet, like Error Boundaries *
-
+### Q : When to use a Class Component over a Function Component?
+A : * If the component needs state or lifecycle methods then use class component otherwise use function component. However, from React 16.8 with the addition of Hooks, you could use state , lifecycle methods and other features that were only available in class component right in your function component. 
+* So, it is always recommended to use Function components, unless you need a React functionality whose Function component equivalent is not present yet, like Error Boundaries.
 
 ### Q : What is the virtual DOM? How does react use the virtual DOM to render the UI?
 A : As stated by the react team, virtual DOM is a concept where a virtual representation of the real DOM is kept inside the memory and is synced with the real DOM by a library such as ReactDOM.
 
+The Virtual DOM (VDOM) is an in-memory representation of Real DOM. The representation of a UI is kept in memory and synced with the "real" DOM. It's a step that happens between the render function being called and the displaying of elements on the screen. This entire process is called reconciliation.
 
 ### Q : What is state in React?
 A : State of a component is an object that holds some information that may change over the lifetime of the component. We should always try to make our state as simple as possible and minimize the number of stateful components.
@@ -90,7 +105,6 @@ A : State of a component is an object that holds some information that may chang
 State is similar to props, but it is private and fully controlled by the component ,i.e., it is not accessible to any other component till the owner component decides to pass it.
 
 Let's create a user component with message state,
-
 ```
 class User extends React.Component {
   constructor(props) {
@@ -146,11 +160,41 @@ A :
 * controlled : 
 In a controlled component, the value of the input element is controlled by React. We store the state of the input element inside the code, and by using event-based callbacks, any changes made to the input element will be reflected in the code as well.
 When a user enters data inside the input element of a controlled component, onChange function gets triggered and inside the code, we check whether the value entered is valid or invalid. If the value is valid, we change the state and re-render the input element with the new value.
+```
+handleChange(event) {
+  this.setState({value: event.target.value.toUpperCase()})
+}
+```
 
 * Uncontrolled component: 
 In an uncontrolled component, the value of the input element is handled by the DOM itself. Input elements inside uncontrolled components work just like normal HTML input form elements.
 The state of the input element is handled by the DOM. Whenever the value of the input element is changed, event-based callbacks are not called. Basically, react does not perform any action when there are changes made to the input element.
+```
+class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.input = React.createRef();
+  }
 
+  handleSubmit(event) {
+    alert("A name was submitted: " + this.input.current.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          {"Name:"}
+          <input type="text" ref={this.input} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+```
 Whenever use enters data inside the input field, the updated data is shown directly. To access the value of the input element, we can use ref.
 
 ### Q : What are the lifecycle methods of React?
@@ -162,6 +206,49 @@ shouldComponentUpdate
 componentWillUpdate
 componentDidUpdate
 componentWillUnmount
+
+### Q : What is the purpose of callback function as an argument of setState()?
+A : The callback function is invoked when setState finished and the component gets rendered. Since setState() is asynchronous the callback function is used for any post action.
+
+Note: It is recommended to use lifecycle method rather than this callback function.
+```
+setState({ name: "John" }, () =>
+  console.log("The name has updated and component re-rendered")
+);
+```
+
+### Q : What is "key" prop and what is the benefit of using it in arrays of elements?
+A : In React, the `key` prop is a special attribute that should be assigned to elements inside an array to help React identify which items have changed, been added, or been removed. When rendering a list of elements using the `map` function, each rendered element should have a unique `key` prop.
+
+The `key` prop serves two primary purposes:
+
+1. **Optimizing Reconciliation:** React uses the `key` prop to optimize the process of reconciling the virtual DOM with the actual DOM. When an array of elements is updated (e.g., elements are added, removed, or reordered), React can efficiently update only the elements that have changed by comparing their keys.
+
+2. **Preserving Component State:** The `key` prop helps React maintain component state between renders. If the `key` of an element remains the same across renders, React can identify it as the same element, preserving its state. If the `key` changes, React treats it as a different element.
+
+Here's an example of using the `key` prop when rendering a list of elements:
+
+```jsx
+const MyList = ({ items }) => {
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
+};
+
+// Example usage:
+const items = [
+  { id: 1, name: 'Item 1' },
+  { id: 2, name: 'Item 2' },
+  { id: 3, name: 'Item 3' },
+];
+
+ReactDOM.render(<MyList items={items} />, document.getElementById('root'));
+```
+* It's important to note that the `key` should be unique among siblings but doesn't need to be globally unique. React uses the `key` prop to optimize the performance of updates within the same parent component. If the `key` prop is omitted, React may issue a warning, and it's generally good practice to provide a meaningful and stable `key` for each element in a list.
 
 ### Q : What are Higher-Order Components?
 A : 
@@ -213,6 +300,30 @@ It is better to shift states which are less valuable to the parent component, to
 * Lazy Loading -
  It is a technique used to reduce the load time of a React app. Lazy loading helps reduce the risk of web app performances to a minimum.
 
+### Q : What is fragment in react?
+A : In React, a fragment is a lightweight syntax that allows you to group multiple elements without adding an extra node to the DOM. Fragments are particularly useful when you need to return multiple elements from a component, and you don't want to introduce an additional parent node in the HTML structure.
+
+* Fragments are a bit faster and use less memory by not creating an extra DOM node. This only has a real benefit on very large and deep trees.
+* Some CSS mechanisms like Flexbox and CSS Grid have a special parent-child relationships, and adding divs in the middle makes it hard to keep the desired layout.
+* The DOM Inspector is less cluttered.
+
+```jsx
+import React from 'react';
+
+const MyComponent = () => {
+  return (
+    <>
+      <h1>Hello</h1>
+      <p>React Fragments</p>
+    </>
+  );
+};
+```
+
+In this example, `<>` and `</>` are shorthand syntax for a fragment. It's equivalent to using `<React.Fragment>` and `</React.Fragment>`. The elements inside the fragment are siblings and can be rendered without introducing an additional div or other container element to the DOM.
+
+Fragments help in keeping the HTML structure clean and avoiding unnecessary nesting, which can be beneficial for styling and layout purposes. They are especially handy when you need to return multiple elements from a component function without creating an artificial parent node in the rendered output.
+
 ### Q : Explain about types of Hooks in React.
 A : 
 * useState(): This functional component is used to set and retrieve the state.
@@ -243,4 +354,243 @@ const memoizedCallback = useCallback(() => {
 }, [a, b]);
 ```
 In summary, useMemo is used to memoize values, while useCallback is specifically designed for memoizing callback functions. Both are performance optimization tools, and they help in avoiding unnecessary recalculations or re-renders in React components. Use useMemo when dealing with memoizing values, and use useCallback when dealing with memoizing callback functions.
+
+### Q : What is What is context?
+A : Context provides a way to pass data through the component tree without having to pass props down manually at every level.
+
+For example, authenticated users, locale preferences, UI themes need to be accessed in the application by many components.
+```
+const { Provider, Consumer } = React.createContext(defaultValue);
+```
+
+### Q : What would be the common mistake of function being called every time the component renders?
+You need to make sure that function is not being called while passing the function as a parameter.
+```
+render() {
+  // Wrong: handleClick is called instead of passed as a reference!
+  return <button onClick={this.handleClick()}>{'Click Me'}</button>
+}
+```
+Instead, pass the function itself without parenthesis:
+```
+render() {
+  // Correct: handleClick is passed as a reference!
+  return <button onClick={this.handleClick}>{'Click Me'}</button>
+}
+```
+
+### Q : What are error boundaries in React v16?
+A : Error boundaries are components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed.
+
+A class component becomes an error boundary if it defines a new lifecycle method called componentDidCatch(error, info) or static getDerivedStateFromError().
+
+### Q : How to use innerHTML in React?
+A : The dangerouslySetInnerHTML attribute is React's replacement for using innerHTML in the browser DOM. Just like innerHTML, it is risky to use this attribute considering cross-site scripting (XSS) attacks. You just need to pass a __html object as key and HTML text as value.
+
+In this example MyComponent uses dangerouslySetInnerHTML attribute for setting HTML markup:
+```
+function createMarkup() {
+  return { __html: "First &middot; Second" };
+}
+
+function MyComponent() {
+  return <div dangerouslySetInnerHTML={createMarkup()} />;
+}
+```
+
+## React Router
+
+### Q : What is React Router?
+A : React Router is a powerful routing library built on top of React that helps you add new screens and flows to your application incredibly quickly, all while keeping the URL in sync with what's being displayed on the page.
+
+### Q : What are the <Router> components of React Router v4?
+A : React Router v4 provides below 3 <Router> components:
+
+* <BrowserRouter>
+* <HashRouter>
+* <MemoryRouter>
+The above components will create browser, hash, and memory history instances. React Router v4 makes the properties and methods of the history instance associated with your router available through the context in the router object.
+
+### Q : What is the purpose of push() and replace() methods of history?
+A : A history instance has two methods for navigation purpose.
+* push()
+* replace()
+If you think of the history as an array of visited locations, push() will add a new location to the array and replace() will replace the current location in the array with the new one.
+
+### Q : How to implement default or NotFound page?
+A : 
+```
+<Switch>
+  <Route exact path="/" component={Home} />
+  <Route path="/user" component={User} />
+  <Route component={NotFound} />
+</Switch>
+```
+-----
+```
+import React from "react";
+import ReactDOM from "react-dom";
+//import { Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Login from "./Login";
+import Register from "./Register";
+import Dashboard from "./Dashboard";
+import "./Login.css";
+
+ReactDOM.render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
+  </BrowserRouter>,
+  document.getElementById("root")
+);
+```
+
+## React Redux
+
+### Q : What is flux
+A : Flux is an architectural pattern developed by Facebook for managing state in web applications, particularly in conjunction with React. It introduces a unidirectional data flow, involving actions, a dispatcher, stores, and views (React components), to provide a structured and scalable approach to state management. The goal is to make it easier to handle complex state logic and maintainable user interfaces in large applications. While Flux itself is not a library or framework, it has influenced the design of state management libraries such as Redux.
+
+### Q : What is Redux?
+A : Redux is a predictable state container for JavaScript apps based on the Flux design pattern. Redux can be used together with React, or with any other view library. It is tiny (about 2kB) and has no dependencies.
+
+* Action Creator ====>     Action    ====> Dispatch Action ====>     Reducer    ====> Central store
+Compare to ticket booking below
+*      You       ====> Booking Form  ====>  Submit Foram   ====> Ticket Counter ====> Railway Central Store
+
+Redux is a predictable state container for JavaScript applications, commonly used with React for managing the state of applications in a more organized and scalable way. It follows the principles of the Flux architecture but introduces some key concepts and patterns that simplify state management.
+
+### Key Concepts in Redux:
+
+1. **Store:** The store is a single source of truth for the state of the entire application. It holds the current state tree and allows access to it. State in a Redux store is read-only, and any changes are made by dispatching actions.
+
+2. **Actions:** Actions are plain JavaScript objects that describe an event or change in the application. They are the only way to modify the state in a Redux application. Actions must have a `type` property indicating the type of action being performed.
+
+   Example:
+   ```javascript
+   {
+     type: 'INCREMENT',
+     payload: 1
+   }
+   ```
+
+3. **Reducers:** Reducers are pure functions that specify how the state changes in response to an action. They take the current state and an action as arguments and return the next state. Reducers should not have side effects and should not modify the existing state; they create and return a new state.
+
+   Example:
+   ```javascript
+   const counterReducer = (state = 0, action) => {
+     switch (action.type) {
+       case 'INCREMENT':
+         return state + action.payload;
+       default:
+         return state;
+     }
+   };
+   ```
+
+4. **Dispatch:** The `dispatch` function is used to dispatch actions to the Redux store. When an action is dispatched, it triggers the execution of reducers, leading to a change in the state.
+
+   Example:
+   ```javascript
+   store.dispatch({ type: 'INCREMENT', payload: 1 });
+   ```
+
+5. **Selectors:** Selectors are functions used to extract specific pieces of data from the state. They help in accessing and deriving data from the store without directly interacting with its structure.
+
+   Example:
+   ```javascript
+   const getCounterValue = state => state.counter;
+   ```
+
+### Example Redux Setup:
+
+```javascript
+// store.js
+import { createStore } from 'redux';
+import rootReducer from './reducers'; // Combined reducers
+
+const store = createStore(rootReducer);
+
+export default store;
+```
+
+```javascript
+// actions.js
+export const increment = (amount) => ({
+  type: 'INCREMENT',
+  payload: amount
+});
+```
+
+```javascript
+// reducers.js
+const counterReducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + action.payload;
+    default:
+      return state;
+  }
+};
+
+// Combine reducers if needed
+const rootReducer = combineReducers({
+  counter: counterReducer,
+  // other reducers...
+});
+
+export default rootReducer;
+```
+
+```javascript
+// Component using Redux
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { increment } from './actions';
+
+const MyComponent = () => {
+  const counter = useSelector(state => state.counter);
+  const dispatch = useDispatch();
+
+  const handleIncrement = () => {
+    dispatch(increment(1));
+  };
+
+  return (
+    <div>
+      <p>Counter: {counter}</p>
+      <button onClick={handleIncrement}>Increment</button>
+    </div>
+  );
+};
+```
+
+In this example, Redux is set up with a store, actions, reducers, and a React component that uses the `useSelector` and `useDispatch` hooks to interact with the Redux store. The state of the application is centralized in the Redux store, and changes are made through dispatched actions.
+
+### Q : What are the core principles of Redux?
+A : Redux follows three fundamental principles:
+
+* Single source of truth: The state of your whole application is stored in an object tree within a single store. The single state tree makes it easier to keep track of changes over time and debug or inspect the application.
+
+* State is read-only: The only way to change the state is to emit an action, an object describing what happened. This ensures that neither the views nor the network callbacks will ever write directly to the state.
+
+* Changes are made with pure functions: To specify how the state tree is transformed by actions, you write reducers. Reducers are just pure functions that take the previous state and an action as parameters, and return the next state.
+
+### Q : How to access Redux store outside a component?
+A : You just need to export the store from the module where it created with createStore(). Also, it shouldn't pollute the global window object.
+```
+store = createStore(myReducer);
+export default store;
+```
+
+### Q : What is the difference between React context and React Redux?
+A : You can use Context in your application directly and is going to be great for passing down data to deeply nested components which what it was designed for.React Context is a React feature for sharing data across components in a component tree. It's flexible and suitable for scenarios where prop drilling becomes inconvenient.
+
+Whereas Redux is much more powerful and provides a large number of features that the Context API doesn't provide. Also, React Redux uses context internally but it doesn't expose this fact in the public API. React Redux is a state management library specifically designed for managing complex state logic in React applications, following the Flux architecture principles. It provides a predictable and centralized way to handle application state.
+
+
 
