@@ -38,7 +38,6 @@
 Creating a comprehensive chart of time complexity for various algorithms involves considering different categories and their respective complexities. Here's a simplified chart outlining common time complexities:
 
 | Algorithm             | Time Complexity      | Best Case           | Average Case         | Worst Case           |
-|-----------------------|----------------------|---------------------|----------------------|----------------------|
 | **Sorting Algorithms**|                      |                     |                      |                      |
 |-----------------------|----------------------|---------------------|----------------------|----------------------|
 | Bubble Sort           | O(n)                 | O(n)                | O(n^2)               | O(n^2)               |
