@@ -300,6 +300,10 @@ It is better to shift states which are less valuable to the parent component, to
 * Lazy Loading -
  It is a technique used to reduce the load time of a React app. Lazy loading helps reduce the risk of web app performances to a minimum.
 
+* when you have too muchh data you can do pagination
+
+* also in beginnnig of you project you can use webpack.
+
 ### Q : What is fragment in react?
 A : In React, a fragment is a lightweight syntax that allows you to group multiple elements without adding an extra node to the DOM. Fragments are particularly useful when you need to return multiple elements from a component, and you don't want to introduce an additional parent node in the HTML structure.
 
