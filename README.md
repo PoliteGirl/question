@@ -1779,3 +1779,21 @@ A: GraphQL itself does not enforce versioning. Instead, it allows clients to req
 
 ### Q : Explain the concept of a subscription in GraphQL.
 A: Subscriptions in GraphQL enable real-time data updates. Clients can subscribe to specific events, and the server pushes updates to the subscribed clients when those events occur.
+
+## GRAPHQL vs REST
+Comparing GraphQL and REST in a tabular format:
+
+| Criteria                | GraphQL                                        | REST                                         |
+|-------------------------|------------------------------------------------|----------------------------------------------|
+| Data Fetching           | Clients can request precise data with GraphQL queries, reducing over-fetching and under-fetching issues. | REST endpoints expose fixed data structures, which may lead to over-fetching or under-fetching of data. |
+| Flexibility             | Provides flexibility for clients to request only the data they need, enhancing efficiency in data fetching. | Fixed endpoints may limit flexibility in data retrieval, requiring multiple endpoints for different data needs. |
+| Learning Curve          | Might have a steeper learning curve due to its unique syntax and concepts like schemas and resolvers. | Familiar and well-established, with simpler concepts such as HTTP methods (GET, POST, PUT, DELETE) for CRUD operations. |
+| Tooling and Ecosystem   | Offers a rich ecosystem with tools for introspection, schema validation, and client libraries for various platforms. | Well-established tooling with extensive support for testing, documentation, and libraries in various programming languages. |
+| Performance Optimization| Provides efficient data fetching, reducing network overhead by fetching only required data. | Requires careful design to optimize endpoints for performance, potentially leading to multiple requests or data redundancy. |
+| Existing Infrastructure| Might require adjustments or a shift in infrastructure to support GraphQL's single endpoint approach. | Can seamlessly integrate with existing RESTful architectures and infrastructure. |
+| Scalability             | Enables efficient scaling as clients can request tailored data, reducing unnecessary data transfer. | Scalability might depend on the careful design of endpoints and caching strategies. |
+| Developer Adoption      | Gaining popularity but may have less widespread adoption compared to REST. | Widely adopted and understood by developers due to its long-standing presence. |
+| Use Cases               | Ideal for applications with complex data requirements, real-time updates, and diverse client needs. | Suited for simpler applications or those with well-defined data structures and operations. |
+| Standardization         | Offers a unified approach to data fetching and manipulation, enhancing consistency in API design. | Adheres to HTTP standards, promoting interoperability and compatibility with various client and server implementations. |
+
+Ultimately, the choice between GraphQL and REST depends on factors such as the nature of the application, data requirements, development team expertise, and long-term scalability goals. Each has its own strengths and weaknesses, and the decision should be based on the specific needs and constraints of the project.
