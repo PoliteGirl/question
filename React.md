@@ -304,6 +304,46 @@ It is better to shift states which are less valuable to the parent component, to
 
 * also in beginnnig of you project you can use webpack.
 
+*Code splitting in React.js refers to a technique used to optimize the performance of web applications by breaking down the JavaScript codebase into smaller chunks, and loading them only when they are needed. This helps to reduce the initial bundle size of the application, making the initial page load faster and improving the overall user experience.
+
+In React, code splitting can be achieved using dynamic imports, also known as lazy loading. With dynamic imports, you can import components or modules asynchronously, meaning they are fetched from the server only when they are required, typically triggered by user actions such as navigating to a specific route or interacting with a particular feature.
+
+Here's a basic example of how code splitting can be implemented in a React application using dynamic imports:
+
+```javascript
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+const HomePage = lazy(() => import('./components/HomePage'));
+const AboutPage = lazy(() => import('./components/AboutPage'));
+const ContactPage = lazy(() => import('./components/ContactPage'));
+
+const App = () => {
+  return (
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/about" component={AboutPage} />
+          <Route path="/contact" component={ContactPage} />
+        </Switch>
+      </Suspense>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+In this example:
+
+- `lazy()` function is used to asynchronously import components.
+- Components are loaded only when they are accessed via their corresponding routes.
+- `Suspense` component is used to specify a loading indicator while the component is being fetched.
+- The `fallback` prop of `Suspense` is rendered while the component is being loaded.
+
+By employing code splitting in React applications, you can improve performance, reduce initial load times, and provide a smoother user experience, especially for larger applications.
+
 ### Q : What is fragment in react?
 A : In React, a fragment is a lightweight syntax that allows you to group multiple elements without adding an extra node to the DOM. Fragments are particularly useful when you need to return multiple elements from a component, and you don't want to introduce an additional parent node in the HTML structure.
 
