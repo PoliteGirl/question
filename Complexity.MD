@@ -37,24 +37,11 @@
 ## Table of algo complexity
 Creating a comprehensive chart of time complexity for various algorithms involves considering different categories and their respective complexities. Here's a simplified chart outlining common time complexities:
 
-| Algorithm        | Time Complexity | Best Case | Average Case | Worst Case |
-|------------------|-----------------|-----------|--------------|------------|
-| **Sorting Algorithms** | | | | |
-| Bubble Sort      | O(n)            | O(n)      | O(n^2)        | O(n^2)      |
-| Selection Sort   | O(n^2)          | O(n^2)    | O(n^2)        | O(n^2)      |
-| Insertion Sort   | O(n)            | O(n)      | O(n^2)        | O(n^2)      |
-| Merge Sort       | O(n log n)      | O(n log n)| O(n log n)    | O(n log n)  |
-| QuickSort        | O(n log n)      | O(n log n)| O(n log n)    | O(n^2)      |
-| Heap Sort        | O(n log n)      | O(n log n)| O(n log n)    | O(n log n)  |
-| **Searching Algorithms** | | | | |
-| Linear Search    | O(n)            | O(1)      | O(n/2)        | O(n)       |
-| Binary Search    | O(log n)        | O(1)      | O(log n)      | O(log n)    |
-
-
 Here's a table summarizing various sorting and searching algorithms, including their time complexity, space complexity, whether they can be implemented online (i.e., process elements as they come without knowing the total number of elements in advance), and whether they are stable (i.e., maintains the relative order of equal elements):
 
 | Algorithm         | Time Complexity (Average) | Time Complexity (Worst) | Space Complexity | Online? | Stable? |
 |-------------------|----------------------------|-------------------------|------------------|---------|---------|
+| **Sorting Algorithms** | | | | | |
 | Bubble Sort       | O(n^2)                     | O(n^2)                  | O(1)             | Yes     | Yes     |
 | Insertion Sort    | O(n^2)                     | O(n^2)                  | O(1)             | Yes     | Yes     |
 | Selection Sort    | O(n^2)                     | O(n^2)                  | O(1)             | No      | No      |
