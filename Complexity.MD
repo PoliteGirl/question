@@ -81,3 +81,36 @@ if (!found) {
     console.log(`Element ${target} not found in the array.`);
 }
 ```
+
+## Example usage: Binary search
+Only for shorted array
+```
+function binarySearch(arr, target) {
+    let low = 0;
+    let high = arr.length - 1;
+
+    while (low <= high) {
+        let mid = Math.floor((low + high) / 2);
+
+        if (arr[mid] === target) {
+            return mid; // Return the index if target is found
+        } else if (arr[mid] < target) {
+            low = mid + 1; // Search the right half
+        } else {
+            high = mid - 1; // Search the left half
+        }
+    }
+
+    return -1; // Return -1 if target is not found
+}
+
+// Example usage:
+const arr = [2, 3, 4, 5, 8];
+const target = 8;
+const result = binarySearch(arr, target);
+if (result !== -1) {
+    console.log(`Element ${target} found at index ${result}.`);
+} else {
+    console.log(`Element ${target} not found in the array.`);
+}
+```
