@@ -63,9 +63,8 @@ Note:
 
 Keep in mind that this chart provides a general overview, and there are other complexities not included here. Additionally, the choice of algorithm depends on the specific requirements and constraints of the problem at hand. In practice, developers often strive to use algorithms with lower time complexities whenever possible to achieve more efficient solutions.
 
-```
 **Example usage: Linear search
-
+```
 const arr = [5, 3, 8, 4, 2];
 const target = 8;
 let found = false;
