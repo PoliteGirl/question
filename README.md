@@ -9,6 +9,23 @@ A : JavaScript is a programming language commonly used in web development. It wa
 JavaScript is a synchronous, blocking, single-threaded language.
 JavaScript is a dynamically typed language. In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time.
 
+### Q : Why JS behaves async while api call and ajax?
+A : JavaScript is single-threaded, meaning it can only execute one piece of code at a time. However, JavaScript also supports asynchronous programming through mechanisms like callbacks, promises, and async/await.
+
+When you make an AJAX (Asynchronous JavaScript and XML) call in JavaScript, it typically doesn't block the execution of the rest of your code. Instead, it initiates a network request and continues executing the subsequent lines of code without waiting for the response from the server.
+
+Here's how it typically works:
+
+1. You initiate an AJAX request using functions like `XMLHttpRequest` or the more modern `fetch` API.
+2. The AJAX request is sent to the server.
+3. While waiting for the server's response, your JavaScript code continues executing.
+4. When the response is received from the server, a callback function (or a `.then()` handler in the case of promises) is triggered to handle the response data.
+5. Your code inside the callback function (or `.then()` handler) is then executed, allowing you to process the response data or perform other tasks.
+
+This asynchronous behavior is essential for web applications because it allows them to perform tasks like fetching data from servers without blocking the user interface (UI) or making the application unresponsive.
+
+It's important to handle asynchronous operations properly in JavaScript to avoid issues like race conditions, callback hell, and ensuring that dependent operations are executed in the correct order. This is where constructs like promises, async/await, and callback functions come into play to manage asynchronous code in a more organized and readable way.
+
 ### Q : What are the different data types present in javascript?
 A : There are two types of data types in JavaScript.
 ~~~
