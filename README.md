@@ -235,6 +235,18 @@ let has a block scope
 result will be => VM250:5 Uncaught ReferenceError: a is not defined
 ```
 
+### Q : To prevent changing the value of a.b, you can use Object.freeze().
+A : In this example, attempting to change the value of a.b to 3 will have no effect because the object a has been frozen. As a result, a.b remains 1 and cannot be modified. However, please note that Object.freeze() only provides shallow immutability, meaning it only freezes the top-level properties of an object. If a had nested objects, those nested objects would still be mutable unless they are also frozen.
+
+```
+const a = Object.freeze({ b: 1 });
+
+// Attempt to change a.b
+a.b = 3;
+
+console.log(a.b); // Output: 1 (unchanged)
+```
+
 ### Q : JS array method and interview questions
 A : 
 * The pop() method removes the last element from an array. The pop() method returns the value that was "popped out". The push() method adds a new element to an array (at the end).The push() method returns the new array length.
