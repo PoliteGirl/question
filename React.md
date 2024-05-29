@@ -6,11 +6,14 @@ A : React is a front-end and open-source JavaScript library which is useful in d
 * react simplify the creating of SPA by using reusable components.
 
 * It supports server-side rendering.
+
 * It will make use of the virtual DOM rather than real DOM (Data Object Model) as RealDOM manipulations are expensive.
-* It follows unidirectional data binding or data flow.
+
+* It follows unidirectional data binding or data flow : In React, data flows in a single direction, from parent to child. This means that a parent component can pass data to its child components via props, but the child cannot directly modify the data of the parent.
+
 * It uses reusable or composable UI components for developing the view.
 
-* index.html is ebtry point of react app
+* index.html is entry point of react app
 
 ### Q : Features of react.
 A : 
