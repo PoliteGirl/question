@@ -273,14 +273,6 @@ HOC can be used for many use cases:
 * State abstraction and manipulation.
 * Props manipulation.
 
-### Q : What is context?
-Context provides a way to pass data through the component tree without having to pass props down manually at every level.
-
-For example, authenticated users, locale preferences, UI themes need to be accessed in the application by many components.
-```
-const {Provider, Consumer} = React.createContext(defaultValue)
-```
-
 ### Q : What is reconciliation?
 A : When a component's props or state change, React decides whether an actual DOM update is necessary by comparing the newly returned element with the previously rendered one. When they are not equal, React will update the DOM. This process is called reconciliation.
 
