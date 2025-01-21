@@ -237,7 +237,7 @@ A : The difference between **deep cloning** and **shallow cloning** lies in how 
 
 ---
 
-### **1. Shallow Cloning**
+#### **1. Shallow Cloning**
 Shallow cloning creates a new object or array, but only copies the top-level properties. If the original object contains nested objects or arrays, the references to those nested structures are copied, not the actual values.
 
 #### **Characteristics:**
@@ -266,7 +266,7 @@ console.log(shallowClone.address.city); // 'Nowhere' (affected because it's a re
 
 ---
 
-### **2. Deep Cloning**
+#### **2. Deep Cloning**
 Deep cloning creates a completely independent copy of the entire data structure, including all nested objects or arrays. Changes to the original object or its nested structures do not affect the clone, and vice versa.
 
 #### **Characteristics:**
@@ -311,7 +311,14 @@ console.log(deepClone.address.city); // 'Wonderland' (not affected)
 ### **When to Use Which?**
 - Use **shallow cloning** for simple, flat objects or when you don't need to modify nested structures.
 - Use **deep cloning** for complex, deeply nested objects where changes to the clone should not affect the original.
-```
+
+#### Reference Copy
+Both b and original point to the same object in memory.
+Changes made to the object through b will also affect original, and vice versa, because they share the same reference.
+
+#### Key Characteristics of a Reference Copy:
+- Memory Sharing: No new object is created. Both variables share the same memory location.
+- Bidirectional Impact: Changes made through one variable affect the other.
 
 ### Q : call, apply and bind in JavaScript
 A : 
