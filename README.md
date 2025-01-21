@@ -14,6 +14,69 @@ JavaScript is a dynamically typed language. In a dynamically typed language, the
      - JavaScript is **single-threaded**, meaning it has a single call stack, and only one piece of code is executed at a time.
      - By default, JavaScript executes code **synchronously** (one line after another).
      - However, JavaScript is **non-blocking** in practice due to its event loop and asynchronous features, such as `setTimeout`, Promises, and `async/await`. These allow JavaScript to handle tasks asynchronously without blocking the main thread.
+    
+       JavaScript achieves being **single-threaded** and **non-blocking** through the combination of its **single-threaded execution model** and the **event loop**. Here's how it works:
+
+---
+
+### **1. Single-threaded Execution Model**
+- JavaScript has **one call stack** where it executes code, meaning it can only process one task at a time.
+- This single-threaded nature means that only one piece of code runs at any given moment, avoiding concurrency issues like race conditions within JavaScript itself.
+
+---
+
+### **2. Non-blocking Nature**
+Despite being single-threaded, JavaScript is **non-blocking** because of how it handles **asynchronous operations**. It delegates time-consuming tasks (like I/O operations, timers, or HTTP requests) to external systems and doesn't wait for them to complete. Instead, it uses:
+
+#### a. **Browser APIs or Node.js APIs**
+   - For time-consuming tasks, such as:
+     - Fetching data from a server (e.g., `fetch` or `XMLHttpRequest`).
+     - File system operations in Node.js.
+     - Setting timers (`setTimeout` or `setInterval`).
+   - These operations are handled outside the main thread by the browser or Node.js runtime.
+
+#### b. **Event Loop**
+   - The **event loop** is the mechanism that allows JavaScript to remain non-blocking. Here's how it works:
+     1. JavaScript code runs on the **call stack** (synchronously).
+     2. When an asynchronous operation is encountered (e.g., `setTimeout`), it is handed off to the **Web APIs** (or Node.js APIs).
+     3. Once the operation is complete, a callback or promise resolution is queued in the **task queue** or **microtask queue**.
+     4. The **event loop** continuously checks if the call stack is empty. If it is, it picks up tasks from the task queues and executes them.
+
+#### c. **Promises and `async/await`**
+   - Promises and `async/await` work with the **microtask queue**, which has higher priority than the regular task queue. This ensures that promise resolutions are handled as soon as possible after the current stack is cleared.
+
+---
+
+### **Example:**
+```javascript
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timeout callback");
+}, 1000);
+
+fetch("https://api.example.com/data")
+  .then(() => console.log("Data fetched"));
+
+console.log("End");
+```
+
+**Execution Flow:**
+1. "Start" is logged immediately (synchronous code).
+2. `setTimeout` is handed to the browser's timer API, and JavaScript moves on.
+3. `fetch` is handed to the browser's network API, and JavaScript moves on.
+4. "End" is logged immediately (synchronous code).
+5. Once the timer completes and the API response is ready, their respective callbacks are queued.
+6. The event loop processes these queued callbacks, logging "Data fetched" and "Timeout callback."
+
+---
+
+### **Why Non-blocking is Important**
+Without this non-blocking mechanism:
+- A single slow operation (e.g., a network request) would block the entire thread, freezing the user interface or delaying other operations.
+
+### **Summary**
+JavaScript is single-threaded because it executes code on a single call stack. It is non-blocking because it offloads asynchronous tasks to external APIs and uses the event loop to manage the execution of those tasks without waiting for them to complete. This enables efficient handling of asynchronous operations while maintaining a responsive environment.
 
 #### 2. **"JavaScript is a dynamically typed language."**
    - **Correct:**
