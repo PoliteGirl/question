@@ -9,15 +9,13 @@ A : JavaScript is a programming language commonly used in web development. It wa
 JavaScript is a synchronous, blocking, single-threaded language.
 JavaScript is a dynamically typed language. In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time.
 
-The statements are **partially correct**, but they can be clarified and improved for accuracy. Here's a detailed analysis:
-
-### 1. **"JavaScript is a synchronous, blocking, single-threaded language."**
+## 1. **"JavaScript is a synchronous, blocking, single-threaded language."**
    - **Correct but requires clarification:**
      - JavaScript is **single-threaded**, meaning it has a single call stack, and only one piece of code is executed at a time.
      - By default, JavaScript executes code **synchronously** (one line after another).
      - However, JavaScript is **non-blocking** in practice due to its event loop and asynchronous features, such as `setTimeout`, Promises, and `async/await`. These allow JavaScript to handle tasks asynchronously without blocking the main thread.
 
-### 2. **"JavaScript is a dynamically typed language."**
+## 2. **"JavaScript is a dynamically typed language."**
    - **Correct:**
      - In JavaScript, variables do not have a fixed type. The type of a variable is determined at runtime, and you can reassign variables to values of different types.
 
@@ -26,7 +24,7 @@ The statements are **partially correct**, but they can be clarified and improved
      x = "hello"; // x is now a string
      ```
 
-### 3. **"In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time."**
+## 3. **"In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time."**
    - **Correct:**
      - This is an accurate description of the difference between dynamically typed and statically typed languages.
      - Example of dynamically typed behavior in JavaScript:
