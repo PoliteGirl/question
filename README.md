@@ -9,7 +9,7 @@ A : JavaScript is a programming language commonly used in web development. It wa
 JavaScript is a synchronous, blocking, single-threaded language.
 JavaScript is a dynamically typed language. In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time.
 
-## 1. **"JavaScript is a synchronous, blocking, single-threaded language."**
+# 1. **"JavaScript is a synchronous, blocking, single-threaded language."**
    - **Correct but requires clarification:**
      - JavaScript is **single-threaded**, meaning it has a single call stack, and only one piece of code is executed at a time.
      - By default, JavaScript executes code **synchronously** (one line after another).
