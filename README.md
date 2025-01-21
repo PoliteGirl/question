@@ -15,7 +15,7 @@ JavaScript is a dynamically typed language. In a dynamically typed language, the
      - By default, JavaScript executes code **synchronously** (one line after another).
      - However, JavaScript is **non-blocking** in practice due to its event loop and asynchronous features, such as `setTimeout`, Promises, and `async/await`. These allow JavaScript to handle tasks asynchronously without blocking the main thread.
 
-## 2. **"JavaScript is a dynamically typed language."**
+#### 2. **"JavaScript is a dynamically typed language."**
    - **Correct:**
      - In JavaScript, variables do not have a fixed type. The type of a variable is determined at runtime, and you can reassign variables to values of different types.
 
@@ -24,7 +24,7 @@ JavaScript is a dynamically typed language. In a dynamically typed language, the
      x = "hello"; // x is now a string
      ```
 
-## 3. **"In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time."**
+#### 3. **"In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time."**
    - **Correct:**
      - This is an accurate description of the difference between dynamically typed and statically typed languages.
      - Example of dynamically typed behavior in JavaScript:
