@@ -9,6 +9,44 @@ A : JavaScript is a programming language commonly used in web development. It wa
 JavaScript is a synchronous, blocking, single-threaded language.
 JavaScript is a dynamically typed language. In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time.
 
+The statements are **partially correct**, but they can be clarified and improved for accuracy. Here's a detailed analysis:
+
+### 1. **"JavaScript is a synchronous, blocking, single-threaded language."**
+   - **Correct but requires clarification:**
+     - JavaScript is **single-threaded**, meaning it has a single call stack, and only one piece of code is executed at a time.
+     - By default, JavaScript executes code **synchronously** (one line after another).
+     - However, JavaScript is **non-blocking** in practice due to its event loop and asynchronous features, such as `setTimeout`, Promises, and `async/await`. These allow JavaScript to handle tasks asynchronously without blocking the main thread.
+
+### 2. **"JavaScript is a dynamically typed language."**
+   - **Correct:**
+     - In JavaScript, variables do not have a fixed type. The type of a variable is determined at runtime, and you can reassign variables to values of different types.
+
+     ```javascript
+     let x = 5; // x is a number
+     x = "hello"; // x is now a string
+     ```
+
+### 3. **"In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time."**
+   - **Correct:**
+     - This is an accurate description of the difference between dynamically typed and statically typed languages.
+     - Example of dynamically typed behavior in JavaScript:
+       ```javascript
+       let num = 10;
+       num = "ten"; // No error, type changes at runtime
+       ```
+
+     - Example of statically typed behavior in TypeScript (a superset of JavaScript):
+       ```typescript
+       let num: number = 10;
+       num = "ten"; // Error: Type 'string' is not assignable to type 'number'
+       ```
+
+### Final Assessment:
+The statements are **mostly correct** but could be better worded for clarity:
+1. JavaScript is **single-threaded** and executes code synchronously by default, but it is **non-blocking** due to its asynchronous features like the event loop.
+2. JavaScript is a **dynamically typed language**, where variable types are determined at runtime.
+3. The distinction between dynamically and statically typed languages is accurately described.
+
 ### Q : Why JS behaves async while api call and ajax?
 A : JavaScript is single-threaded, meaning it can only execute one piece of code at a time. However, JavaScript also supports asynchronous programming through mechanisms like callbacks, promises, and async/await.
 
