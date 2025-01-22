@@ -1,0 +1,39 @@
+import React, { useState } from 'react';
+
+export function App(props) {
+  const items = [
+    'Apple',
+    'Banana',
+    'Cherry',
+    'Orange',
+    'Melon',
+    'Keri',
+    'Jamun',
+    'Berry',
+    'Grapes',
+  ];
+  const perPage = 3;
+  const [startIndex, SetStartIndex] = useState(0);
+
+  let diplayArray = items.slice(startIndex, startIndex + perPage);
+
+  const nextList = () => {
+    if (startIndex + perPage < items.length) {
+      SetStartIndex(startIndex + perPage);
+    } else {
+      SetStartIndex(0);
+    }
+  };
+
+  return (
+    <div className='App'>
+      <h1>Display list</h1>
+      <ul>
+        {diplayArray.map((item, i) => (
+          <li key={i}>{item}</li>
+        ))}
+      </ul>
+      <button onClick={nextList}>Next</button>
+    </div>
+  );
+}
