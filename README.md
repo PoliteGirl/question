@@ -457,48 +457,58 @@ The call, bind and apply methods can be used to set the this keyword independent
 
 
 ### Q : Difference between "var", "let" and "const"
-A : 
-* var declarations are globally scoped or function/locally scoped or function scoped while let and const are block scoped.
-* var variables can be updated and re-declared within its scope; let variables can be updated but not re-declared; const variables can neither be updated nor re-declared.
-* They are all hoisted to the top of their scope. But while var variables are initialized with undefined, let and const variables are not initialized.
-* While var and let can be declared without being initialized, const must be initialized during declaration.
-* var can be accessed without initialization as its default value is “undefined”.	let cannot be accessed without initialization, as it returns an error. const cannot be accessed without initialization, as it cannot be declared without initialization.
+A :
+Here's a **simple** way to understand the difference between `var`, `let`, and `const`:  
 
-var variables can be re-declared and updated : 
- ```javascript
-      var a = 1;
-      var a = 2; 
-        OR
-      var a = 1;
-      a = 2;
---------------------
-  function newFunction() {
-  if(true){
-          var a = "hello";
-      }
-  console.log(a);
-  }
-result will be => hello
---------------------
-console.log(a);
-      var a = 1;
- this code will interpreted as 
-    var a;
-    console.log(a); // a is undefined
-    a = 1;
+### **1️⃣ var** – Old way, Avoid using  
+- Can be **redeclared & updated**  
+- **Function-scoped** (Not limited to block `{}`)  
+- Can cause **unexpected bugs**  
+
+🔹 **Example:**  
+```js
+var name = "Amit";
+var name = "Raj";  // ✅ No error (Redeclaration allowed)
+console.log(name);  // Output: "Raj"
 ```
 
-let has a block scope
-```javascript
-  function newFunction() {
-  if(true){
-          let a = "hello";
-      }
-  console.log(a);
-  }
-result will be => VM250:5 Uncaught ReferenceError: a is not defined
+---
+
+### **2️⃣ let** – Modern & Recommended  
+- **Cannot be redeclared** but **can be updated**  
+- **Block-scoped** (Limited to `{}` block)  
+- Avoids unexpected behavior  
+
+🔹 **Example:**  
+```js
+let age = 25;
+age = 26;  // ✅ Allowed (Update)
+let age = 30;  // ❌ Error (Cannot redeclare)
 ```
 
+---
+
+### **3️⃣ const** – For constants (Unchangeable)  
+- **Cannot be redeclared or updated**  
+- **Block-scoped**  
+- Must be **initialized when declared**  
+
+🔹 **Example:**  
+```js
+const PI = 3.14;
+PI = 3.1415;  // ❌ Error (Cannot update)
+```
+
+---
+
+### **Quick Summary:**  
+| Feature  | `var`  | `let`  | `const`  |
+|----------|--------|--------|---------|
+| Redeclaration | ✅ Allowed | ❌ Not Allowed | ❌ Not Allowed |
+| Reassignment | ✅ Allowed | ✅ Allowed | ❌ Not Allowed |
+| Scope | Function-scoped | Block-scoped | Block-scoped |
+
+💡 **Best Practice:** Use `let` for variables that change, `const` for fixed values, and avoid `var`.
 ### Q : To prevent changing the value of a.b, you can use Object.freeze().
 A : In this example, attempting to change the value of a.b to 3 will have no effect because the object a has been frozen. As a result, a.b remains 1 and cannot be modified. However, please note that Object.freeze() only provides shallow immutability, meaning it only freezes the top-level properties of an object. If a had nested objects, those nested objects would still be mutable unless they are also frozen.
 
