@@ -2,14 +2,14 @@
 <!-- [Node.js](#Node.js "Goto Node.js") -->
 
 # Javascript
-# **Q: What is JavaScript?**  
+###Q: What is JavaScript?
 **A:** JavaScript is a programming language commonly used in web development. It was originally developed by Netscape as a means to add dynamic and interactive elements to websites.  
 
 JavaScript is:  
 - A **synchronous, blocking, single-threaded** language.  
 - A **dynamically typed** language.  
 
-## **1. "JavaScript is a synchronous, blocking, single-threaded language."**  
+## ***1. "JavaScript is a synchronous, blocking, single-threaded language."***
 ✅ **Correct, but requires clarification:**  
 
 - **Single-threaded**: JavaScript has a **single call stack**, meaning it executes one task at a time.  
