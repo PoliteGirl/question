@@ -1374,32 +1374,125 @@ const intervalId = setInterval(function() {
 # Node.js and REST APIs
 
 ### Q : How does Node.js works?
-A : 
-Node.js is completely event-driven. Basically the server consists of one thread processing one event after another.
+A : ### **How Node.js Works – Simple Explanation**  
 
-A new request coming in is one kind of event. The server starts processing it and when there is a blocking IO operation, it does not wait until it completes and instead registers a callback function. The server then immediately starts to process another event ( maybe another request ). When the IO operation is finished, that is another kind of event, and the server will process it ( i.e. continue working on the request ) by executing the callback as soon as it has time.
+Node.js is a **single-threaded**, **asynchronous**, and **event-driven** runtime that efficiently handles multiple tasks without blocking execution.  
 
-Node.js Platform does not follow Request/Response Multi-Threaded Stateless Model. It follows Single Threaded with Event Loop Model. Node.js Processing model mainly based on Javascript Event based model with Javascript callback mechanism.
+---
 
-![ALT TEXT]([here you have to insert the image url](https://raw.githubusercontent.com/Mohamed-Hashem/nodejs-interview-questions/master/assets/event-loop.png)
+### **1. Single-Threaded but Non-Blocking**
+- Node.js runs **JavaScript on a single thread** but handles multiple tasks **asynchronously**.  
+- It offloads **heavy tasks** (like file reading, database queries, and API calls) instead of blocking execution.
 
-Single Threaded Event Loop Model Processing Steps:
+---
 
-Clients Send request to Web Server.
-Node.js Web Server internally maintains a Limited Thread pool to provide services to the Client Requests.
-Node.js Web Server receives those requests and places them into a Queue. It is known as Event Queue.
-Node.js Web Server internally has a Component, known as Event Loop. Why it got this name is that it uses indefinite loop to receive requests and process them.
-Event Loop uses Single Thread only. It is main heart of Node.js Platform Processing Model.
-Event Loop checks any Client Request is placed in Event Queue. If no, then wait for incoming requests for indefinitely.
-If yes, then pick up one Client Request from Event Queue
-Starts process that Client Request
-If that Client Request Does Not requires any Blocking IO Operations, then process everything, prepare response and send it back to client.
-If that Client Request requires some Blocking IO Operations like interacting with Database, File System, External Services then it will follow different approach
-Checks Threads availability from Internal Thread Pool
-Picks up one Thread and assign this Client Request to that thread.
-That Thread is responsible for taking that request, process it, perform Blocking IO operations, prepare response and send it back to the Event Loop
-Event Loop in turn, sends that Response to the respective Client.
+### **2. Asynchronous Handling (libuv & Event Loop)**
+Node.js uses **libuv**, which provides:  
+✅ **Thread Pool** (for file I/O, cryptography, etc.)  
+✅ **Event Loop** (to process asynchronous tasks)  
 
+#### **How Tasks Are Handled:**
+1. **Synchronous code runs first** (main thread).  
+2. **Async tasks (like file read) are offloaded** to the thread pool or external systems.  
+3. **Once done, callbacks are added to the Event Loop’s queue** and executed when the main thread is free.
+
+---
+
+### **3. Event-Driven Architecture**
+Node.js listens for **events** (like HTTP requests) and triggers **callbacks** when needed.
+
+#### **Example: Event-Driven Server**
+```javascript
+const http = require("http");
+
+const server = http.createServer((req, res) => {
+  console.log("Request received");
+  res.end("Hello from Node.js!");
+});
+
+server.listen(3000, () => console.log("Server running on port 3000"));
+```
+- The server **waits for requests** and **handles them asynchronously**.
+
+---
+
+### **4. Task Queues in Node.js**
+| Queue | Example | Priority |
+|--------|------------|-----------|
+| **Next Tick Queue** | `process.nextTick()` | 🚀 Highest |
+| **Microtask Queue** | `Promise.then()` | 🔼 High |
+| **Callback Queue** | `setTimeout()`, `setImmediate()` | 🔽 Lower |
+
+### Q : How Node.js Works: Single-Threaded, Asynchronous & Event-Driven
+
+Node.js is **single-threaded**, but it handles multiple tasks efficiently using the **event loop** and **libuv's thread pool**.  
+### **1. Single-Threaded but Asynchronous**
+- The **main thread runs the event loop**, handling JavaScript execution.  
+- Heavy tasks (like file I/O, database queries, and cryptography) are **delegated to libuv’s thread pool**, which uses multiple threads **in the background**.
+- This allows Node.js to handle multiple requests at once **without blocking the main thread**.
+
+#### **Example: Asynchronous File Read**
+```javascript
+const fs = require("fs");
+
+console.log("Start");
+
+fs.readFile("file.txt", "utf8", (err, data) => {
+  console.log("File Read Complete");
+});
+
+console.log("End");
+```
+#### **Output:**
+```
+Start
+End
+File Read Complete
+```
+- The file read is **offloaded** to a background thread.  
+- Meanwhile, the main thread continues executing other tasks.  
+- Once the file read is done, the callback function is executed.
+
+### **2. Event-Driven Architecture**
+- Instead of executing tasks sequentially, **Node.js listens for events** and executes callbacks when they occur.
+- It uses an **EventEmitter** to handle events asynchronously.
+
+#### **Example: Event Handling**
+```javascript
+const EventEmitter = require("events");
+const eventEmitter = new EventEmitter();
+
+eventEmitter.on("greet", (name) => {
+  console.log(`Hello, ${name}!`);
+});
+
+eventEmitter.emit("greet", "Alice");
+```
+#### **Output:**
+```
+Hello, Alice!
+```
+- The event `"greet"` is registered and triggered later.
+
+### **3. HTTP Server Example (Event-Driven)**
+```javascript
+const http = require("http");
+
+const server = http.createServer((req, res) => {
+  console.log("Request received");
+  res.end("Hello from Node.js!");
+});
+
+server.listen(3000, () => console.log("Server running on port 3000"));
+```
+- The server **listens** for incoming requests (`request` event) and executes a callback when a request is received.
+
+### **Why Is Node.js Powerful?**
+✅ **Non-blocking I/O** (handles multiple tasks efficiently).  
+✅ **Event-driven** (reacts to events instead of blocking execution).  
+✅ **Lightweight & Fast** (ideal for real-time apps like chats and APIs).  
+
+In short, **Node.js is single-threaded but can handle multiple tasks asynchronously using the event loop and background threads!** 🚀
 
 ### Q : REPL Function
 A : 
@@ -1432,7 +1525,6 @@ Choose Wisely – Lack of Library Support can Endanger your Code.
 
 Node. js doesn't support multi-threaded programming yet. It is able to serve way more complicated applications than Ruby, but it's not suitable for performing long-running calculations. Heavy computations block the incoming requests, which can lead to decrease of performance .
 
-
 ### Q : where it's used?
 A : 
 * Real-time conversations
@@ -1458,29 +1550,6 @@ CORS is implemented using HTTP headers. The server must include specific headers
 4.) Access-Control-Allow-Credentials: Indicates whether the browser should include credentials (like cookies or HTTP authentication) when making the actual request.
 
 5.) Access-Control-Expose-Headers: Specifies which headers should be exposed to the response.
-
-### Q : How node.js prevents blocking code?
-A : Blocking vs Non-blocking
-
-Blocking is when the execution of additional JavaScript in the Node.js process must wait until a non-JavaScript operation completes. This happens because the event loop is unable to continue running JavaScript while a blocking operation is occurring.
-
-Synchronous methods in the Node.js standard library that use libuv are the most commonly used blocking operations. Native modules may also have blocking methods. Blocking methods execute synchronously and non-blocking methods execute asynchronously.
-
-```
-// Blocking
-const fs = require('fs');
-const data = fs.readFileSync('/file.md'); // blocks here until file is read
-console.log(data);
-moreWork(); // will run after console.log
-
-// Non-blocking
-const fs = require('fs');
-fs.readFile('/file.md', (err, data) => {
-  if (err) throw err;
-  console.log(data);
-});
-moreWork(); // will run before console.log
-```
 
 ### Q : Name the types of API functions in Node.js?
 A : There are two types of API functions in Node.js:
@@ -1579,12 +1648,6 @@ Few events are :
 * disconnect
 * unhandledException
 * rejectionHandled
-
-### Q : Event loop and Work Flow
-A : 
-* Node.js is a single-threaded event-driven platform that is capable of running non-blocking, asynchronously programming. These functionalities of Node.js make it memory efficient. The event loop allows Node.js to perform non-blocking I/O operations despite the fact that JavaScript is single-threaded. It is done by assigning operations to the operating system whenever and wherever possible.
-
-* Node.js is an event loop single-threaded language. It can handle concurrent requests with a single thread without blocking it for one request.
 
 ## Features of Event Loop:
 
@@ -1872,28 +1935,6 @@ const xss = require('xss');
 ```
 * Security Audits: Regularly perform security audits and penetration testing to identify and fix potential vulnerabilities. Services like OWASP ZAP and Snyk can help in this regard.
 * Avoid using deprecated packages: Remove or update deprecated packages to mitigate potential security risks.
-
-### Q : Explain what is process.nexttick?
-A : process.nextTick is a Node.js function that allows a callback function to be executed in the next iteration of the event loop. It provides a way to defer the execution of a function until the current stack has cleared, but before the event loop continues.
-
-In Node.js, the event loop is the mechanism that handles asynchronous operations. When you execute a piece of asynchronous code (like reading from a file or making an HTTP request), Node.js doesn't block the entire program. Instead, it continues to execute the remaining synchronous code and then processes the asynchronous task when it's ready.
-
-process.nextTick is often used to break down long-running tasks into smaller, asynchronous steps, allowing the event loop to handle other tasks in between. It's important to note that process.nextTick callbacks have priority over other asynchronous events in the event loop.
-
-Here's a simple example to illustrate its usage:
-```
-console.log('Start');
-
-process.nextTick(() => {
-  console.log('Next Tick Callback');
-});
-
-console.log('End');
-//result
-Start
-End
-Next Tick Callback
-```
 
 ### Q : Implement JWT with node.js 
 A: Implementing JWT (JSON Web Tokens) in a Node.js application typically involves using a library like jsonwebtoken. Here's a simple example of how you can implement JWT in a Node.js application:
