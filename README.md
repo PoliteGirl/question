@@ -5,7 +5,6 @@
 Here’s the reformatted version with your requested heading styles:  
 
 ---
-
 ### **Q: What is JavaScript?**  
 **A:** JavaScript is a programming language commonly used in web development. It was originally developed by Netscape as a means to add dynamic and interactive elements to websites.  
 
@@ -1308,6 +1307,8 @@ A :
 | ----------- 				  | -----------                    | ----------- 	| ----------- 	   |
 | Accessed on client or server side       | Both server-side & client-side | client-side only   | client-side only |
 | size				          | 4KB	        		   | 5 MB	   	| 5 MB        	   |
+| When gets clear			  | When they expire, user clears them, browser settings, or manually deleted via JavaScript | Only when manually cleared by user or programmatically cleared | When the browser tab or window is closed, or cleared manually |
+
 
 LocalStorage is the same as SessionStorage but it persists the data even when the browser is closed and reopened(i.e it has no expiration time) whereas in sessionStorage data gets cleared when the page session ends.
 
