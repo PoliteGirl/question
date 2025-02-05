@@ -783,47 +783,116 @@ A : Since 3 and 2 are integers, they will be added numerically. And since 7 is a
 A : type of null is "object" and type of function is "function".
 
 ### Q : What is closure and counter dillema?
-A : We can create nested functions in JavaScript. Inner function can access variables and parameters of an outer function (however, cannot access arguments object of outer function).
-A JavaScript closure is when an inner function has access to its outer enclosing function's variables and properties. like bwlow example.
+A : 
+**closure** is a function that remembers the variables from its outer scope even after the outer function has finished executing.  
 
-A closure is the combination of a function and the lexical environment within which that function was declared. i.e, It is an inner function that has access to the outer or enclosing function’s variables. The closure has three scope chains
-
-* Own scope where variables defined between its curly brackets
-* Outer function’s variables
-* Global variables
-
-Closures help in maintaining the state between function calls without using a global variable.
-
-Closures are frequently used in JavaScript for object data privacy, in event handlers and callback functions, and in partial applications, currying, and other functional programming patterns
-```
-javascript
-function OuterFunction() {
-
-    var outerVariable = 1;
-
-    function InnerFunction() {
-        console.log(outerVariable);
-    }
-
-    InnerFunction();
-    //or
-    // return InnerFunction
+**Example:**  
+```javascript
+function outer() {
+  let count = 0;
+  return function inner() {
+    count++; // `inner` remembers `count`
+    console.log(count);
+  };
 }
-OuterFunction()
-//or
-//OuterFunction()();
+
+const counter = outer();
+counter(); // Output: 1
+counter(); // Output: 2
 ```
+Here, `inner` still has access to `count` even though `outer` has finished executing.
+
+---
+
+#### **What is the Counter Dilemma?**  
+If we directly use a variable, it can be changed by **any function**, leading to unwanted modifications. Closures **help keep variables private**.  
+
+**Problem (Without Closure):**  
+```javascript
+let count = 0;
+
+function increment() {
+  count++;
+  console.log(count);
+}
+
+increment(); // 1
+increment(); // 2
+count = 100; // Anyone can modify `count` accidentally!
+increment(); // 101 (unexpected)
+```
+
+**Solution (With Closure):**  
+```javascript
+function createCounter() {
+  let count = 0;
+  return {
+    increment: function () {
+      count++;
+      console.log(count);
+    },
+    decrement: function () {
+      count--;
+      console.log(count);
+    }
+  };
+}
+
+const counter = createCounter();
+counter.increment(); // 1
+counter.increment(); // 2
+counter.decrement(); // 1
+// `count` is private and cannot be modified directly!
+```
+
+---
+
+### **Key Takeaways**  
+- A **closure** allows a function to "remember" variables even after execution.  
+- It helps in **data encapsulation** (hiding variables) to prevent unintended modifications.  
+- The **counter dilemma** shows why keeping variables private using closures is useful.
+
 ### Q : What is currying in JavaScript?
 A : Currying is an advanced technique to transform a function of arguments n, to n functions of one or less arguments.
+
+**Currying** is a technique where a function takes multiple arguments **one at a time** instead of all at once.  
+
+### **Example With Currying:**  
 ```javascript
-function add (a) {
-  return function(b){
+function add(a) {
+  return function (b) {
     return a + b;
-  }
+  };
 }
 
-add(3)(4) ==> 7
+const addTwo = add(2);
+console.log(addTwo(3)); // Output: 5
+console.log(add(2)(3)); // Output: 5
 ```
+Here, `add(2)` returns a new function that waits for `b`.
+
+---
+
+### **Why Use Currying?**  
+- **Reusability:** You can create specialized functions.  
+- **Avoid Repeating Values:** Set a value once and reuse it.  
+- **Improves Readability and Function Composition.**  
+
+---
+
+### **Real-World Example (Logger Function)**  
+```javascript
+function logger(prefix) {
+  return function (message) {
+    console.log(`[${prefix}] ${message}`);
+  };
+}
+
+const errorLog = logger("ERROR");
+errorLog("Something went wrong!"); // Output: [ERROR] Something went wrong!
+```
+Currying makes functions more flexible and reusable!
+
 ### Q : What are object prototypes?
 A : All javascript objects inherit properties from a prototype.
 
@@ -834,16 +903,61 @@ Math objects inherit properties from the Math prototype
 
 Array objects inherit properties from the Array prototype.
 
-On top of the 
-is Object.prototype. Every prototype inherits properties and methods from the Object.prototype.
-
 A prototype is a blueprint of an object. Prototype allows us to use properties and methods on an object even if the properties and methods do not exist on the current object.
+### **Object Prototypes in JavaScript**  
+
+**Prototypes** allow JavaScript objects to inherit properties and methods from other objects. Every object in JavaScript has an internal link to a prototype object.  
+
+---
+
+### **Example:**  
+```javascript
+const person = {
+  greet: function () {
+    console.log("Hello!");
+  }
+};
+
+const user = Object.create(person); // `user` inherits from `person`
+user.greet(); // Output: Hello!
+```
+Here, `user` doesn’t have `greet`, but it finds it in `person` through the prototype chain.
+
+---
 
 ### Q : What is a prototype chain?
 A : Prototype chaining is used to build new types of objects based on existing ones. It is similar to inheritance in a class based language.
 
 The prototype on object instance is available through Object.getPrototypeOf(object) or proto property whereas prototype on constructors function is available through Object.prototype.
 
+### **Prototype Chain:**  
+If a property/method isn’t found in an object, JavaScript looks for it in its prototype, then its prototype’s prototype, and so on.
+
+---
+
+### **Adding Methods to Prototypes:**  
+```javascript
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.sayHello = function () {
+  console.log("Hi, I'm " + this.name);
+};
+
+const p1 = new Person("Alice");
+p1.sayHello(); // Output: Hi, I'm Alice
+```
+Here, `sayHello` is shared across all `Person` instances via the prototype.
+
+---
+
+### **Why Use Prototypes?**  
+- Saves memory by sharing methods across objects.  
+- Enables JavaScript’s inheritance system.  
+- Forms the basis of ES6 `class`.  
+
+Prototypes make JavaScript objects powerful and efficient! 🚀
 
 ### Q : What is prototypal inheritance?
 A : When we read a property from object , and it's missing, JavaScript automatically takes it from the prototype. In programming, such thing is called “prototypal inheritance”.
