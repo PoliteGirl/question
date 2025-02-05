@@ -904,32 +904,25 @@ Math objects inherit properties from the Math prototype
 Array objects inherit properties from the Array prototype.
 
 A prototype is a blueprint of an object. Prototype allows us to use properties and methods on an object even if the properties and methods do not exist on the current object.
-### **Object Prototypes in JavaScript**  
-
 **Prototypes** allow JavaScript objects to inherit properties and methods from other objects. Every object in JavaScript has an internal link to a prototype object.  
-
----
 
 ### **Example:**  
 ```javascript
-const person = {
-  greet: function () {
-    console.log("Hello!");
-  }
-};
+function user() {
+    this.name = 'abc'
+}
+a.prototype.age = 10;
 
-const user = Object.create(person); // `user` inherits from `person`
-user.greet(); // Output: Hello!
+let newUser = new a();
+
+console.log(newUser.age); // 10
 ```
-Here, `user` doesn’t have `greet`, but it finds it in `person` through the prototype chain.
-
----
+Here, `newUser` doesn’t have `age`, but it finds it in `user` through the prototype chain.
 
 ### Q : What is a prototype chain?
 A :
 If a property/method isn’t found in an object, JavaScript looks for it in its prototype, then its prototype’s prototype, and so on.
 
-### **Adding Methods to Prototypes:**  
 ```javascript
 function Person(name) {
   this.name = name;
