@@ -258,7 +258,44 @@ A : both of them is an empty value but difference is that when you define a vari
 A : Scope is the accessibility of variables, functions, and objects in some particular part of your code during runtime. In other words, scope determines the visibility of variables and other resources in areas of your code.
 
 ### Q : What is a strict mode in javascript
-A : Strict Mode is a new feature in ECMAScript 5 that allows you to place a program, or a function, in a “strict” operating context. This way it prevents certain actions from being taken and throws more exceptions. The literal expression "use strict"; instructs the browser to use the javascript code in the Strict mode.
+A :
+Strict mode (`"use strict"`) is a JavaScript feature that enforces stricter rules, catching common errors and preventing bad practices.  
+
+#### **How to Enable Strict Mode?**  
+Enable it by adding `"use strict";` at the beginning of a script or function:  
+```javascript
+"use strict";
+x = 10; // ❌ Error: x is not defined
+```
+or inside a function:  
+```javascript
+function myFunction() {
+  "use strict";
+  y = 5; // ❌ Error
+}
+```
+
+#### **Why Use Strict Mode?**  
+- Prevents **accidental global variables**  
+- Disallows **duplicate function parameters**  
+- Safer `this` binding (`undefined` instead of global object)  
+- Restricts usage of **reserved keywords**  
+- Throws errors for **silent failures**  
+
+#### **Common Errors Prevented**  
+| Issue | Without Strict Mode | With Strict Mode |
+|-------|----------------------|------------------|
+| Undeclared variables | Allowed | ❌ Error |
+| Duplicate function params | Allowed | ❌ Error |
+| Assigning to `NaN` | Allowed | ❌ Error |
+| Octal numbers (`0123`) | Allowed | ❌ Error |
+
+#### **When to Avoid?**  
+- Old JavaScript codebases  
+- Libraries that don't support strict mode  
+
+#### **Summary**  
+Strict mode helps write **secure, bug-free, and future-proof JavaScript** by enforcing better coding practices.
 
 ### Q : What are the possible ways to create objects in JavaScript
 A : 
