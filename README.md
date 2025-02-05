@@ -672,29 +672,40 @@ A :
 * Destructuring Assignment
 
 ### Q : What is use of arrow 
-A : arrow functions were introduced in ES6.
-* An arrow function is a shorter syntax for a function expression and does not have its own this, arguments, super, or new.target. These functions are best suited for non-method functions, and they cannot be used as constructors.
-* Arrow functions do not bind their own this value. Instead, they inherit the this value from the enclosing scope. This behavior can be advantageous in certain situations, especially when dealing with callbacks or functions inside other functions.
-* Unlike regular functions, arrow functions do not have their own this. The value of this inside an arrow function remains the same throughout the lifecycle of the function and is always bound to the value of this in the closest non-arrow parent function.
-* In short, with arrow functions there are no binding of this.
-* In regular functions the this keyword represented the object that called the function, which could be the window, the document, a button or whatever.
+A :
+An **arrow function** is a shorter way to write functions in JavaScript.  
+
+#### **Syntax**  
 ```javascript
-let add = (x, y) => x + y;
---------------------------
-let me = { 
- value: 1, 
- thisInArrow:() => { 
- console.log(this.value); // no 'this' binding here 
- }, 
- thisInRegular(){ 
- console.log(this.value); // 'this' binding works here 
- } 
-};
-me.thisInArrow(); 
-me.thisInRegular();
-==> result : undefined
-             1
+const add = (a, b) => a + b;
+console.log(add(2, 3)); // Output: 5
 ```
+
+#### **Uses & Benefits**  
+1. **Shorter Syntax** – No need for `function` keyword.  
+2. **Implicit Return** – No need for `return` if it's a single expression.  
+3. **No `this` Binding** – Inherits `this` from surrounding scope.  
+
+#### **Example: Normal vs Arrow Function**  
+```javascript
+// Regular function
+function greet(name) {
+  return "Hello, " + name;
+}
+
+// Arrow function
+const greet = (name) => "Hello, " + name;
+
+console.log(greet("Alice")); // Output: Hello, Alice
+```
+
+#### **When to Use?**  
+- For **callbacks**, like in `map`, `filter`, `reduce`.  
+- When `this` binding is not needed.  
+
+#### **Not Suitable for**  
+- Methods in objects (`this` behaves differently).  
+- Constructor functions (`new` doesn’t work).
 
 ### Q : What is the rest parameter and spread operator?
 A : Both rest parameter and spread operator were introduced in the ES6 version of javascript.
