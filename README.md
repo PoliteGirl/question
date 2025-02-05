@@ -926,14 +926,8 @@ Here, `user` doesn’t have `greet`, but it finds it in `person` through the pro
 ---
 
 ### Q : What is a prototype chain?
-A : Prototype chaining is used to build new types of objects based on existing ones. It is similar to inheritance in a class based language.
-
-The prototype on object instance is available through Object.getPrototypeOf(object) or proto property whereas prototype on constructors function is available through Object.prototype.
-
-### **Prototype Chain:**  
+A :
 If a property/method isn’t found in an object, JavaScript looks for it in its prototype, then its prototype’s prototype, and so on.
-
----
 
 ### **Adding Methods to Prototypes:**  
 ```javascript
@@ -950,9 +944,7 @@ p1.sayHello(); // Output: Hi, I'm Alice
 ```
 Here, `sayHello` is shared across all `Person` instances via the prototype.
 
----
-
-### **Why Use Prototypes?**  
+#### **Why Use Prototypes?**  
 - Saves memory by sharing methods across objects.  
 - Enables JavaScript’s inheritance system.  
 - Forms the basis of ES6 `class`.  
