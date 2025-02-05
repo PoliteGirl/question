@@ -116,6 +116,86 @@ num = "ten";  // ❌ Error: Type 'string' is not assignable to type 'number'
 
 ---
 
+### **Expected Output**:
+```
+Start  
+End  
+API response received  
+Timeout callback  
+```
+
+---
+
+### Q : Task Queue and how JS works with it
+
+#### **1️⃣ JavaScript starts execution (Call Stack)**
+```javascript
+console.log("Start");
+```
+- `"Start"` is printed **immediately** because `console.log` is a synchronous operation.
+
+#### **2️⃣ `setTimeout(…, 0)` is encountered**
+```javascript
+setTimeout(() => console.log("Timeout callback"), 0);
+```
+- `setTimeout` is an **asynchronous** function, so it is **offloaded** to the **Web API**.  
+- The **timer is set for 0 milliseconds**, but this doesn’t mean it runs **immediately**!  
+- The **callback function (`() => console.log("Timeout callback")`) is placed in the Task Queue** once the timer expires.
+
+#### **3️⃣ `fetch()` is encountered**
+```javascript
+fetch("https://api.example.com/data")
+  .then(() => console.log("API response received"));
+```
+- `fetch()` is **asynchronous**, so it is **offloaded** to the **Web API**.  
+- The browser handles the network request in the background.  
+- When the request is complete, the `.then()` callback is placed in the **Microtask Queue**.
+
+#### **4️⃣ `console.log("End");` executes**
+```javascript
+console.log("End");
+```
+- `"End"` is printed **immediately**, as this is a synchronous operation.
+
+#### **5️⃣ Event Loop Starts Processing Asynchronous Tasks**
+- JavaScript’s **Event Loop** now checks the **Microtask Queue** and **Task Queue**.
+
+##### **a) Microtask Queue (Highest Priority)**
+- The **fetch response callback (`API response received`) is in the Microtask Queue**, so it executes first.
+  ```
+  API response received
+  ```
+
+##### **b) Task Queue (Lower Priority)**
+- Now, the `setTimeout` callback (`Timeout callback`) from the **Task Queue** runs.
+  ```
+  Timeout callback
+  ```
+
+---
+
+### **🔹 Final Execution Order**
+```
+Start   (Synchronous)  
+End     (Synchronous)  
+API response received   (Microtask - fetch callback)  
+Timeout callback   (Task Queue - setTimeout callback)  
+```
+
+---
+
+### **🔹 Why Does `fetch()` Run Before `setTimeout()`?**
+1. The **fetch `.then()` callback is in the Microtask Queue**, which has **higher priority** than the Task Queue.
+2. The `setTimeout()` callback is in the **Task Queue**, which is processed **after** all Microtasks.
+
+---
+
+### **🔹 Key Takeaways**
+- **`console.log` is synchronous**, so `"Start"` and `"End"` run immediately.
+- **`setTimeout(…, 0)` does not execute immediately**; it waits until the Call Stack is clear and runs later via the Task Queue.
+- **`fetch()` uses Promises, which place their callbacks in the Microtask Queue (higher priority)**, so its `.then()` executes **before** the `setTimeout` callback.
+- **The Event Loop processes Microtasks before Tasks**, which is why `fetch()` completes before `setTimeout()`.
+
 ### Q : What are the different data types present in javascript?
 A : There are two types of data types in JavaScript.
 ~~~
