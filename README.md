@@ -1369,14 +1369,6 @@ const intervalId = setInterval(function() {
   console.log("Interval count:", counter++);
 }, 1000);
 ```
-
-### Q : what is setImmediate(Node.js)?
-A : setImmediate is a Node.js-specific function used to execute a callback function after the current event loop cycle. It provides a way to execute code immediately after the current I/O events and before the next event loop cycle.Note that setImmediate is not a standard part of the ECMAScript specification and is specific to Node.js.
-```
-setImmediate(function () {
-  console.log("Good morning");
-});
-```
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Node.js and REST APIs
