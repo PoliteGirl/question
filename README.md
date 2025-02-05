@@ -2,33 +2,37 @@
 <!-- [Node.js](#Node.js "Goto Node.js") -->
 
 # Javascript
-###Q: What is JavaScript?
+Here’s the reformatted version with your requested heading styles:  
+
+---
+
+### **Q: What is JavaScript?**  
 **A:** JavaScript is a programming language commonly used in web development. It was originally developed by Netscape as a means to add dynamic and interactive elements to websites.  
 
 JavaScript is:  
 - A **synchronous, blocking, single-threaded** language.  
 - A **dynamically typed** language.  
 
-## ***1. "JavaScript is a synchronous, blocking, single-threaded language."***
+#### **1. "JavaScript is a synchronous, blocking, single-threaded language."**  
 ✅ **Correct, but requires clarification:**  
 
 - **Single-threaded**: JavaScript has a **single call stack**, meaning it executes one task at a time.  
 - **Synchronous by default**: JavaScript executes code **line by line** in the order it appears.  
 - **Non-blocking in practice**: JavaScript uses **asynchronous features** like `setTimeout`, Promises, and `async/await` to avoid blocking execution.  
 
-### **🔹 JavaScript’s Execution Model**  
+##### **JavaScript’s Execution Model**  
 JavaScript achieves **single-threaded** and **non-blocking** behavior through its **event loop** and **asynchronous features**.  
 
-### **1️⃣ Single-threaded Execution**  
+##### **1️⃣ Single-threaded Execution**  
 - JavaScript runs code in a **single call stack**.  
 - Only **one** piece of code executes at a time, preventing race conditions.  
 
-### **2️⃣ Non-blocking Behavior**  
+##### **2️⃣ Non-blocking Behavior**  
 Despite being single-threaded, JavaScript is **non-blocking** because it:  
 - Offloads long-running tasks (I/O operations, timers, network requests) to **browser APIs** or **Node.js APIs**.  
 - Uses an **event loop** to process asynchronous callbacks once the main thread is free.  
 
-#### **🔹 Key Asynchronous Features**  
+##### **Key Asynchronous Features**  
 
 🔹 **Browser APIs / Node.js APIs**  
 - Used for operations like:  
@@ -46,7 +50,7 @@ Despite being single-threaded, JavaScript is **non-blocking** because it:
 - Promises use the **microtask queue**, which has **higher priority** than the regular task queue.  
 - Ensures promise resolutions run as soon as the current stack clears.  
 
-### **📌 Example**  
+##### **📌 Example**  
 ```javascript
 console.log("Start");
 
@@ -66,18 +70,18 @@ console.log("End");
 4️⃣ `"End"` is logged (synchronous).  
 5️⃣ The **event loop** processes `"Data fetched"` and `"Timeout callback"` once they are ready.  
 
-### **🔹 Why Non-blocking is Important**  
+##### **Why Non-blocking is Important**  
 Without the **event loop**, JavaScript would freeze whenever it encounters a slow operation. The **non-blocking model** ensures smooth performance.  
 
 ---
 
-## **2. "JavaScript is a dynamically typed language."**  
+#### **2. "JavaScript is a dynamically typed language."**  
 ✅ **Correct**  
 
 - JavaScript does **not require variable types** to be declared explicitly.  
 - The **type of a variable is determined at runtime**, and it can change dynamically.  
 
-### **📌 Example**  
+##### **📌 Example**  
 ```javascript
 let x = 5;  // x is a number
 x = "hello";  // x is now a string
@@ -85,19 +89,19 @@ x = "hello";  // x is now a string
 
 ---
 
-## **3. "In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time."**  
+#### **3. "In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time."**  
 ✅ **Correct**  
 
 - **Dynamically typed languages** (like JavaScript) allow variable types to change at runtime.  
 - **Statically typed languages** (like TypeScript) enforce type checks at compile-time.  
 
-### **📌 Example: JavaScript (Dynamically Typed)**  
+##### **📌 Example: JavaScript (Dynamically Typed)**  
 ```javascript
 let num = 10;
 num = "ten";  // No error, type changes at runtime
 ```
 
-### **📌 Example: TypeScript (Statically Typed)**  
+##### **📌 Example: TypeScript (Statically Typed)**  
 ```typescript
 let num: number = 10;
 num = "ten";  // ❌ Error: Type 'string' is not assignable to type 'number'
@@ -105,7 +109,7 @@ num = "ten";  // ❌ Error: Type 'string' is not assignable to type 'number'
 
 ---
 
-## **🔹 Final Summary**  
+#### **🔹 Final Summary**  
 ✅ JavaScript is **single-threaded**, but it remains **non-blocking** due to asynchronous features like the **event loop**.  
 ✅ JavaScript is **dynamically typed**, meaning variable types are determined **at runtime**.  
 ✅ The distinction between **dynamically typed** and **statically typed** languages is accurately described.  
