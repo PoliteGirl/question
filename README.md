@@ -708,42 +708,40 @@ console.log(greet("Alice")); // Output: Hello, Alice
 - Constructor functions (`new` doesn’t work).
 
 ### Q : What is the rest parameter and spread operator?
-A : Both rest parameter and spread operator were introduced in the ES6 version of javascript.
+A :
+#### **Rest Parameter (`...`)**  
+- **Collects multiple arguments** into an array in function parameters.  
+- Used when the number of arguments is unknown.  
 
-* Rest parameter ( … )
-
-The rest parameter allows a function to accept an indefinite number of arguments as an array.
-
-In the sum function, the ...numbers syntax allows it to accept any number of arguments, which are then treated as an array called numbers. This array can be processed using array methods like reduce in this example.
-```
-// Rest parameter in function declaration
-function sum(...numbers) {
-  return numbers.reduce((total, num) => total + num, 0);
-}
-
-// Using the function with different numbers of arguments
-console.log(sum(1, 2, 3));         // Output: 6
-console.log(sum(4, 5, 6, 7));      // Output: 22
-console.log(sum(10));              // Output: 10
+```javascript
+function sum(...numbers) {  
+  return numbers.reduce((a, b) => a + b, 0);  
+}  
+console.log(sum(1, 2, 3, 4)); // Output: 10  
 ```
 
-* Spread operator (…)
+#### **Spread Operator (`...`)**  
+- **Expands an array or object** into individual elements.  
+- Used for copying, merging, or passing elements.  
 
-The spread operator spreads the elements of an array (or characters of a string) or the properties of an object into another array, object, or function call.
+```javascript
+const arr = [1, 2, 3];  
+console.log(...arr); // Output: 1 2 3  
 
-The spread operator (…) allows us to expand an iterable like array into its individual elements.
-
+const newArr = [...arr, 4, 5];  
+console.log(newArr); // Output: [1, 2, 3, 4, 5]  
 ```
-// Spread operator in array
-const arr1 = [1, 2, 3];
-const arr2 = [...arr1, 4, 5, 6];
 
-console.log(arr2);  // Output: [1, 2, 3, 4, 5, 6]
+### **Quick Difference**  
+| Feature        | Rest (`...`) | Spread (`...`) |
+|---------------|-------------|----------------|
+| **Purpose**   | Gathers values | Expands values |
+| **Use Case**  | Function parameters | Arrays, objects |
+| **Example**   | `function sum(...nums) {}` | `[...arr]` |
 
-// Spread operator in function call
-const numbers = [10, 20, 30];
-console.log(Math.max(...numbers));  // Output: 30
-```
+**Easy to remember:**  
+- **Rest** collects (like a container).  
+- **Spread** expands (like unpacking).
 
 ### Q : What is Object Destructuring?
 
