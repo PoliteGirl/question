@@ -161,9 +161,6 @@ this.setState({ message: 'Hello World' })
 ```
 Note: You can directly assign to the state object either in constructor or using latest javascript's class field declaration syntax.
 
-### Q : What is "key" prop and what is the benefit of using it in arrays of elements?
-A : A key is a special string attribute you should include when creating arrays of elements. Key prop helps React identify which items have changed, are added, or are removed.
-
 ### Q : What are the differences between controlled and uncontrolled components?
 A : 
 * controlled : 
