@@ -1200,12 +1200,72 @@ false
 
 ### https://stackoverflow.com/questions/17502948/nexttick-vs-setimmediate-visual-explanatio
 ### Q : Diff betweem setImediate and process.nexttick?
-A : In simple terms:
-process.nextTick: Executes a callback in the current event loop cycle, before continuing to the next phase, with higher priority.
+A : ### **Difference Between `setImmediate` and `process.nextTick`**  
 
-setImmediate: Executes a callback in the next event loop cycle, after I/O events, with slightly lower priority.
+Both `setImmediate` and `process.nextTick` are used to schedule asynchronous tasks in **Node.js**, but they run at different times.  
 
-Both are used for scheduling callbacks in Node.js, but their timing and priority within the event loop differ.
+---
+
+### **1. `process.nextTick()`**  
+- Runs **before** the event loop continues.  
+- Executes **immediately after** the current operation, before any I/O tasks or timers.  
+
+**Example:**  
+```javascript
+console.log("Start");
+
+process.nextTick(() => {
+  console.log("Next Tick");
+});
+
+console.log("End");
+```
+**Output:**  
+```
+Start
+End
+Next Tick
+```
+Here, `process.nextTick` runs **before** any other scheduled task.
+
+---
+
+### **2. `setImmediate()`**  
+- Runs **after** the current event loop cycle, but **before the next cycle starts**.  
+- Executes after I/O operations (like reading a file) but before `setTimeout(0)`.  
+
+**Example:**  
+```javascript
+console.log("Start");
+
+setImmediate(() => {
+  console.log("Set Immediate");
+});
+
+console.log("End");
+```
+**Output:**  
+```
+Start
+End
+Set Immediate
+```
+Here, `setImmediate` runs **after the current synchronous code finishes**.
+
+### **Key Differences**  
+| Feature            | `process.nextTick` | `setImmediate` |
+|-------------------|-----------------|-----------------|
+| Execution Timing | Before the event loop continues | At the end of the current event loop cycle |
+| Priority         | **Higher** priority | Lower priority |
+| Use Case        | Quick callbacks (handling errors, microtasks) | Running after I/O tasks |
+
+---
+
+### **When to Use?**  
+- **Use `process.nextTick`** for very urgent tasks that need to run **before anything else** (e.g., handling errors).  
+- **Use `setImmediate`** to run code **after** I/O operations but before the next loop.  
+
+Both should be used **carefully**, as excessive use can block the event loop. 🚀
 
 ### Q : Debouncing and Throttling in JavaScript
 A : DEBOUNCING
