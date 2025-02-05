@@ -244,6 +244,115 @@ They all share the same reference. So, when you update the value of a property o
 the value for all the references to that object.
 ~~~
 
+### Q : JavaScript provides a variety of string methods to manipulate and work with strings. Here are some commonly used ones:
+
+### **String Manipulation**
+1. **`charAt(index)`** – Returns the character at the specified index.
+   ```js
+   "Hello".charAt(1); // "e"
+   ```
+2. **`charCodeAt(index)`** – Returns the UTF-16 code of the character at the specified index.
+   ```js
+   "ABC".charCodeAt(0); // 65
+   ```
+3. **`concat(str1, str2, ...)`** – Joins two or more strings.
+   ```js
+   "Hello".concat(" ", "World!"); // "Hello World!"
+   ```
+4. **`repeat(n)`** – Repeats the string `n` times.
+   ```js
+   "Hi ".repeat(3); // "Hi Hi Hi "
+   ```
+
+### **String Searching**
+5. **`indexOf(substring)`** – Returns the first occurrence index of a substring (or `-1` if not found).
+   ```js
+   "Hello World".indexOf("World"); // 6
+   ```
+6. **`lastIndexOf(substring)`** – Returns the last occurrence index of a substring.
+   ```js
+   "hello world hello".lastIndexOf("hello"); // 12
+   ```
+7. **`includes(substring)`** – Checks if the string contains a specific substring (`true`/`false`).
+   ```js
+   "JavaScript".includes("Script"); // true
+   ```
+8. **`startsWith(substring)`** – Checks if a string starts with the given substring.
+   ```js
+   "Hello World".startsWith("Hello"); // true
+   ```
+9. **`endsWith(substring)`** – Checks if a string ends with the given substring.
+   ```js
+   "Hello World".endsWith("World"); // true
+   ```
+
+### **String Extraction**
+10. **`slice(start, end)`** – Extracts part of a string (excluding `end`).
+    ```js
+    "Hello World".slice(0, 5); // "Hello"
+    ```
+11. **`substring(start, end)`** – Similar to `slice`, but doesn't support negative indexes.
+    ```js
+    "Hello World".substring(6, 11); // "World"
+    ```
+12. **`substr(start, length)`** – Extracts a substring of a given length (deprecated but still works).
+    ```js
+    "Hello World".substr(6, 5); // "World"
+    ```
+
+### **String Modification**
+13. **`toUpperCase()`** – Converts a string to uppercase.
+    ```js
+    "hello".toUpperCase(); // "HELLO"
+    ```
+14. **`toLowerCase()`** – Converts a string to lowercase.
+    ```js
+    "HELLO".toLowerCase(); // "hello"
+    ```
+15. **`trim()`** – Removes whitespace from both sides of a string.
+    ```js
+    "  Hello  ".trim(); // "Hello"
+    ```
+16. **`trimStart()` / `trimEnd()`** – Removes whitespace from the beginning or end of a string.
+    ```js
+    "  Hello  ".trimStart(); // "Hello  "
+    "  Hello  ".trimEnd();   // "  Hello"
+    ```
+
+### **String Splitting & Replacing**
+17. **`split(separator, limit)`** – Splits a string into an array.
+    ```js
+    "apple,banana,orange".split(","); // ["apple", "banana", "orange"]
+    ```
+18. **`replace(search, replacement)`** – Replaces the first occurrence of a substring.
+    ```js
+    "Hello World".replace("World", "JS"); // "Hello JS"
+    ```
+19. **`replaceAll(search, replacement)`** – Replaces all occurrences of a substring.
+    ```js
+    "Hello World World".replaceAll("World", "JS"); // "Hello JS JS"
+    ```
+
+### **Other Useful Methods**
+20. **`match(regex)`** – Searches for matches using a regular expression.
+    ```js
+    "Hello 123".match(/\d+/); // ["123"]
+    ```
+21. **`search(regex)`** – Returns the index of the first match of a regex.
+    ```js
+    "Hello 123".search(/\d+/); // 6
+    ```
+22. **`padStart(targetLength, padString)`** – Pads the string at the beginning to reach the desired length.
+    ```js
+    "5".padStart(3, "0"); // "005"
+    ```
+23. **`padEnd(targetLength, padString)`** – Pads the string at the end.
+    ```js
+    "5".padEnd(3, "0"); // "500"
+    ```
+
+These are some of the most commonly used string methods in JavaScript. Let me know if you need more details on any of them! 🚀
+
 ### Q : Difference between "==" and "===" 
 A : == compares value and === compares vlue and type
 == convert type of right side to type of left and then compare
