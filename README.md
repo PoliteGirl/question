@@ -1316,6 +1316,41 @@ LocalStorage is the same as SessionStorage but it persists the data even when th
 * Local storage persists across sessions and tabs, but each tab has its own separate local storage. Closing one tab will not affect the local storage of the other tab.
 
 * In summary, closing one tab does not automatically clear the session storage or local storage of another tab. Each tab maintains its own storage state. If you want to share data between tabs, you would need to use other mechanisms such as window.postMessage or a shared backend storage solution.
+### 1. **Cookies:**
+   - **Storage Limit**: Around 4KB per cookie.
+   - **Persistence**: Cookies can have an expiration date. If no date is set, they expire when the browser is closed.
+   - **Scope**: Cookies are sent with every HTTP request to the server (including AJAX requests). This means cookies can be used for server-side access.
+   - **Use Cases**: 
+     - Storing user session data for server-side access.
+     - Maintaining authentication status (e.g., login sessions).
+     - Tracking user behavior (e.g., for analytics).
+   - **Advantages**: Can be set to persist even when the browser is closed (if no expiration is set). Secure flag can be used to send cookies only over HTTPS.
+
+### 2. **Local Storage:**
+   - **Storage Limit**: Typically 5-10MB per domain.
+   - **Persistence**: Data persists until explicitly deleted. It is not tied to a session or expiration date.
+   - **Scope**: Local storage is accessible only within the same origin (domain, protocol, and port) and cannot be sent to the server automatically.
+   - **Use Cases**:
+     - Storing non-sensitive data like preferences or settings.
+     - Caching data on the client-side for offline use or to improve performance.
+     - Storing large amounts of data that doesn’t need to be sent to the server on every request.
+   - **Advantages**: Larger storage capacity and persistent until cleared manually. Data doesn’t get sent with every request, reducing unnecessary network traffic.
+
+### 3. **Session Storage:**
+   - **Storage Limit**: Typically similar to local storage (5-10MB per domain).
+   - **Persistence**: Data is only available for the duration of the page session. It is cleared when the tab or window is closed.
+   - **Scope**: Session storage is tied to a single window/tab. Different tabs or windows will have different session storage instances.
+   - **Use Cases**:
+     - Storing data that only needs to last for the current session, such as temporary form data or in-progress state.
+     - Keeping state between page reloads in the same session (e.g., single-page apps).
+   - **Advantages**: Data is not shared between tabs and is automatically cleared when the session ends.
+
+### When to Use Each:
+- **Cookies**: Use when you need server-side access to data or need the data to persist across sessions (with expiration set). Ideal for user authentication tokens, session IDs, etc.
+- **Local Storage**: Use for larger, persistent, client-side data that doesn’t need to be sent to the server. Ideal for storing user preferences, caching, or application state that should persist across sessions.
+- **Session Storage**: Use for temporary data that should only last for the current session. Ideal for data that is only relevant while the page is open or when you want to maintain state during navigation within the same tab/window.
+
+Let me know if you need more details on a specific use case!
 
 ### Q : What is the use of setTimeout?
 A : setTimeout is used to execute a function or evaluate an expression after a specified delay (in milliseconds). It schedules a one-time execution.
