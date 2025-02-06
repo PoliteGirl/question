@@ -626,6 +626,39 @@ import React, { useEffect } from "react";
     
     export default Timer;
 ```
+### Q : Why is useEffect often bad practice
+A :
+**Why is `useEffect` Often Considered Bad Practice?**  
+
+While `useEffect` is useful for side effects, **misusing it can lead to issues** like unnecessary re-renders, performance problems, and complex logic.  
+
+**Common Issues with `useEffect`**  
+
+1️⃣ **Unnecessary Effects** → Using `useEffect` for logic that can be done directly in the component.  
+   - **Example:** Setting state based on props inside `useEffect` instead of directly computing it.  
+
+2️⃣ **Dependency Issues** → Wrong dependencies can cause infinite loops or stale data.  
+   - **Fix:** Always include dependencies carefully to avoid unnecessary re-executions.  
+
+3️⃣ **Performance Bottlenecks** → Running expensive computations inside `useEffect`.  
+   - **Fix:** Use **memoization (`useMemo`, `useCallback`)** when needed.  
+
+4️⃣ **Tightly Coupled Code** → Business logic gets mixed with side effects.  
+   - **Fix:** Extract reusable logic into **custom hooks**.  
+
+5️⃣ **Memory Leaks** → Not cleaning up subscriptions, event listeners, or timers.  
+   - **Fix:** Always return a **cleanup function** inside `useEffect`.  
+
+### **When to Avoid `useEffect`?**  
+❌ **Computing derived state** → Use `useState` or direct calculations instead.  
+❌ **Synchronizing props/state unnecessarily** → Instead, compute values inside render.  
+❌ **Fetching data on every render** → Use caching or memoization instead.  
+
+### **When to Use `useEffect`?**  
+✅ **Fetching data** (with proper dependencies).  
+✅ **Subscribing to events, timers, or listeners** (with cleanup).  
+✅ **Interacting with the DOM** (like animations or manual scroll handling).  
+
 ### Q : What are some common usage and pitfalls of useEffect
 A :
 ### **What is `useEffect`?**  
@@ -722,10 +755,7 @@ useEffect(() => {
 ✅ **Cleanup effects** when needed to **prevent memory leaks**.  
 ✅ Use an **empty array (`[]`)** if you only want it to run on mount/unmount.  
 
-Would you like more examples on a specific use case? 🚀
-
 ### Q : What are some common pitfalls when doing data fetching?
-
 A : ### 1️⃣ **Updating State After Unmounting**  
 - If a component unmounts before a fetch completes, updating the state can cause errors.  
 - **Fix:** Use `useEffect` cleanup or check `isMounted`.  
@@ -792,6 +822,67 @@ For example, authenticated users, locale preferences, UI themes need to be acces
 ```
 const { Provider, Consumer } = React.createContext(defaultValue);
 ```
+### Q : why a component is sluggish in between renders
+A : 
+A component can feel **sluggish between renders** due to several reasons:  
+
+### **1️⃣ Excessive Re-Renders**
+- **Cause**: Unnecessary state updates or parent re-renders.  
+- **Fix**: Use `React.memo` to prevent re-renders when props haven't changed.  
+  ```jsx
+  const MyComponent = React.memo(({ data }) => <div>{data}</div>);
+  ```
+
+### **2️⃣ Expensive Computations in Render**
+- **Cause**: Running heavy calculations inside the render function.  
+- **Fix**: Use `useMemo` to cache expensive calculations.  
+  ```jsx
+  const processedData = useMemo(() => heavyComputation(data), [data]);
+  ```
+
+### **3️⃣ Unoptimized State Updates**
+- **Cause**: Updating state in a way that triggers unnecessary renders.  
+- **Fix**: Use functional updates in `useState` if the new state depends on the previous state.  
+  ```jsx
+  setCount((prev) => prev + 1);
+  ```
+
+### **4️⃣ Overuse of useEffect**
+- **Cause**: Running expensive tasks on every render.  
+- **Fix**: Add dependencies carefully to avoid unnecessary executions.  
+  ```jsx
+  useEffect(() => {
+    fetchData();
+  }, []); // Runs only once
+  ```
+
+### **5️⃣ Large Component Trees**
+- **Cause**: Too many components re-rendering unnecessarily.  
+- **Fix**: Split components into smaller, memoized pieces.  
+
+### **6️⃣ Unoptimized List Rendering**
+- **Cause**: Re-rendering the whole list when only one item changes.  
+- **Fix**: Use `key` properly and consider virtualization (`react-window`).  
+  ```jsx
+  {items.map((item) => (
+    <ListItem key={item.id} data={item} />
+  ))}
+  ```
+
+### **7️⃣ Blocking the Main Thread**
+- **Cause**: Running synchronous code that blocks rendering.  
+- **Fix**: Use Web Workers or `useTransition` for smoother updates.  
+  ```jsx
+  const [isPending, startTransition] = useTransition();
+  startTransition(() => setState(newData));
+  ```
+
+### **💡 Quick Fixes**
+✅ Use **React.memo** for pure components.  
+✅ Use **useMemo** and **useCallback** for expensive operations.  
+✅ Optimize **list rendering** with `key`.  
+✅ Avoid **unnecessary state updates** and **useEffect misuse**.  
+✅ Use **Web Workers** or `useTransition` for heavy computations.  
 
 ### Q : What would be the common mistake of function being called every time the component renders?
 You need to make sure that function is not being called while passing the function as a parameter.
