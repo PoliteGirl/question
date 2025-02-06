@@ -65,3 +65,32 @@ Strengths/Weaknesses: Strength? I can turn caffeine into code. Weakness? I somet
 
 Stressful Situation: Picture this: Deadline looming, bugs multiplying like rabbits. What did I learn? Debugging under pressure is an extreme sport, and I’m the adrenaline junkie.
 
+React's useState: It's like my coding happy pill. useState turns functional components into drama queens—always updating and keeping life interesting.
+
+Component Props Update: It's like passing notes in class. The component gets new props, and suddenly it's gossiping about the latest updates with all its friends.
+
+Sharing State: Sharing is caring, right? Just like sharing state between components. It's like a digital group hug for your app's data.
+
+React JSX Requirement: JSX is like the glitter of React—totally not necessary, but your code will be way more fabulous with it.
+
+Controlled vs. Uncontrolled: Controlled components are like a well-behaved pet, while uncontrolled ones are that quirky cat doing its own thing. Embrace the chaos!
+
+Virtual DOM: The Virtual DOM is like a superhero sidekick, quietly optimizing stuff in the background while React steals the show.
+
+Data Fetching Pitfalls: It's a jungle out there. Fetching data is like going on a quest, and sometimes you end up in callback hell with no way out.
+
+useEffect Usage: useEffect is like a backstage pass for your components. Just don't use it like a rock star trashing a hotel room.
+
+let vs. const: let is like a variable with commitment issues, changing its mind whenever it feels like it. const, on the other hand, is the loyal partner, staying true to its value.
+
+Callback Usage: Callbacks are like promises—they make assurances, but sometimes they ghost you when you least expect it.
+
+== vs. ===: == is the lazy comparison that might let some things slide. === is the strict teacher making sure everything adds up correctly.
+
+Hoisting: Hoisting is like a magic trick, making variables and functions appear out of thin air. Ta-da!
+
+Closure: Closures are like secret agents, holding on to classified information even after the mission is over.
+
+Event Loop: The event loop is the DJ at the JavaScript party, making sure everyone gets a turn on the dance floor.
+
+Class Usage: Classes are like the organized planners of the JavaScript world—keeping things neat and tidy, unlike the chaotic scripts at the bottom of the file.
