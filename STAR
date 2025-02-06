@@ -55,3 +55,13 @@ If you can’t get precise numbers, focus on qualitative results:
 ---
 
 By preparing in this way, you can confidently explain your metrics and demonstrate your impact in interviews. Would you like help crafting metrics for specific achievements in your resume?
+
+
+Handling Conflicts: I treat conflicts like bugs in my code—address them early, squash them, and make sure they don't come back to haunt me.
+
+Team Role: I'm like the Swiss Army knife of the team. Need some coding finesse? I'm your debugger. Architectural headaches? I bring the pain relief.
+
+Strengths/Weaknesses: Strength? I can turn caffeine into code. Weakness? I sometimes forget to turn off my "coding brain" when trying to have a normal conversation.
+
+Stressful Situation: Picture this: Deadline looming, bugs multiplying like rabbits. What did I learn? Debugging under pressure is an extreme sport, and I’m the adrenaline junkie.
+
