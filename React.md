@@ -1,35 +1,30 @@
 # React.js
 
-### Q : What is React?
-A : React is a front-end and open-source JavaScript library which is useful in developing user interfaces specifically for applications with a single page. It is helpful in building complex and reusable user interface(UI) components of mobile and web applications as it follows the component-based approach.
+### Q : What is React?  
+A : React is an open-source JavaScript library for building user interfaces, particularly for single-page applications (SPAs). It follows a **component-based approach**, allowing developers to create reusable UI components for web and mobile applications.  
 
-* react simplify the creating of SPA by using reusable components.
+* Simplifies SPA development by using reusable components.  
+* Supports **server-side rendering (SSR)** for better SEO.  
+* Uses **Virtual DOM** instead of Real DOM to improve performance.  
+* Follows **unidirectional data flow**: Data flows from parent to child via props, ensuring better state management.  
+* Encourages **reusable and composable UI components** for a modular development approach.  
+* The **index.html** file serves as the entry point of a React app.  
 
-* It supports server-side rendering.
+### Q : Features of React.  
+A :  
+* Uses **JSX**, a JavaScript syntax extension that allows writing HTML-like code in JS.  
+* Implements **Virtual DOM** for efficient updates and improved performance.  
+* Supports **server-side rendering (SSR)**, enhancing SEO.  
+* Follows **one-way data binding**, making state management predictable.  
+* Promotes **component reusability**, allowing for modular UI development.  
 
-* It will make use of the virtual DOM rather than real DOM (Data Object Model) as RealDOM manipulations are expensive.
-
-* It follows unidirectional data binding or data flow : In React, data flows in a single direction, from parent to child. This means that a parent component can pass data to its child components via props, but the child cannot directly modify the data of the parent.
-
-* It uses reusable or composable UI components for developing the view.
-
-* index.html is entry point of react app
-
-### Q : Features of react.
-A : 
-* Uses JSX syntax, a syntax extension of JS that allows developers to write HTML in their JS code.
-* It uses Virtual DOM instead of Real DOM considering that Real DOM manipulations are expensive.
-* Supports server-side rendering which is useful for Search Engine Optimizations(SEO).
-* Follows Unidirectional or one-way data flow or data binding.
-* Uses reusable/composable UI components to develop the view.
-
-### Q : What are the advantages of using React?
-A : 
-* Increases the application's performance with Virtual DOM.
-* JSX makes code easy to read and write.
-* It renders both on client and server side (SSR).
-* Easy to integrate with frameworks (Angular, Backbone) since it is only a view library.
-* Easy to write unit and integration tests with tools such as Jest.
+### Q : What are the advantages of using React?  
+A :  
+* **High performance** due to Virtual DOM optimizations.  
+* **JSX** makes code more readable and maintainable.  
+* **Server-side rendering (SSR)** improves SEO and initial load time.  
+* **Easy integration** with other frameworks like Angular or Backbone.  
+* **Simplifies testing** with tools like Jest for unit and integration tests.  
 
 ### Q : What is JSX?
 A : 
@@ -108,20 +103,20 @@ A : As stated by the react team, virtual DOM is a concept where a virtual repres
 
 The Virtual DOM (VDOM) is an in-memory representation of Real DOM. The representation of a UI is kept in memory and synced with the "real" DOM. It's a step that happens between the render function being called and the displaying of elements on the screen. This entire process is called reconciliation.
 
-### Q : What is state in React?
-A : State of a component is an object that holds some information that may change over the lifetime of the component. We should always try to make our state as simple as possible and minimize the number of stateful components.
+### Q : What is state in React?  
+A : **State** is an object that stores component-specific data that may change over the component's lifecycle. It is **private** and fully controlled by the component itself. To maintain simplicity, we should keep the state minimal and avoid unnecessary stateful components.  
 
-State is similar to props, but it is private and fully controlled by the component ,i.e., it is not accessible to any other component till the owner component decides to pass it.
+State is similar to props but **cannot be accessed by other components unless explicitly passed**.  
 
-Let's create a user component with message state,
-```
+Example: A `User` component with a `message` state:  
+```jsx
 class User extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       message: 'Welcome to React world'
-    }
+    };
   }
 
   render() {
@@ -129,22 +124,34 @@ class User extends React.Component {
       <div>
         <h1>{this.state.message}</h1>
       </div>
-    )
+    );
   }
 }
 ```
 
-### Q : What are props in React?
-A : Props are inputs to components. They are single values or objects containing a set of values that are passed to components on creation using a naming convention similar to HTML-tag attributes. They are data passed down from a parent component to a child component.
+---
 
-The primary purpose of props in React is to provide following component functionality:
+### Q : What are props in React?  
+A : **Props** (short for "properties") are used to pass data from a **parent** component to a **child** component. They act like function arguments and **cannot be modified by the receiving component**.  
 
-* Pass custom data to your component.
-* Trigger state changes.
-* Use via this.props.reactProp inside component's render() method.
+The primary purpose of props in React:  
+* Pass **custom data** to child components.  
+* **Trigger state changes** in child components.  
+* Used inside a component's `render()` method via `this.props.someProp`.  
 
-### Q : What is the difference between state and props?
-A : Both props and state are plain JavaScript objects. While both of them hold information that influences the output of render, they are different in their functionality with respect to component. Props get passed to the component similar to function parameters whereas state is managed within the component similar to variables declared within a function.
+---
+
+### Q : What is the difference between state and props?  
+A :  
+
+| Feature  | State | Props |
+|----------|-------|-------|
+| **Definition** | Internal data storage for a component | External data passed from parent to child |
+| **Mutability** | Can be changed using `setState()` | Immutable (cannot be modified by child) |
+| **Accessibility** | Private to the component | Accessible by child components |
+| **Usage** | Stores dynamic data | Used for communication between components |
+| **Example Usage** | Form inputs, toggles, counters | Component customization, data passing |
+
 
 ### Q : Why should we not update the state directly?
 A :  you try to update the state directly then it won't re-render the component.
@@ -205,13 +212,13 @@ Whenever use enters data inside the input field, the updated data is shown direc
 
 ### Q : What are the lifecycle methods of React?
 A : 
-componentWillMount
-componentDidMount
-componentWillReceiveProps
-shouldComponentUpdate
-componentWillUpdate
-componentDidUpdate
-componentWillUnmount
+* componentWillMount
+* componentDidMount
+* componentWillReceiveProps
+* shouldComponentUpdate
+* componentWillUpdate
+* componentDidUpdate
+* componentWillUnmount
 
 ### Q : What is the purpose of callback function as an argument of setState()?
 A : The callback function is invoked when setState finished and the component gets rendered. Since setState() is asynchronous the callback function is used for any post action.
@@ -309,42 +316,6 @@ A : Yes, there are several techniques you can employ to improve the performance 
 
 In React, code splitting can be achieved using dynamic imports, also known as lazy loading. With dynamic imports, you can import components or modules asynchronously, meaning they are fetched from the server only when they are required, typically triggered by user actions such as navigating to a specific route or interacting with a particular feature.
 
-Here's a basic example of how code splitting can be implemented in a React application using dynamic imports:
-
-```javascript
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-const HomePage = lazy(() => import('./components/HomePage'));
-const AboutPage = lazy(() => import('./components/AboutPage'));
-const ContactPage = lazy(() => import('./components/ContactPage'));
-
-const App = () => {
-  return (
-    <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/about" component={AboutPage} />
-          <Route path="/contact" component={ContactPage} />
-        </Switch>
-      </Suspense>
-    </Router>
-  );
-};
-
-export default App;
-```
-
-In this example:
-
-- `lazy()` function is used to asynchronously import components.
-- Components are loaded only when they are accessed via their corresponding routes.
-- `Suspense` component is used to specify a loading indicator while the component is being fetched.
-- The `fallback` prop of `Suspense` is rendered while the component is being loaded.
-
-By employing code splitting in React applications, you can improve performance, reduce initial load times, and provide a smoother user experience, especially for larger applications.
-
 ### Q : What is fragment in react?
 A : In React, a fragment is a lightweight syntax that allows you to group multiple elements without adding an extra node to the DOM. Fragments are particularly useful when you need to return multiple elements from a component, and you don't want to introduce an additional parent node in the HTML structure.
 
@@ -368,6 +339,16 @@ const MyComponent = () => {
 In this example, `<>` and `</>` are shorthand syntax for a fragment. It's equivalent to using `<React.Fragment>` and `</React.Fragment>`. The elements inside the fragment are siblings and can be rendered without introducing an additional div or other container element to the DOM.
 
 Fragments help in keeping the HTML structure clean and avoiding unnecessary nesting, which can be beneficial for styling and layout purposes. They are especially handy when you need to return multiple elements from a component function without creating an artificial parent node in the rendered output.
+
+### Q : Diff between all fregment
+
+| Wrapper | Extra DOM Element? | Can Accept Attributes? | When to Use? |
+|---------|------------------|-------------------|--------------|
+| `<div>...</div>` | ✅ Yes | ✅ Yes | When you need a container for styling, layout, or applying CSS classes. |
+| `<React.Fragment>...</React.Fragment>` | ❌ No | ✅ Yes | When you want to group elements without adding extra DOM nodes and need to use keys or attributes. |
+| `<>...</>` (Shorthand) | ❌ No | ❌ No | When you want a cleaner syntax and don’t need attributes like `key`. |
+
+This keeps it concise and clear. Let me know if you need tweaks! 🚀
 
 ### Q : Explain about types of Hooks in React.
 A : 
