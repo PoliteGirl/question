@@ -1598,8 +1598,40 @@ A :
 ✅ Use **classes** when you need **OOP features** like inheritance, encapsulation, or reusable data models.  
 ✅ Use **functions** when you just need simple behavior without state.  
 
+### Q : ### **1️⃣ export vs export default**  
+| Feature | `export` | `export default` |
+|---------|-------------|----------------|
+| Export Type | Named exports | Default export |
+| Import Syntax | `import { func } from './file'` | `import func from './file'` |
+| Multiple Exports | Yes | Only one per file |
+| Rename on Import | No (must use exact name) | Yes (`import myFunc from './file'`) |
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+---
+
+### **2️⃣ Anonymous Function vs Traditional Function**  
+| Feature | Anonymous Function | Traditional Function |
+|---------|----------------|----------------|
+| Name | No name | Has a name |
+| Usage | Used inside variables or callbacks | Used normally |
+| Hoisting | Not hoisted | Hoisted |
+| Example | `const sum = function(a, b) { return a + b; };` | `function sum(a, b) { return a + b; }` |
+
+---
+
+### **3️⃣ Promise.all() vs Promise.allSettled()**  
+| Feature | `Promise.all()` | `Promise.allSettled()` |
+|---------|---------------|--------------------|
+| Behavior | Runs all promises, fails if one rejects | Runs all promises, waits for all to finish |
+| When to Use? | When all must succeed | When you need results, even if some fail |
+| Result | Array of resolved values | Array of `{status, value/reason}` |
+| Example | `Promise.all([p1, p2])` | `Promise.allSettled([p1, p2])` |
+
+🚀 **Quick Summary:**  
+- **Use `export`** for multiple named exports, **`export default`** for one main export.  
+- **Use anonymous functions** in callbacks, **traditional functions** when hoisting is needed.  
+- **Use `Promise.all()`** when failure is critical, **`Promise.allSettled()`** when you need all results.  
+
+---
 
 # Node.js and REST APIs
 
