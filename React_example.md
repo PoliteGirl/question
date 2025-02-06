@@ -33,6 +33,7 @@ export function App(props) {
     </div>
   );
 }
+```
 
 ## simple ToDO with react class component
 ```
