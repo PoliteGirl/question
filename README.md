@@ -1134,20 +1134,117 @@ promise.
     }); 
 ```
 
-* Promise.all()
-- Promise.all() takes an iterable (such as Array) and returns a single promise that resolves when all of the promises have resolved.
+Sure! Here are the different types of Promises in JavaScript:  
 
-- Keeping that in mind we can see how this method can be helpful, for example, if we need to fetch data from different points and they’re not dependent on each other (that means that we’re not interested in the sequence of execution) we can use Promise.all() to do that. But, there are some things that we need to keep in mind when using this method.
+---
 
-- Promise.all() has a fail-fast behavior. It means that if one of the promises is rejected then the promise returned from Promise.all() is rejected as well.
+### **1️⃣ Pending Promise**  
+A promise that has not yet resolved or rejected.  
+```js
+const promise = new Promise((resolve, reject) => {
+  // No resolve/reject yet, so it's pending
+});
+```
 
-* Promise.allSettled()
-- Promise.allSettled() is really similar to Promise.all() . It also takes an iterable and returns a promise that resolves after all of the given promises either have resolved or rejected, with an array of objects which describe the outcome of each promise.
+---
 
-- In simple words, it’s Promise.all() without fail-fast behavior and also a bit different return value. But why the different return value? Well, for us to understand whether the provided promise was rejected or resolved a simple value is usually not enough. 
+### **2️⃣ Fulfilled (Resolved) Promise**  
+A promise that successfully resolved.  
+```js
+const promise = Promise.resolve("Success!");
+promise.then((res) => console.log(res)); // "Success!"
+```
 
-* Promise.race()
-- Promise.race() is a bit different although very similar to previous methods that we’ve discussed. It also takes in an iterable as an argument and returns a promise that either resolves or rejects as soon as one of the promises are either resolved or rejected. 
+---
+
+### **3️⃣ Rejected Promise**  
+A promise that failed (rejected).  
+```js
+const promise = Promise.reject("Error occurred!");
+promise.catch((err) => console.log(err)); // "Error occurred!"
+```
+
+---
+
+### **4️⃣ Promise.all()**  
+Runs multiple promises in parallel, fails if **any one rejects**.  
+```js
+Promise.all([p1, p2, p3])
+  .then((values) => console.log(values)) // If all pass, returns array of results
+  .catch((err) => console.log(err)); // If any fails, catches error
+```
+
+---
+
+### **5️⃣ Promise.allSettled()**  
+Runs multiple promises, waits for **all to complete** (success or fail).  
+```js
+Promise.allSettled([p1, p2, p3]).then((results) => console.log(results));
+```
+✅ Useful when you need **results even if some fail**.  
+
+---
+
+### **6️⃣ Promise.race()**  
+Returns the **first** resolved or rejected promise.  
+```js
+Promise.race([p1, p2, p3])
+  .then((result) => console.log(result)) // First resolved wins
+  .catch((error) => console.log(error)); // First rejected wins
+```
+✅ Useful for **timeouts** (e.g., fastest API response wins).  
+
+---
+
+### **7️⃣ Promise.any()**  
+Returns the **first resolved** promise, **ignores rejections**.  
+```js
+Promise.any([p1, p2, p3])
+  .then((result) => console.log(result)) // First success wins
+  .catch((error) => console.log(error)); // Fails only if all fail
+```
+✅ Useful when you need **any successful response**, ignoring failures.  
+
+---
+
+### **8️⃣ Chained Promises**  
+Multiple `.then()` calls to execute sequentially.  
+```js
+fetchData()
+  .then((data) => process(data))
+  .then((processedData) => save(processedData))
+  .catch((err) => console.log("Error:", err));
+```
+✅ Useful for **step-by-step async operations**.  
+
+---
+
+### **9️⃣ Async/Await with Promises**  
+Simplifies handling promises.  
+```js
+async function fetchData() {
+  try {
+    let data = await fetch(url);
+    let json = await data.json();
+    console.log(json);
+  } catch (err) {
+    console.log("Error:", err);
+  }
+}
+```
+✅ **Easier to read** than `.then()` chaining.  
+
+---
+
+### 🔥 **Quick Summary**  
+| Promise Type | Behavior |
+|-------------|----------|
+| `Promise.all()` | Fails if any fails, returns all results if successful |
+| `Promise.allSettled()` | Waits for all, returns results + errors |
+| `Promise.race()` | Returns first resolved/rejected promise |
+| `Promise.any()` | Returns first resolved promise, ignores failures |
+| Chained Promises | Executes `.then()` steps sequentially |
+| Async/Await | Cleaner syntax for promises |
 
 ### Q : What are the pros and cons of promises over callbacks? 
 A : Below are the list of pros and cons of promises over callbacks,
