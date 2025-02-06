@@ -149,6 +149,49 @@ A :
 | **Example Usage** | Form inputs, toggles, counters | Component customization, data passing |
 
 
+### Q : How to update a property within an object using setState?
+A : 
+To update a property within an object using `setState`, always create a **new object** instead of mutating the existing one.  
+
+### **For Class Components**
+Use `setState` with the **spread operator (`...`)** to update a specific property while keeping the rest of the object unchanged.  
+
+```jsx
+this.setState((prevState) => ({
+  user: {
+    ...prevState.user, 
+    age: 30, // Updating only the age property
+  },
+}));
+```
+
+---
+
+### **For Functional Components (`useState`)**
+Use the functional update form of `setState` to ensure you're working with the latest state.
+
+```jsx
+const [user, setUser] = useState({ name: "Alice", age: 25 });
+
+const updateAge = () => {
+  setUser((prevUser) => ({
+    ...prevUser, 
+    age: 30, // Updating only age
+  }));
+};
+```
+
+**❌ Avoid Mutating State Directly:**  
+```jsx
+user.age = 30; // ❌ This won't trigger re-render
+setUser(user); // ❌ Still incorrect, state should be immutable
+```
+
+### **Key Takeaways**
+✅ Always create a new object using `{ ...prevState }`  
+✅ Use functional updates `setState((prev) => { ...prev })`  
+✅ Never mutate state directly  
+
 ### Q : Why should we not update the state directly?
 A :  you try to update the state directly then it won't re-render the component.
 
@@ -1445,3 +1488,268 @@ Here's a simplified comparison between Server-Side Rendering (SSR) and Client-Si
 | Development            | Can be more complex, especially for large apps.| Often simpler, focusing on client-side logic. |
 
 In simple terms, with Server-Side Rendering, the server prepares the webpage before sending it to the user's browser, making the initial load faster and better for search engines. Client-Side Rendering, on the other hand, sends a basic webpage to the browser, which then uses JavaScript to load and display content, potentially making the initial load slower, but offering more dynamic and interactive experiences once loaded.
+
+### Q : HOw to do Caching in react api call
+Caching API responses helps improve performance by avoiding unnecessary network requests. Here are a few ways to implement caching in React:
+
+### **1️⃣ Using `React Query` (Recommended)**
+🔹 **React Query** automatically caches and updates API calls efficiently.
+```jsx
+import { useQuery } from "react-query";
+import axios from "axios";
+
+const fetchData = async () => {
+  const { data } = await axios.get("https://api.example.com/data");
+  return data;
+};
+
+function MyComponent() {
+  const { data, error, isLoading } = useQuery("myData", fetchData, {
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error!</p>;
+
+  return <div>{JSON.stringify(data)}</div>;
+}
+```
+✅ **Benefits:**  
+- Automatic caching and revalidation  
+- Background updates  
+- Reduces unnecessary API calls  
+
+---
+
+### **2️⃣ Using `useRef` for Simple Caching**
+🔹 Store API response in a `useRef` to persist data across renders.
+```jsx
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+
+function MyComponent() {
+  const [data, setData] = useState(null);
+  const cache = useRef({}); // Store cached responses
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const url = "https://api.example.com/data";
+      if (cache.current[url]) {
+        setData(cache.current[url]); // Use cached data
+      } else {
+        const response = await axios.get(url);
+        cache.current[url] = response.data; // Cache the response
+        setData(response.data);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return <div>{JSON.stringify(data)}</div>;
+}
+```
+✅ **Use case:**  
+- Simple caching without external libraries  
+- Stores data only for the session  
+
+### **3️⃣ Using LocalStorage for Persistent Caching**
+🔹 Store API responses in **localStorage** to persist even after a page reload.
+```jsx
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+function MyComponent() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const cachedData = localStorage.getItem("myData");
+      if (cachedData) {
+        setData(JSON.parse(cachedData));
+      } else {
+        const response = await axios.get("https://api.example.com/data");
+        localStorage.setItem("myData", JSON.stringify(response.data));
+        setData(response.data);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return <div>{JSON.stringify(data)}</div>;
+}
+```
+✅ **Use case:**  
+- Data persists even after a page reload  
+- Good for rarely changing API data  
+
+### **Which One to Use?**
+| Method | When to Use? | Pros | Cons |
+|--------|-------------|------|------|
+| **React Query** | Best for API-heavy apps | Auto caching & background updates | Requires dependency |
+| **useRef** | Simple caching within a session | No storage overhead | Data resets on refresh |
+| **localStorage** | Persistent caching across sessions | No extra library needed | Storage limits |
+
+📌 **Recommendation:**  
+Use **React Query** for scalable solutions & **localStorage** for persistent data.
+
+### Q : How to do read and writes with a caching library like apollo or react-query
+A : 
+### **Reading and Writing with Apollo & React Query (Caching Library)**  
+
+Both **Apollo Client** and **React Query** provide caching mechanisms for efficient data fetching and updates. Here's how you can **read and write data** using both libraries.
+
+---
+
+## **1️⃣ Using Apollo Client (GraphQL Caching)**  
+
+### **🔹 Read Data (Query with Cache)**
+Apollo caches responses by default, and it automatically updates components when data changes.  
+
+```jsx
+import { gql, useQuery } from "@apollo/client";
+
+const GET_USER = gql`
+  query GetUser($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      email
+    }
+  }
+`;
+
+function UserProfile({ userId }) {
+  const { data, loading, error } = useQuery(GET_USER, {
+    variables: { id: userId },
+    fetchPolicy: "cache-first", // Uses cache if available
+  });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error...</p>;
+
+  return <div>{data.user.name}</div>;
+}
+```
+✅ **`fetchPolicy` Options:**  
+- `cache-first` → Default (uses cache if available)  
+- `network-only` → Always fetch from server  
+- `cache-only` → Use only cached data  
+- `cache-and-network` → Show cached data, then update from API  
+
+---
+
+### **🔹 Write Data (Mutation + Cache Update)**
+After a mutation, update the cache to reflect changes in UI.
+
+```jsx
+import { gql, useMutation } from "@apollo/client";
+
+const UPDATE_USER = gql`
+  mutation UpdateUser($id: ID!, $name: String!) {
+    updateUser(id: $id, name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+function UpdateUserName({ userId }) {
+  const [updateUser] = useMutation(UPDATE_USER, {
+    update(cache, { data: { updateUser } }) {
+      cache.modify({
+        id: cache.identify(updateUser), // Identify cache entry
+        fields: {
+          name() {
+            return updateUser.name; // Update name field
+          },
+        },
+      });
+    },
+  });
+
+  return (
+    <button onClick={() => updateUser({ variables: { id: userId, name: "New Name" } })}>
+      Update Name
+    </button>
+  );
+}
+```
+✅ **Why Use `cache.modify`?**  
+- Ensures UI updates without extra refetching  
+- Keeps Apollo’s cache in sync  
+
+---
+
+## **2️⃣ Using React Query (REST API Caching)**  
+
+### **🔹 Read Data (Query with Cache)**
+React Query automatically caches data and keeps it fresh.
+
+```jsx
+import { useQuery } from "react-query";
+import axios from "axios";
+
+const fetchUser = async ({ queryKey }) => {
+  const [, id] = queryKey;
+  const { data } = await axios.get(`https://api.example.com/users/${id}`);
+  return data;
+};
+
+function UserProfile({ userId }) {
+  const { data, isLoading, error } = useQuery(["user", userId], fetchUser, {
+    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+  });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error...</p>;
+
+  return <div>{data.name}</div>;
+}
+```
+✅ **Cache Strategies in React Query:**  
+- `staleTime` → Time before data is considered "stale"  
+- `cacheTime` → Time before unused data is removed  
+
+---
+
+### **🔹 Write Data (Mutation + Cache Update)**
+React Query's `useMutation` handles API updates and cache invalidation.
+
+```jsx
+import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
+
+const updateUser = async ({ id, name }) => {
+  return axios.put(`https://api.example.com/users/${id}`, { name });
+};
+
+function UpdateUserName({ userId }) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(updateUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user", userId]); // Refetch user data
+    },
+  });
+
+  return (
+    <button onClick={() => mutation.mutate({ id: userId, name: "New Name" })}>
+      Update Name
+    </button>
+  );
+}
+```
+✅ **Why Use `invalidateQueries`?**  
+- Ensures UI fetches fresh data  
+- Automatically refetches data after a mutation  
+
+---
+
+## **📌 Which One to Use?**
+| Feature | Apollo Client (GraphQL) | React Query (REST) |
+|---------|----------------|----------------|
+| Best For | GraphQL APIs | REST APIs |
+| Cache Type | Normalized Cache | Query-based Cache |
+| Auto Cache Update | Yes (with `cache.modify`) | Yes (with `invalidateQueries`) |
+| Fetch Policy | `cache-first`, `network-only`, etc. | `staleTime`, `cacheTime` |
+
+🚀 **Choose Apollo for GraphQL** and **React Query for REST APIs**!  
