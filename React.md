@@ -336,9 +336,9 @@ const MyComponent = () => {
 };
 ```
 
-In this example, `<>` and `</>` are shorthand syntax for a fragment. It's equivalent to using `<React.Fragment>` and `</React.Fragment>`. The elements inside the fragment are siblings and can be rendered without introducing an additional div or other container element to the DOM.
+* In this example, `<>` and `</>` are shorthand syntax for a fragment. It's equivalent to using `<React.Fragment>` and `</React.Fragment>`. The elements inside the fragment are siblings and can be rendered without introducing an additional div or other container element to the DOM.
 
-Fragments help in keeping the HTML structure clean and avoiding unnecessary nesting, which can be beneficial for styling and layout purposes. They are especially handy when you need to return multiple elements from a component function without creating an artificial parent node in the rendered output.
+* Fragments help in keeping the HTML structure clean and avoiding unnecessary nesting, which can be beneficial for styling and layout purposes. They are especially handy when you need to return multiple elements from a component function without creating an artificial parent node in the rendered output.
 
 ### Q : Diff between all fregment
 
@@ -381,7 +381,197 @@ const memoizedCallback = useCallback(() => {
 ```
 In summary, useMemo is used to memoize values, while useCallback is specifically designed for memoizing callback functions. Both are performance optimization tools, and they help in avoiding unnecessary recalculations or re-renders in React components. Use useMemo when dealing with memoizing values, and use useCallback when dealing with memoizing callback functions.
 
-### Q : What is What is context?
+### Q : what is life cycle equivalent in react function component?
+A :
+In React **functional components**, lifecycle methods are replaced by **hooks** like `useEffect`. Here's how lifecycle methods from class components map to functional components:
+
+## **Lifecycle Equivalents in Functional Components**
+
+| **Class Component Lifecycle**     | **Functional Component Equivalent (Hooks)** |
+|-----------------------------------|---------------------------------------------|
+| **`componentDidMount`** <br> (Runs once when the component is mounted) | `useEffect(() => {...}, [])` |
+| **`componentDidUpdate`** <br> (Runs when props/state change) | `useEffect(() => {...}, [dependencies])` |
+| **`componentWillUnmount`** <br> (Runs before the component is unmounted) | `useEffect(() => { return () => {...} }, [])` |
+| **`shouldComponentUpdate`** <br> (Decides if re-render is needed) | `React.memo(Component)` or `useMemo/useCallback` |
+| **`componentWillReceiveProps`** <br> (Runs when props change) | `useEffect(() => {...}, [prop])` |
+| **`componentWillMount`** *(deprecated)* | Not needed, initialization happens inside function body |
+
+## **Example of Lifecycle Equivalents Using Hooks**
+```jsx
+import React, { useState, useEffect } from "react";
+
+const MyComponent = ({ count }) => {
+  const [data, setData] = useState(null);
+
+  // Equivalent to componentDidMount
+  useEffect(() => {
+    console.log("Component mounted");
+    fetchData();
+
+    // Equivalent to componentWillUnmount (cleanup)
+    return () => {
+      console.log("Component unmounted");
+    };
+  }, []);
+
+  // Equivalent to componentDidUpdate (runs when count changes)
+  useEffect(() => {
+    console.log("Count changed:", count);
+  }, [count]);
+
+  return <h1>Count: {count}</h1>;
+};
+
+export default MyComponent;
+```
+
+### Q : How to do clean up functional component in react with one example and why it is needed there?
+A :
+In React functional components, **cleanup** is done using the **cleanup function inside `useEffect`**. The cleanup function runs **when the component unmounts** or **before the effect runs again** (if dependencies change).  
+
+### **Why is Cleanup Needed?**
+1. **Prevent Memory Leaks** → Cleanup prevents unwanted listeners, timers, or subscriptions from persisting after the component unmounts.
+2. **Avoid Side Effects** → Stops unnecessary API calls, event listeners, or intervals that may cause unexpected behavior.
+3. **Improve Performance** → Ensures resources are freed when a component is no longer needed.
+
+### **Example: Cleanup an Event Listener**
+```jsx
+import React, { useState, useEffect } from "react";
+
+const MouseTracker = () => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const updateMousePosition = (e) => {
+    setPosition({ x: e.clientX, y: e.clientY });
+  };
+
+  useEffect(() => {
+    // Adding event listener when component mounts
+    window.addEventListener("mousemove", updateMousePosition);
+
+    // Cleanup function to remove event listener
+    return () => {
+      window.removeEventListener("mousemove", updateMousePosition);
+      console.log("Cleanup: Event listener removed");
+    };
+  }, []); // Runs only once when component mounts
+
+  return (
+    <div>
+      <h1>Mouse Position</h1>
+      <p>X: {position.x}, Y: {position.y}</p>
+    </div>
+  );
+};
+
+export default MouseTracker;
+```
+
+### **How Cleanup Works Here**
+- **When the component mounts**, the `mousemove` event listener is attached.
+- **When the component unmounts**, the event listener is removed inside the `return` function of `useEffect`.
+- This ensures **no memory leaks** and prevents unnecessary event listeners from staying active.
+
+### **Other Common Use Cases for Cleanup**
+1. **Clearing Timers:**
+   ```jsx
+   useEffect(() => {
+     const timer = setInterval(() => console.log("Running..."), 1000);
+     return () => clearInterval(timer);
+   }, []);
+   ```
+2. **Aborting API Requests:**
+   ```jsx
+   useEffect(() => {
+     const controller = new AbortController();
+     fetch("https://api.example.com/data", { signal: controller.signal });
+
+     return () => controller.abort(); // Cleanup API call
+   }, []);
+   ```
+
+```
+import React, { useEffect } from "react";
+
+    const Timer = () => {
+      const interval = React.useRef();
+      const startGame = () => {
+        interval.current = setInterval(() => {
+          //code
+        }, 3000);
+      };
+      React.useEffect(() => {
+        return () => {
+          clearInterval(interval.current);
+        };
+      }, []);
+    };
+    
+    export default Timer;
+```
+
+### Q : What are some common pitfalls when doing data fetching?
+
+A : ### 1️⃣ **Updating State After Unmounting**  
+- If a component unmounts before a fetch completes, updating the state can cause errors.  
+- **Fix:** Use `useEffect` cleanup or check `isMounted`.  
+  ```js
+  useEffect(() => {
+    let isMounted = true;
+    fetchData().then((data) => {
+      if (isMounted) setData(data);
+    });
+    return () => { isMounted = false; };
+  }, []);
+  ```
+
+### 2️⃣ **Not Handling Errors Properly**  
+- Network failures, API errors, or invalid responses can cause crashes.  
+- **Fix:** Always use `try-catch` or `.catch()` for error handling.  
+  ```js
+  fetchData().catch((error) => console.error("Fetch failed:", error));
+  ```
+
+### 3️⃣ **Unnecessary Re-fetching**  
+- Fetching inside `useEffect` without dependencies causes unnecessary API calls.  
+- **Fix:** Pass an empty dependency array (`[]`) or memoize values.  
+  ```js
+  useEffect(() => {
+    fetchData();
+  }, []); // Fetch only once
+  ```
+
+### 4️⃣ **Race Conditions**  
+- Multiple fetches may return in the wrong order, overwriting correct data.  
+- **Fix:** Use **aborting requests** with `AbortController`.  
+  ```js
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchData({ signal: controller.signal });
+
+    return () => controller.abort();
+  }, []);
+  ```
+
+### 5️⃣ **Blocking UI During Fetching**  
+- Not handling loading states can make UI feel unresponsive.  
+- **Fix:** Use a `loading` state.  
+  ```js
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetchData().then(() => setLoading(false));
+  }, []);
+  ```
+
+### 6️⃣ **Fetching Inside Render**  
+- Calling fetch directly inside a component body causes infinite loops.  
+- **Fix:** Always fetch inside `useEffect` or lifecycle methods.  
+
+### 7️⃣ **Memory Leaks Due to Unused Event Listeners**  
+- Forgetting to clean up event listeners in useEffect can cause memory leaks.  
+- **Fix:** Use `return` in `useEffect` to clean up listeners.  
+
+### Q : What is context?
 A : Context provides a way to pass data through the component tree without having to pass props down manually at every level.
 
 For example, authenticated users, locale preferences, UI themes need to be accessed in the application by many components.
