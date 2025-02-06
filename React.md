@@ -356,7 +356,128 @@ A :
 * useMemo() : This will be used for recomputing the memoized value when there is a change in one of the dependencies. This optimization will help for avoiding expensive calculations on each render.
 * useCallback() : This is useful while passing callbacks into the optimized child components and depends on the equality of reference for the prevention of unneeded renders.
 
+### Q : What is custom hooks and what is use?
+A :
+### **What is a Custom Hook?**  
+A **Custom Hook** in React is a **JavaScript function** that starts with `use` and **encapsulates reusable logic** using other hooks.
+
+### **Why Use Custom Hooks?**  
+✅ **Reusability** – Avoid duplicating logic across components.  
+✅ **Separation of Concerns** – Keep components clean and focused.  
+✅ **Improved Readability** – Encapsulate complex logic.
+
+---
+
+### **Example: useFetch Hook**  
+A custom hook to fetch data.  
+```jsx
+import { useState, useEffect } from "react";
+
+const useFetch = (url) => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  }, [url]);
+
+  return data;
+};
+
+export default useFetch;
+```
+**Usage:**  
+```jsx
+const App = () => {
+  const users = useFetch("https://api.example.com/users");
+  return <pre>{JSON.stringify(users, null, 2)}</pre>;
+};
+```
+
+### Q : what are the potential options for using useRef?
+A : 
+`useRef` is used to **persist values across renders** without causing re-renders.  
+
+#### **1️⃣ Accessing & Manipulating DOM**  
+Best for handling focus, animations, and scrolling.  
+```jsx
+const InputFocus = () => {
+  const inputRef = useRef(null);
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={() => inputRef.current.focus()}>Focus</button>
+    </>
+  );
+};
+```
+
+#### **2️⃣ Storing Values Without Re-Renders**  
+Keeps a value between renders without triggering updates.  
+```jsx
+const Counter = () => {
+  const count = useRef(0);
+
+  return <button onClick={() => count.current++}>Count: {count.current}</button>;
+};
+```
+
+#### **3️⃣ Tracking Previous State or Props**  
+Stores the previous value to compare changes.  
+```jsx
+const PreviousValue = ({ count }) => {
+  const prevCount = useRef(count);
+
+  useEffect(() => { prevCount.current = count; });
+
+  return <p>Now: {count}, Before: {prevCount.current}</p>;
+};
+```
+
+#### **4️⃣ Handling Timers & Cleanup**  
+Prevents memory leaks in `setTimeout` or `setInterval`.  
+```jsx
+const Timer = () => {
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => console.log("Tick"), 1000);
+    return () => clearInterval(timerRef.current); // Cleanup
+  }, []);
+
+  return <p>Running...</p>;
+};
+```
+
+#### **5️⃣ Integrating with Third-Party Libraries**  
+Passes a direct reference to external libraries like **Chart.js, GSAP**.  
+```jsx
+const Canvas = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.fillStyle = "red";
+    ctx.fillRect(0, 0, 100, 100);
+  }, []);
+
+  return <canvas ref={canvasRef} width="200" height="200"></canvas>;
+};
+```
+
+### **Summary: When to Use `useRef`?**
+| Use Case | Why? |
+|----------|------|
+| **Accessing DOM elements** | Manipulate without re-render |
+| **Storing values** | Persist values without triggering updates |
+| **Tracking previous state/props** | Compare past & current values |
+| **Handling timers** | Avoid memory leaks in intervals |
+| **Third-party libraries** | Pass refs for external integrations |
+
 ### Q : Diff between usememo and usecallback
+A : 
 useMemo
 useMemo is used to memoize a value (usually an object, function, or any complex computation) and to avoid recalculating it on every render unless the dependencies change.
 It takes a function and an array of dependencies as arguments. The function is only re-executed when one of the dependencies has changed.
