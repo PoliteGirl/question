@@ -707,6 +707,158 @@ function MyComponent() {
 }
 ```
 
+### Q : What happens with a component when it receives new props?
+A :
+https://www.joshwcomeau.com/react/why-react-re-renders/#its-not-about-the-props-2
+https://blog.logrocket.com/how-when-to-force-react-component-re-render#incorrectly-updated-props-without-state-change
+
+### **Does a Component Always Re-Render When Props Change?**  
+
+**Not exactly!** A component **does not always re-render** just because props change. Instead, it follows these behaviors:  
+
+### **1️⃣ When Do Components Re-Render?**
+🔹 **Functional Components**  
+- A component **re-renders when:**
+  1. Its **state** changes (`useState` update).
+  2. Its **props** change (only if the new prop is different from the previous one).
+  3. Its **parent re-renders** (even if the props stay the same).  
+
+🔹 **Class Components**  
+- A class component **re-renders when:**
+  1. **State changes** via `this.setState()`.
+  2. **New props are received**.
+  3. **Its parent re-renders** (unless `shouldComponentUpdate` prevents it).  
+
+### **2️⃣ Does a Component Re-Render If Only Props Change?**  
+✅ **Yes, if the new prop value is different from the previous one.**  
+❌ **No, if the new prop is the same as the previous one.**  
+
+📌 **Example (No Re-Render if Props Are the Same)**  
+```jsx
+const Parent = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <>
+      <button onClick={() => setCount(count)}>Update Parent</button>
+      <Child message="Hello" />
+    </>
+  );
+};
+
+const Child = React.memo(({ message }) => {
+  console.log("Child rendered");
+  return <h1>{message}</h1>;
+});
+```
+👉 Here, even though `Parent` re-renders, `Child` **does not re-render** because `message` ("Hello") remains the same.
+
+### **3️⃣ Does a Component Re-Render If Only the Parent Re-Renders?**
+✅ **Yes, by default, child components re-render when the parent re-renders—even if props don’t change.**  
+❌ **No, if wrapped in `React.memo` (functional components) or `shouldComponentUpdate` (class components).**  
+
+📌 **Example (Preventing Unnecessary Re-Renders)**  
+```jsx
+const Parent = () => {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <MemoizedChild message="Hello" />
+    </>
+  );
+};
+
+const MemoizedChild = React.memo(({ message }) => {
+  console.log("Child rendered");
+  return <h1>{message}</h1>;
+});
+```
+👉 **Now, even if `Parent` re-renders, `Child` does not,** because `React.memo` prevents re-rendering when props remain the same.
+
+### **4️⃣ Summary 🚀**
+✔ **Props Change → Component Re-Renders (Only if the new prop value is different).**  
+✔ **Parent Re-Renders → Child Re-Renders (Even if props don’t change).**  
+✔ **Use `React.memo` or `shouldComponentUpdate` to prevent unnecessary re-renders.**  
+
+Would you like a deep dive into how **React’s reconciliation process** handles re-renders? 🚀
+
+### **1️⃣ Default Behavior: Component Re-Renders**  
+- If the **new props** are different from the **previous ones**, React **triggers a re-render** of the component.  
+- This applies to both **functional** and **class components**.
+
+### **2️⃣ React Functional Components with `useEffect`**  
+- If a component relies on **props** inside a `useEffect` dependency array, it will **run again** when props change.  
+- Example:  
+  ```jsx
+  import React, { useEffect } from "react";
+
+  const Child = ({ message }) => {
+    useEffect(() => {
+      console.log("Message prop changed:", message);
+    }, [message]); // Runs when `message` prop changes
+
+    return <h1>{message}</h1>;
+  };
+  ```
+
+### **3️⃣ React Class Components with `componentDidUpdate`**  
+- In class components, `componentDidUpdate(prevProps)` can detect prop changes.  
+- Example:  
+  ```jsx
+  class Child extends React.Component {
+    componentDidUpdate(prevProps) {
+      if (prevProps.message !== this.props.message) {
+        console.log("Message prop changed:", this.props.message);
+      }
+    }
+
+    render() {
+      return <h1>{this.props.message}</h1>;
+    }
+  }
+  ```
+
+### **4️⃣ `shouldComponentUpdate` (Class Components) & `React.memo` (Functional Components) for Optimization**  
+- **By default, a component always re-renders when it receives new props.**  
+- To **prevent unnecessary re-renders**, use:  
+  - **`shouldComponentUpdate`** in class components.  
+  - **`React.memo`** in functional components.  
+
+#### ✅ Using `React.memo` (Functional Components)
+```jsx
+const Child = React.memo(({ message }) => {
+  console.log("Child component rendered");
+  return <h1>{message}</h1>;
+});
+```
+> **Now, `Child` will only re-render if `message` actually changes.**  
+
+#### ✅ Using `shouldComponentUpdate` (Class Components)
+```jsx
+class Child extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.message !== this.props.message;
+  }
+
+  render() {
+    return <h1>{this.props.message}</h1>;
+  }
+}
+```
+> **Prevents re-rendering if `message` stays the same.**  
+
+### **5️⃣ What If Props Don't Change?**
+- If **new props are identical** to the previous ones:
+  - **No re-render happens.**  
+  - If **React.memo** or **shouldComponentUpdate** is used, React skips rendering.  
+
+### **Summary 🚀**  
+✔️ **New props → Component re-renders** (default behavior).  
+✔️ **Use `useEffect([prop])`** to react to prop changes in functional components.  
+✔️ **Use `componentDidUpdate(prevProps)`** to detect changes in class components.  
+✔️ **Optimize re-renders** with `React.memo` (functional) & `shouldComponentUpdate` (class).  
+
 ### Q : How to do error handling in react app
 A : Handling errors in a React application involves implementing mechanisms to gracefully handle unexpected issues, such as runtime errors, API failures, or asynchronous operations. Here are some common approaches for error handling in a React app:
 
