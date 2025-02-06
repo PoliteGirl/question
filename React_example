@@ -1,3 +1,5 @@
+## simple list display and pagination
+```
 import React, { useState } from 'react';
 
 export function App(props) {
@@ -37,3 +39,104 @@ export function App(props) {
     </div>
   );
 }
+```
+
+## simple ToDO with react class component
+```
+import React, { Component } from "react";
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { todos: [], task: "" };
+  }
+
+  onChangeTask = (e) => {
+    this.setState({
+      task: e.target.value
+    });
+  };
+
+  addTask = () => {
+    let { todos, task } = this.state;
+    todos.push(task);
+    this.setState(
+      {
+        todos: todos,
+        task: ""
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
+  };
+
+  render() {
+    return (
+      <>
+        <div className="App">
+          <h1>Todo</h1>
+          <input
+            type="text"
+            value={this.state.task}
+            onChange={(e) => {
+              this.onChangeTask(e);
+            }}
+          />
+          <button onClick={this.addTask} disabled={!this.state.task}>
+            Add
+          </button>
+        </div>
+        <ul>
+          {this.state.todos.length > 0 && this.state.todos.map((todo, index) => (
+            <li key={index}>{todo}</li>
+          ))}
+        </ul>
+      </>
+    );
+  }
+}
+
+export default App;
+```
+
+## todo with functional components
+```
+import React, { useState } from "react";
+import { render } from "react-dom";
+
+// Functional component
+const TodoDisplay = (props) => {
+  return <li>{props.todo}</li>;
+};
+
+// Main App component
+// renders a list of Messages using data from messages.json
+const App = () => {
+  const [task, setTask] = useState("");
+  const [todos, setTodos] = useState([]);
+  const addTask = () => {
+    todos.push(task);
+    setTodos(todos);
+    setTask("");
+  };
+
+  return (
+    <>
+      <h2>To Do</h2>
+      <div>
+        <input value={task} onChange={(e) => setTask(e.target.value)} />
+        <button onClick={addTask} disabled={!task}>
+          Add Task
+        </button>
+      </div>
+      <ul>
+        {todos.length > 0 &&
+          todos.map((todo, i) => <TodoDisplay key={i} todo={todo} />)}
+      </ul>
+    </>
+  );
+};
+
+render(<App />, document.getElementById("root"));
+```
