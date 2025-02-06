@@ -129,8 +129,6 @@ class User extends React.Component {
 }
 ```
 
----
-
 ### Q : What are props in React?  
 A : **Props** (short for "properties") are used to pass data from a **parent** component to a **child** component. They act like function arguments and **cannot be modified by the receiving component**.  
 
@@ -138,8 +136,6 @@ The primary purpose of props in React:
 * Pass **custom data** to child components.  
 * **Trigger state changes** in child components.  
 * Used inside a component's `render()` method via `this.props.someProp`.  
-
----
 
 ### Q : What is the difference between state and props?  
 A :  
@@ -509,6 +505,103 @@ import React, { useEffect } from "react";
     
     export default Timer;
 ```
+### Q : What are some common usage and pitfalls of useEffect
+A :
+### **What is `useEffect`?**  
+`useEffect` is a **React Hook** used in functional components to handle **side effects** such as:  
+- Fetching data from an API  
+- Subscribing to events or WebSockets  
+- Manipulating the DOM  
+- Setting up timers or intervals  
+
+It runs **after the component renders** and can be configured to run under different conditions.
+
+## ✅ **Usage of `useEffect`**  
+### **1. Run on Every Render (No Dependencies)**
+```jsx
+useEffect(() => {
+  console.log("Component rendered!");
+});
+```
+- This runs **after every render** (initial + re-renders).  
+- **Common use case:** Debugging or updating document title dynamically.
+
+### **2. Run Once (On Mount)**
+```jsx
+useEffect(() => {
+  console.log("Component mounted!");
+
+  return () => console.log("Cleanup on unmount!");
+}, []); // Empty dependency array
+```
+- Runs **only once** when the component mounts.  
+- **Cleanup function** runs when the component **unmounts**.  
+- **Common use case:**  
+  - Adding/removing event listeners  
+  - Initial API call  
+
+### **3. Run When Dependencies Change**
+```jsx
+const [count, setCount] = useState(0);
+
+useEffect(() => {
+  console.log(`Count changed to: ${count}`);
+}, [count]); // Runs when `count` changes
+```
+- Runs when **dependencies change** (`count` in this case).  
+- **Common use case:**  
+  - Fetching new data when user input changes.  
+
+### **4. Fetching Data with Cleanup**
+```jsx
+useEffect(() => {
+  const controller = new AbortController(); // Helps cancel request on unmount
+  fetch("https://api.example.com/data", { signal: controller.signal });
+
+  return () => controller.abort(); // Cleanup API call
+}, []);
+```
+- Ensures **API calls don’t continue** after the component unmounts.
+
+## ❌ **Common Pitfalls of `useEffect`**
+### **1. Infinite Re-renders (Missing Dependency Array)**
+```jsx
+useEffect(() => {
+  setCount(count + 1); // ❌ Causes an infinite loop
+});
+```
+- **Fix:** Add dependencies to prevent repeated execution.
+
+### **2. Unnecessary Re-renders (Too Many Dependencies)**
+```jsx
+useEffect(() => {
+  console.log("Re-run effect!");
+}, [user, posts, comments]); // ❌ Runs even if only one changes
+```
+- **Fix:** Minimize dependencies by using selective values.
+
+### **3. Memory Leaks (Not Cleaning Up)**
+```jsx
+useEffect(() => {
+  window.addEventListener("resize", handleResize); // ❌ Not removed on unmount
+}, []);
+```
+- **Fix:** Always **clean up** listeners in the return function:
+  ```jsx
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  ```
+
+## **Final Takeaways**
+✅ Use `useEffect` for **side effects** like data fetching and event handling.  
+✅ Always **add dependencies** carefully to avoid infinite loops.  
+✅ **Cleanup effects** when needed to **prevent memory leaks**.  
+✅ Use an **empty array (`[]`)** if you only want it to run on mount/unmount.  
+
+Would you like more examples on a specific use case? 🚀
 
 ### Q : What are some common pitfalls when doing data fetching?
 
