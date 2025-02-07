@@ -1,3 +1,58 @@
+## List diplay and remove perticular item from list
+```javascrip
+import React, { useRef, useState } from 'react'
+import Confetti from 'js-confetti'
+import './style.css'
+
+const confetti = new Confetti()
+
+const App = () => {
+  const [name, setName] = useState('')
+  const [age, setAge] = useState(0)
+  const [list, setList] = useState([])
+
+  const onSubmit = () => {
+    setList((prev) => [...prev, {name, age}])
+    setName('')
+    setAge(0)
+  }
+
+   const onDelete = (index) => {
+      // const newList = [...list];
+      // newList.splice(index, 1);
+      // setList(newList)
+     let newList = list.filter((obj, i) => i!==index);
+     setList(newList)
+  }
+
+  return (
+  <>
+    {list.length > 0 &&  <ul>  
+        {list.map((obj, index)=>(
+          <li>
+            {obj.name}
+            {obj.age}
+            <button onClick={(e)=>{onDelete(index)}}> Remove from List </button>
+          </li>
+        ))}
+      </ul>}
+  <div>
+  <input
+    value={name}
+    type='text'
+    onChange={(e)=>setName(e.target.value)}/>
+    <input
+    value={age}
+    type='number'
+    onChange={(e)=>setAge(e.target.value)}/>
+    <button onClick={(e)=>{onSubmit()}}> Add In List </button>
+  </div>
+  </>
+  )
+}
+export default App
+```
+
 ## Simple List Display and Pagination
 
 ```javascript
