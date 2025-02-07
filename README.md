@@ -766,6 +766,12 @@ Bottom to Top (Event Bubbling)
 
 * Event capturing is a type of event propagation where the event is first captured by the outermost element, and then successively triggers on the descendants (children) of the target element in the same nesting hierarchy till it reaches the innermost DOM element.
 
+* Summary (For React or any other front end)
+- useEffect can attach/remove event listeners dynamically.
+- By default, events bubble up (child → parent).
+- event.stopPropagation() stops bubbling.
+- { capture: true } makes the event fire before the child.
+
 ### Q : What is ECMA Script and How are JavaScript and ECMA Script related?
 ECMA Script are like rules and guideline while Javascript is a scripting language used for web development.
 
