@@ -2044,4 +2044,283 @@ function UpdateUserName({ userId }) {
 | Auto Cache Update | Yes (with `cache.modify`) | Yes (with `invalidateQueries`) |
 | Fetch Policy | `cache-first`, `network-only`, etc. | `staleTime`, `cacheTime` |
 
-🚀 **Choose Apollo for GraphQL** and **React Query for REST APIs**!  
+🚀 **Choose Apollo for GraphQL** and **React Query for REST APIs**!
+
+### Q : What is wrong with using async/await in a useEffect hook in reference to the below code snippet?
+
+function TestComponent() {
+  const [data, setData] = useState([]);
+ useEffect(() => {
+	const fetchData = async () => {
+  	const response = await fetch("/api/data");
+  	const json = await response.json();
+  	setData(json);
+	};
+	fetchData();
+  }, []);
+   return <div>{data.map((d) => <p>{d.text}</p>)}</div>;
+}
+A : ### **Issue with Using `async/await` in `useEffect`**  
+
+The issue in the given code is that `useEffect` **cannot** directly handle an `async` function because it expects the return value to be either **`undefined` or a cleanup function**, but an `async` function always returns a **Promise**.
+
+---
+
+### **Why is this a Problem?**
+- `useEffect(() => { async function() {} })` **returns a Promise**, which React **does not handle** properly.
+- **React might show a warning**, and unexpected behavior can occur.
+
+---
+
+### **How to Fix It?**
+✅ **Solution: Use an Inside Async Function**  
+```jsx
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/api/data");
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  fetchData();
+}, []);
+```
+**Why this works?**  
+- The async function is **declared inside `useEffect`**, but `useEffect` itself remains **synchronous**.  
+
+---
+
+### **Alternative: Use an Immediately Invoked Function Expression (IIFE)**
+```jsx
+useEffect(() => {
+  (async () => {
+    const response = await fetch("/api/data");
+    const json = await response.json();
+    setData(json);
+  })();
+}, []);
+```
+This avoids defining a separate function inside `useEffect`.
+
+---
+
+### **Best Practice: Use `AbortController` to Prevent Memory Leaks**
+To **prevent setting state after unmounting**, use **`AbortController`**:
+```jsx
+useEffect(() => {
+  const controller = new AbortController();
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/api/data", { signal: controller.signal });
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.error("Fetch error:", error);
+      }
+    }
+  };
+
+  fetchData();
+
+  return () => controller.abort(); // Cleanup on unmount
+}, []);
+```
+
+---
+
+### **Summary**
+❌ **Avoid** `useEffect(async () => {...})` because it returns a Promise.  
+✅ **Wrap `async` function inside `useEffect`** and call it explicitly.  
+✅ **Use `AbortController` to prevent memory leaks** in API calls.  
+
+### Q : What will be the behaviour of the useRef and useCallback hooks in the below code snippet?
+
+import React, { useState, useRef, useCallback } from "react";
+ function App() {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(count);
+ 
+  const increment = useCallback(() => {
+	countRef.current = countRef.current + 1;
+	setCount(countRef.current);
+  }, []);
+ 
+  return (
+	<div>
+  	<button onClick={increment}>Increment</button>
+  	<p>Count: {count}</p>
+	</div>
+  );
+}
+ export default App;
+A : ### **Behavior of `useRef` and `useCallback` in the Given Code**  
+
+#### **1️⃣ Behavior of `useRef(count)`**
+- `useRef` **does not trigger re-renders** when its `.current` value changes.  
+- Initially, `countRef.current` is set to `count` (which is `0`).  
+- However, it **does not automatically update when `count` changes** because `useRef` does not cause re-renders like `useState`.
+
+#### **2️⃣ Behavior of `useCallback`**
+- The `increment` function is **memoized** using `useCallback`, meaning it will not be re-created unless its dependencies change.  
+- But since the dependency array is **empty (`[]`)**, `increment` is **created only once** when the component mounts.  
+
+---
+
+### **What Happens When You Click the Button?**
+1. `countRef.current = countRef.current + 1;`  
+   - This updates the **ref value** (`countRef.current`) manually, but it **does not re-render the component**.  
+
+2. `setCount(countRef.current);`  
+   - This updates `count`, triggering a re-render.  
+
+3. **However, there's a problem!**  
+   - Since `useCallback` has an **empty dependency array**, `increment` **always captures the initial `countRef.current = 0`**.  
+   - Even though `countRef.current` updates internally, **the function doesn't update with the latest state**.  
+
+---
+
+### **Issue: Stale Closure Problem**
+The function does not get the latest `countRef.current` because `increment` was **created only once** and never re-created.  
+
+#### **How to Fix It?**
+✅ **Add `countRef.current` as a Dependency in `useCallback`**
+```jsx
+const increment = useCallback(() => {
+  countRef.current = countRef.current + 1;
+  setCount(countRef.current);
+}, [countRef.current]); // ✅ Ensures `useCallback` updates correctly
+```
+
+✅ **Or Use `setCount(prev => prev + 1)` Directly**
+```jsx
+const increment = useCallback(() => {
+  setCount(prev => prev + 1);
+}, []);
+```
+This removes the need for `useRef` entirely.
+
+---
+
+### **Summary**
+🔹 **`useRef` does not trigger re-renders**, so updating `countRef.current` alone won't reflect changes.  
+🔹 **`useCallback` with `[]` captures stale values**, leading to unexpected behavior.  
+🔹 **Fix by adding dependencies or using functional `setCount(prev => prev + 1)`**.  
+
+### Q : What will be the behaviour of the useRef and useCallback hooks in the below code snippet?
+
+import React, { useState, useRef, useCallback } from "react";
+ function App() {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(count);
+ 
+  const increment = useCallback(() => {
+	countRef.current = countRef.current + 1;
+	setCount(countRef.current);
+  }, []);
+ 
+  return (
+	<div>
+  	<button onClick={increment}>Increment</button>
+  	<p>Count: {count}</p>
+	</div>
+  );
+}
+ export default App;
+---
+A : ### **Behavior of `useRef` & `useCallback` in Given Code**  
+
+1. **`useRef` does not trigger re-renders**, so updating `countRef.current` alone won't update the UI.  
+2. **`useCallback([])` captures stale values**, meaning `increment` always uses the **initial** `countRef.current = 0`.  
+3. **Fix:** Use a dependency or functional update:  
+   ```jsx
+   const increment = useCallback(() => {
+     setCount(prev => prev + 1);
+   }, []);
+   ```
+✅ **This removes the need for `useRef` and ensures correct updates.**
+
+### Q : How can you optimize the handling of async data promises in the below code?
+
+import { useCallback, useEffect } from "react";
+ function TestComponent(props) {
+  const fetchData = useCallback(async () => {
+	const response = await fetch(/api/data/${props.id});
+	const json = await response.json();
+	return json;
+  }, [props.id]);
+ 
+  useEffect(() => {
+    const dataPromise = fetchData();
+	// Do something with the data promise
+	return () => {
+  	// Cancel the data promise
+	};
+  }, [fetchData]);
+   return <div>My Component</div>;
+}
+
+A :  ### **Optimizing Async Data Handling in `useEffect`**  
+
+#### **Issues in the Current Code:**
+1. **Uncontrolled Promise Handling:**  
+   - `fetchData()` returns a promise, but its resolution is not handled properly.  
+
+2. **Potential Memory Leak:**  
+   - If `props.id` changes or the component unmounts, the previous request **may still resolve**, updating stale state.  
+
+3. **No Cancellation of Fetch Requests:**  
+   - There's no way to abort the previous request when `props.id` changes.  
+
+---
+
+### **Optimized Approach**
+✅ **Handle async logic inside `useEffect` properly**  
+✅ **Use `AbortController` to cancel outdated fetch requests**  
+✅ **Update state only when the component is still mounted**  
+
+### **Optimized Code:**
+```jsx
+import { useCallback, useEffect, useState } from "react";
+
+function TestComponent({ id }) {
+  const [data, setData] = useState(null);
+
+  const fetchData = useCallback(async (signal) => {
+    try {
+      const response = await fetch(`/api/data/${id}`, { signal });
+      if (!response.ok) throw new Error("Fetch failed");
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.error("Fetch error:", error);
+      }
+    }
+  }, [id]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchData(controller.signal);
+
+    return () => controller.abort(); // Cancel fetch on unmount or id change
+  }, [fetchData]);
+
+  return <div>{data ? JSON.stringify(data) : "Loading..."}</div>;
+}
+
+export default TestComponent;
+```
+
+---
+
+### **Key Optimizations:**
+✅ **Uses `AbortController` to prevent stale requests**  
+✅ **Handles errors gracefully**  
+✅ **Only updates state when the component is still active**  
+
+URL for ALL question :https://codeinterview.io/blog/reactjs-coding-interview-questions/
