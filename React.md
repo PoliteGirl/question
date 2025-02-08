@@ -43,6 +43,178 @@ const container = (
 );
 ReactDOM.render(container,rootElement);
 ```
+### Q : What is memory leak in react?
+A : ### **What is a Memory Leak in React?**
+A **memory leak** in React (or in any JavaScript application) happens when your app **keeps holding onto memory that is no longer needed**, leading to **increased memory usage** over time. This can eventually cause **performance issues**, such as slow interactions or even crashes.
+
+### **How Do Memory Leaks Happen?**
+Memory leaks in React often occur when:
+1. **An asynchronous task (like an API call or a timer) continues running after a component unmounts.**
+2. **Event listeners are not properly removed** when a component unmounts.
+3. **Global variables or references** to objects persist in memory, preventing garbage collection.
+4. **Using `setState` on an unmounted component**, causing React to keep a reference to that component in memory.
+
+---
+
+## **Common Causes of Memory Leaks in React**
+### **1️⃣ API Requests Without Cleanup**
+#### **Example: Memory Leak**
+If an API request is still in progress when a component unmounts, and it tries to update state, a memory leak occurs.
+
+```jsx
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+function MyComponent() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axios.get("/api/data").then((response) => {
+      setData(response.data); // ❌ Could try to update state after unmount
+    });
+
+    // No cleanup function here!
+  }, []);
+
+  return <div>{data}</div>;
+}
+```
+#### **Fix: Add Cleanup**
+To **prevent updating state on an unmounted component**, we use a **flag** or **AbortController**.
+
+```jsx
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+function MyComponent() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    axios.get("/api/data").then((response) => {
+      if (isMounted) {
+        setData(response.data);
+      }
+    });
+
+    return () => {
+      isMounted = false; // Cleanup when unmounting
+    };
+  }, []);
+
+  return <div>{data}</div>;
+}
+```
+Alternatively, **AbortController** can be used to cancel the request:
+```jsx
+useEffect(() => {
+  const controller = new AbortController();
+  axios.get("/api/data", { signal: controller.signal })
+    .then(response => setData(response.data))
+    .catch(error => {
+      if (error.name !== "AbortError") {
+        console.error(error);
+      }
+    });
+
+  return () => controller.abort(); // Cancels request on unmount
+}, []);
+```
+### **2️⃣ Event Listeners Not Removed**
+#### **Example: Memory Leak**
+```jsx
+useEffect(() => {
+  window.addEventListener("resize", () => {
+    console.log("Resizing...");
+  });
+
+  // ❌ No cleanup function - event listener stays in memory
+}, []);
+```
+#### **Fix: Remove Event Listener on Unmount**
+```jsx
+useEffect(() => {
+  const handleResize = () => console.log("Resizing...");
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    window.removeEventListener("resize", handleResize);
+  };
+}, []);
+```
+
+### **3️⃣ Timers (`setInterval`, `setTimeout`) Not Cleared**
+#### **Example: Memory Leak**
+```jsx
+useEffect(() => {
+  setInterval(() => {
+    console.log("Interval running...");
+  }, 1000);
+
+  // ❌ No cleanup function - interval keeps running after unmount
+}, []);
+```
+#### **Fix: Clear Interval on Unmount**
+```jsx
+useEffect(() => {
+  const interval = setInterval(() => {
+    console.log("Interval running...");
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, []);
+```
+
+### **4️⃣ References to DOM Elements**
+If you create DOM elements manually and don't clean them up, they can **persist in memory**.
+
+#### **Example: Memory Leak**
+```jsx
+function Component() {
+  useEffect(() => {
+    const div = document.createElement("div");
+    document.body.appendChild(div);
+
+    // ❌ No cleanup - div stays in memory
+  }, []);
+}
+```
+#### **Fix: Remove Created Elements**
+```jsx
+function Component() {
+  useEffect(() => {
+    const div = document.createElement("div");
+    document.body.appendChild(div);
+
+    return () => {
+      document.body.removeChild(div);
+    };
+  }, []);
+}
+```
+
+## **How to Detect Memory Leaks**
+### **1️⃣ Chrome DevTools (Performance Tab)**
+- Open **Chrome DevTools** → Go to **Memory** tab → Take a snapshot.
+- Interact with your app and take another snapshot.
+- If memory usage keeps increasing **without dropping**, you may have a memory leak.
+
+### **2️⃣ Warnings in Console**
+React shows warnings if you **try to update state on an unmounted component**.
+
+```
+Can't perform a React state update on an unmounted component.
+```
+
+### **3️⃣ React Developer Tools (Profiler)**
+- Use the **React Profiler** to see if components are being unnecessarily retained in memory.
+
+## **Key Takeaways**
+✅ **Always clean up side effects in `useEffect` using a cleanup function.**  
+✅ **Cancel API requests or ignore state updates if a component unmounts.**  
+✅ **Remove event listeners and intervals when a component unmounts.**  
+✅ **Use Chrome DevTools and React Profiler to detect memory leaks.**  
 
 ### Q : What is SyntheticEvent?
 A : Certainly! In a simple way:
