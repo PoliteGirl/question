@@ -44,7 +44,7 @@ const container = (
 ReactDOM.render(container,rootElement);
 ```
 ### Q : What is memory leak in react?
-A : ### **What is a Memory Leak in React?**
+A :
 A **memory leak** in React (or in any JavaScript application) happens when your app **keeps holding onto memory that is no longer needed**, leading to **increased memory usage** over time. This can eventually cause **performance issues**, such as slow interactions or even crashes.
 
 ### **How Do Memory Leaks Happen?**
@@ -2324,3 +2324,88 @@ export default TestComponent;
 ✅ **Only updates state when the component is still active**  
 
 URL for ALL question :https://codeinterview.io/blog/reactjs-coding-interview-questions/
+
+### Q : What is deduping and what is caching, retries and deduping in react?
+A : 
+### **Deduping in React**
+Deduping (de-duplicating) in React refers to avoiding duplicate API calls for the same data. When multiple components request the same data, a deduplication strategy ensures that only a single request is sent to the backend, and all components use the same response.
+
+For example, if two components fetch user details at the same time, deduping prevents sending two separate requests. Instead, it reuses the first request’s response for both components.
+
+**Common Deduping Strategies:**
+1. **Caching**: Store the response in memory and serve it if another request is made within a short time.
+2. **Promise Tracking**: Track ongoing requests and return the same promise to multiple components instead of triggering duplicate requests.
+
+### **Caching, Retries, and Deduping in React**
+These are strategies used by libraries like **React Query, SWR, and Apollo Client** to optimize API calls.
+
+1. **Caching**: Stores API responses in memory so that repeated requests within a given time frame return cached data instead of making a network call.
+   
+   **Example (SWR Caching)**:
+   ```js
+   import useSWR from 'swr';
+
+   const fetcher = (url) => fetch(url).then((res) => res.json());
+
+   function UserProfile() {
+     const { data, error } = useSWR('/api/user', fetcher);
+   
+     if (error) return <div>Error loading user</div>;
+     if (!data) return <div>Loading...</div>;
+   
+     return <div>{data.name}</div>;
+   }
+   ```
+   - If another component requests `'/api/user'`, the cached response is used.
+   - If the cache expires, a new request is sent.
+
+2. **Retries**: If an API request fails (due to network issues or a temporary server error), the request is retried automatically before showing an error.
+   
+   **Example (React Query with Retries)**:
+   ```js
+   import { useQuery } from '@tanstack/react-query';
+
+   const fetchUser = async () => {
+     const response = await fetch('/api/user');
+     if (!response.ok) throw new Error('Network error');
+     return response.json();
+   };
+
+   function UserProfile() {
+     const { data, error, isLoading } = useQuery({
+       queryKey: ['user'],
+       queryFn: fetchUser,
+       retry: 3, // Retry up to 3 times
+     });
+
+     if (isLoading) return <div>Loading...</div>;
+     if (error) return <div>Error loading user</div>;
+
+     return <div>{data.name}</div>;
+   }
+   ```
+   - If `fetchUser` fails, it will retry up to 3 times before showing an error.
+
+3. **Deduping**: Ensures that multiple identical API calls made in a short period only trigger a **single** request.
+   
+   **Example (SWR Deduping)**:
+   ```js
+   import useSWR from 'swr';
+
+   function ComponentA() {
+     const { data } = useSWR('/api/data', fetcher);
+     return <div>Data: {data}</div>;
+   }
+
+   function ComponentB() {
+     const { data } = useSWR('/api/data', fetcher);
+     return <div>Data: {data}</div>;
+   }
+   ```
+   - If both `ComponentA` and `ComponentB` mount at the same time, only **one** request is sent instead of two.
+
+### **Why Use Caching, Retries, and Deduping?**
+✅ Improves performance by reducing redundant API calls  
+✅ Enhances user experience by speeding up responses  
+✅ Handles network failures more gracefully  
+✅ Reduces server load  
