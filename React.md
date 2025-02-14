@@ -265,6 +265,53 @@ A SyntheticEvent in React is like a wrapper around real events (like clicks or k
 ### Q : What is Component?
 A : In react, a component is reusable building block for creating UI.
 
+### Q : What is pure component
+A : A **PureComponent** in React is a type of component that implements **shouldComponentUpdate** with a shallow comparison of props and state. This means it prevents unnecessary re-renders by only updating if there are actual changes in its props or state.
+
+### **Key Differences Between `PureComponent` and `Component`**
+1. **Automatic Optimization:**  
+   - `React.Component` re-renders on any state/prop update.  
+   - `React.PureComponent` only re-renders when shallow comparison detects changes.
+  
+2. **Shallow Comparison:**  
+   - It does a shallow comparison (`===`) on both **state** and **props** before deciding to re-render.
+
+3. **Performance Boost:**  
+   - In cases where re-renders are frequent and costly, `PureComponent` can improve performance.
+
+### **Example**
+```jsx
+import React, { PureComponent } from "react";
+
+class MyComponent extends PureComponent {
+  state = { count: 0 };
+
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  render() {
+    console.log("Rendered"); // Only renders if state/props actually change
+    return (
+      <div>
+        <p>Count: {this.state.count}</p>
+        <button onClick={this.increment}>Increment</button>
+      </div>
+    );
+  }
+}
+
+export default MyComponent;
+```
+#### **When to Use `PureComponent`?**
+- When working with **functional components**, `React.memo` is a better alternative.
+- When props and state are **simple and immutable** (deeply nested objects may still cause unwanted re-renders).
+- When performance optimization is necessary.
+
+#### **When NOT to Use `PureComponent`?**
+- If the state/props contain **complex nested objects**, as shallow comparison may not detect deep changes.
+- If props/state are frequently updated but should always trigger a re-render.
+
 ### Q : What are the differences between functional and class components?
 A : There are mainly two type
 
