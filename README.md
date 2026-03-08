@@ -737,6 +737,8 @@ A :
 * Template Literals and Extended Literals
 * Spread operator
 * Destructuring Assignment
+* Optional Chaining
+* Nullish Coalescing
 
 ### Q : What is use of arrow 
 A :
@@ -841,6 +843,18 @@ var obj = {
 }
         
 obj.getName();
+```
+
+### Q : Optional Chaining
+A : Safe property access.
+```
+user?.address?.city
+```
+
+### Q : Nullish Coalescing
+A : Default value if null or undefined.
+```
+let value = input ?? "default";
 ```
 
 ### Q : What would be the result of 3+2+"7"?
