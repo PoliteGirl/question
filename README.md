@@ -3,7 +3,6 @@
 
 # Javascript
 Here’s the reformatted version with your requested heading styles:  
-
 ---
 ### **Q: What is JavaScript?**  
 **A:** JavaScript is a programming language commonly used in web development. It was originally developed by Netscape as a means to add dynamic and interactive elements to websites.  
@@ -17,14 +16,33 @@ JavaScript is:
 - **Synchronous by default**: JavaScript executes code **line by line** in the order it appears.  
 - **Non-blocking in practice**: JavaScript uses **asynchronous features** like `setTimeout`, Promises, and `async/await` to avoid blocking execution.  
 
-##### **1️⃣ Single-threaded Execution**  
+##### ** Single-threaded Execution**  
 - JavaScript runs code in a **single call stack**.  
 - Only **one** piece of code executes at a time, preventing race conditions.  
 
-##### **2️⃣ Non-blocking Behavior**  
+##### ** Non-blocking Behavior**  
 Despite being single-threaded, JavaScript is **non-blocking** because it:  
 - Offloads long-running tasks (I/O operations, timers, network requests) to **web APIs** or **Node.js APIs**.  
 - Uses an **event loop** to process asynchronous callbacks once the main thread is free.  
+
+#### ** "In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time."**  
+✅ **Correct**  
+
+- **Dynamically typed languages** (like JavaScript) allow variable types to change at runtime.  
+- **Statically typed languages** (like TypeScript) enforce type checks at compile-time.  
+
+##### **📌 Example: JavaScript (Dynamically Typed)**  
+```javascript
+let num = 10;
+num = "ten";  // No error, type changes at runtime
+```
+
+##### **📌 Example: TypeScript (Statically Typed)**  
+```typescript
+let num: number = 10;
+num = "ten";  // ❌ Error: Type 'string' is not assignable to type 'number'
+```
+---
 
 ##### **Key Asynchronous Features**
 
@@ -87,38 +105,6 @@ API response received
 Timeout callback  
 ```
 ---
-#### **2. "JavaScript is a dynamically typed language."**  
-✅ **Correct**  
-
-- JavaScript does **not require variable types** to be declared explicitly.  
-- The **type of a variable is determined at runtime**, and it can change dynamically.  
-
-##### **📌 Example**  
-```javascript
-let x = 5;  // x is a number
-x = "hello";  // x is now a string
-```
----
-
-#### **3. "In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time."**  
-✅ **Correct**  
-
-- **Dynamically typed languages** (like JavaScript) allow variable types to change at runtime.  
-- **Statically typed languages** (like TypeScript) enforce type checks at compile-time.  
-
-##### **📌 Example: JavaScript (Dynamically Typed)**  
-```javascript
-let num = 10;
-num = "ten";  // No error, type changes at runtime
-```
-
-##### **📌 Example: TypeScript (Statically Typed)**  
-```typescript
-let num: number = 10;
-num = "ten";  // ❌ Error: Type 'string' is not assignable to type 'number'
-```
----
-
 ### Q : Task Queue and how JS works with it
 
 #### **1️⃣ JavaScript starts execution (Call Stack)**
