@@ -79,11 +79,7 @@ console.log("End");
 4️⃣ `"End"` is logged (synchronous).  
 5️⃣ The **event loop** processes `"Data fetched"` and `"Timeout callback"` once they are ready.  
 
-##### **Why Non-blocking is Important**  
-Without the **event loop**, JavaScript would freeze whenever it encounters a slow operation. The **non-blocking model** ensures smooth performance.  
-
 ---
-
 #### **2. "JavaScript is a dynamically typed language."**  
 ✅ **Correct**  
 
@@ -95,7 +91,6 @@ Without the **event loop**, JavaScript would freeze whenever it encounters a slo
 let x = 5;  // x is a number
 x = "hello";  // x is now a string
 ```
-
 ---
 
 #### **3. "In a dynamically typed language, the type of a variable is checked during run-time in contrast to statically typed language, where the type of a variable is checked during compile-time."**  
