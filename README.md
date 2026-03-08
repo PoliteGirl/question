@@ -702,20 +702,28 @@ for (let x of cars) {
 ```
 
 ### Q : What is event bubbling and capturing?
-A : Event flow is the order in which event is received on the web page. When you click an element that is nested in various other elements, before your click actually reaches its destination, or target element, it must trigger the click event for each of its parent elements first, starting at the top with the global window object. There are two ways of event flow
-
+A :
 Top to Bottom(Event Capturing)
 Bottom to Top (Event Bubbling)
 
-* Event bubbling is a type of event propagation where the event first triggers on the innermost target element, and then successively triggers on the ancestors (parents) of the target element in the same nesting hierarchy till it reaches the outermost DOM element.
+**Event Flow** is the order in which an event travels through the DOM.
 
-* Event capturing is a type of event propagation where the event is first captured by the outermost element, and then successively triggers on the descendants (children) of the target element in the same nesting hierarchy till it reaches the innermost DOM element.
+**1. Event Capturing (Top → Bottom)**
+Event starts from the outer element (window/document) and goes **down to the target element**.
 
-* Summary (For React or any other front end)
-- useEffect can attach/remove event listeners dynamically.
-- By default, events bubble up (child → parent).
-- event.stopPropagation() stops bubbling.
-- { capture: true } makes the event fire before the child.
+**2. Event Bubbling (Bottom → Top)**
+Event starts from the **target element** and moves **up to its parent elements**.
+
+**3. Event Delegation**
+A **parent element handles events for its child elements** using bubbling. Useful for many or dynamic elements.
+One parent listener handles events for many children using event bubbling.
+
+**Key Points (React / Frontend):**
+
+* Events **bubble by default**.
+* `event.stopPropagation()` stops bubbling.
+* `{ capture: true }` runs the event in the capturing phase.
+* In **React**, `useEffect` is used to add/remove event listeners.
 
 ### Q : What is ECMA Script and How are JavaScript and ECMA Script related?
 ECMA Script are like rules and guideline while Javascript is a scripting language used for web development.
