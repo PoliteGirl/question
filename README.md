@@ -43,127 +43,114 @@ let num: number = 10;
 num = "ten";  // ❌ Error: Type 'string' is not assignable to type 'number'
 ```
 ---
+Here is a **shorter and more precise version** with repetition removed but keeping all key concepts.
+---
+# JavaScript Asynchronous Model
+## Key Components
 
-##### **Key Asynchronous Features**
+### 1. Web APIs / Node.js APIs
 
-🔹 **Browser/Web APIs / Node.js APIs**  
-- Used for operations like:  
-  - Fetching data (`fetch`, `XMLHttpRequest`).  
-  - File system operations (in Node.js).  
-  - Timers (`setTimeout`, `setInterval`).  
-   
-🔹 **Event Loop**  
-1. JavaScript runs code in the **call stack** (synchronously).  
-2. Asynchronous tasks (e.g., `setTimeout`) are handed to **Web APIs** (or Node.js APIs).  
-3. When the task is complete, its callback is added to the **task queue**.  
-4. The **event loop** ensures the main thread is clear before processing queued tasks.  
+Handle asynchronous operations outside the call stack.
 
-✅ Simple analogy
-- Thread → The chef 👨‍🍳
-- Call Stack → The chef’s current list of tasks 📋
-- Event Loop → The waiter checking when the chef is free to give the next order.
-- ##### Event loop runs a callback only when the call stack in the main thread is empty.
+Examples:
 
-🔹 **Promises & `async/await`**  
-- Promises use the **microtask queue**, which has **higher priority** than the regular task queue.  
-- Ensures promise resolutions run as soon as the current stack clears.
+* Network requests: `fetch`, `XMLHttpRequest`
+* Timers: `setTimeout`, `setInterval`
+* File system operations (in Node.js)
 
-| Type                | Examples                                                                    |
-| ------------------- | --------------------------------------------------------------------------- |
-| **Microtask Queue** | Promise `.then`, `.catch`, `.finally`, `queueMicrotask`, `MutationObserver` |
-| **Macrotask Queue** | `setTimeout`, `setInterval`, `setImmediate`, I/O callbacks                  |
+---
+### 2. Call Stack
 
-Sync Code → Microtask Queue → Macrotask Queue, 
-process.nextTick() (Node.js specific)
-In Node.js, this runs even before the microtask queue
+JavaScript executes code **synchronously** using the call stack.
+Only **one function runs at a time**.
 
-##### **📌 Example**  
+---
+### 3. Event Loop
+
+The event loop manages asynchronous execution.
+
+Flow:
+
+1. JavaScript runs synchronous code in the **call stack**.
+2. Async operations are handled by **Web APIs / Node APIs**.
+3. When completed, their callbacks are placed in a **queue**.
+4. The **event loop moves callbacks to the call stack when it is empty**.
+
+---
+### Simple Analogy
+
+* **Thread** → Chef 👨‍🍳
+* **Call Stack** → Chef’s task list 📋
+* **Event Loop** → Waiter checking when the chef is free
+
+---
+# Task Queues
+### Microtask Queue (Higher Priority)
+
+Used for promise-related callbacks.
+
+Examples:
+
+* `Promise.then`, `catch`, `finally`
+* `queueMicrotask`
+* `MutationObserver`
+
+Node.js:
+
+* `process.nextTick()` runs **before other microtasks**.
+
+---
+### Macrotask Queue
+Used for general async callbacks.
+
+Examples:
+
+* `setTimeout`
+* `setInterval`
+* `setImmediate`
+* I/O callbacks
+
+---
+
+### Execution Priority
+
+```
+Synchronous Code
+↓
+process.nextTick() (Node.js)
+↓
+Microtask Queue
+↓
+Macrotask Queue
+```
+---
+# Example
 ```javascript
 console.log("Start");
 
-setTimeout(() => {
-  console.log("Timeout callback");
-}, 1000);
+setTimeout(() => console.log("Timeout callback"), 1000);
 
-fetch("https://api.example.com/data")
-  .then(() => console.log("Data fetched"));
-
-console.log("End");
-```
----
-### **Expected Output**:
-```
-Start  
-End  
-API response received  
-Timeout callback  
-```
----
-### Q : Task Queue and how JS works with it
-
-#### **1️⃣ JavaScript starts execution (Call Stack)**
-```javascript
-console.log("Start");
-```
-- `"Start"` is printed **immediately** because `console.log` is a synchronous operation.
-
-#### **2️⃣ `setTimeout(…, 0)` is encountered**
-```javascript
-setTimeout(() => console.log("Timeout callback"), 0);
-```
-- `setTimeout` is an **asynchronous** function, so it is **offloaded** to the **Web API**.  
-- The **timer is set for 0 milliseconds**, but this doesn’t mean it runs **immediately**!  
-- The **callback function (`() => console.log("Timeout callback")`) is placed in the Task Queue** once the timer expires.
-
-#### **3️⃣ `fetch()` is encountered**
-```javascript
 fetch("https://api.example.com/data")
   .then(() => console.log("API response received"));
-```
-- `fetch()` is **asynchronous**, so it is **offloaded** to the **Web API**.  
-- The browser handles the network request in the background.  
-- When the request is complete, the `.then()` callback is placed in the **Microtask Queue**.
 
-#### **4️⃣ `console.log("End");` executes**
-```javascript
 console.log("End");
 ```
-- `"End"` is printed **immediately**, as this is a synchronous operation.
-
-#### **5️⃣ Event Loop Starts Processing Asynchronous Tasks**
-- JavaScript’s **Event Loop** now checks the **Microtask Queue** and **Task Queue**.
-
-##### **a) Microtask Queue (Highest Priority)**
-- The **fetch response callback (`API response received`) is in the Microtask Queue**, so it executes first.
-  ```
-  API response received
-  ```
-
-##### **b) Task Queue (Lower Priority)**
-- Now, the `setTimeout` callback (`Timeout callback`) from the **Task Queue** runs.
-  ```
-  Timeout callback
-  ```
----
-
-### **🔹 Final Execution Order**
+### Output
 ```
-Start   (Synchronous)  
-End     (Synchronous)  
-API response received   (Microtask - fetch callback)  
-Timeout callback   (Task Queue - setTimeout callback)  
+Start
+End
+API response received
+Timeout callback
 ```
 ---
-### **🔹 Why Does `fetch()` Run Before `setTimeout()`?**
-1. The **fetch `.then()` callback is in the Microtask Queue**, which has **higher priority** than the Task Queue.
-2. The `setTimeout()` callback is in the **Task Queue**, which is processed **after** all Microtasks.
----
-### **🔹 Key Takeaways**
-- **`console.log` is synchronous**, so `"Start"` and `"End"` run immediately.
-- **`setTimeout(…, 0)` does not execute immediately**; it waits until the Call Stack is clear and runs later via the Task Queue.
-- **`fetch()` uses Promises, which place their callbacks in the Microtask Queue (higher priority)**, so its `.then()` executes **before** the `setTimeout` callback.
-- **The Event Loop processes Microtasks before Tasks**, which is why `fetch()` completes before `setTimeout()`.
+### Key Points
 
+* JavaScript is **single-threaded** for execution.
+* Async operations run in **Web APIs / Node APIs**.
+* **Event loop runs callbacks only when the call stack is empty**.
+* **Microtasks run before macrotasks**, so `Promise.then()` executes before `setTimeout()`.
+
+---
 ### Q : What are the different data types present in javascript?
 A : There are two types of data types in JavaScript.
 ~~~
