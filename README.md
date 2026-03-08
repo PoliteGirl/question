@@ -48,7 +48,16 @@ Despite being single-threaded, JavaScript is **non-blocking** because it:
 
 🔹 **Promises & `async/await`**  
 - Promises use the **microtask queue**, which has **higher priority** than the regular task queue.  
-- Ensures promise resolutions run as soon as the current stack clears.  
+- Ensures promise resolutions run as soon as the current stack clears.
+
+| Type                | Examples                                                                    |
+| ------------------- | --------------------------------------------------------------------------- |
+| **Microtask Queue** | Promise `.then`, `.catch`, `.finally`, `queueMicrotask`, `MutationObserver` |
+| **Macrotask Queue** | `setTimeout`, `setInterval`, `setImmediate`, I/O callbacks                  |
+
+Sync Code → Microtask Queue → Macrotask Queue, 
+process.nextTick() (Node.js specific)
+In Node.js, this runs even before the microtask queue
 
 ##### **📌 Example**  
 ```javascript
