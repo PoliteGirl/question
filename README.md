@@ -90,12 +90,6 @@ fetch("https://api.example.com/data")
 
 console.log("End");
 ```
-**Execution Flow:**  
-1️⃣ `"Start"` is logged (synchronous).  
-2️⃣ `setTimeout` is sent to the **browser’s timer API**.  
-3️⃣ `fetch` is sent to the **network API**.  
-4️⃣ `"End"` is logged (synchronous).  
-5️⃣ The **event loop** processes `"Data fetched"` and `"Timeout callback"` once they are ready.  
 ---
 ### **Expected Output**:
 ```
@@ -150,7 +144,6 @@ console.log("End");
   ```
   Timeout callback
   ```
-
 ---
 
 ### **🔹 Final Execution Order**
@@ -160,15 +153,11 @@ End     (Synchronous)
 API response received   (Microtask - fetch callback)  
 Timeout callback   (Task Queue - setTimeout callback)  
 ```
-
 ---
-
 ### **🔹 Why Does `fetch()` Run Before `setTimeout()`?**
 1. The **fetch `.then()` callback is in the Microtask Queue**, which has **higher priority** than the Task Queue.
 2. The `setTimeout()` callback is in the **Task Queue**, which is processed **after** all Microtasks.
-
 ---
-
 ### **🔹 Key Takeaways**
 - **`console.log` is synchronous**, so `"Start"` and `"End"` run immediately.
 - **`setTimeout(…, 0)` does not execute immediately**; it waits until the Call Stack is clear and runs later via the Task Queue.
@@ -190,7 +179,7 @@ A : There are two types of data types in JavaScript.
 The difference between primitives and non-primitives is that primitives are immutable and non-primitives are mutable.
 
 Non primitive values can also be referred to as reference types because they are being compared by reference instead of value. Two objects are only strictly equal if they refer to the same underlying object.
-
+---
 ### Q : What is mutable and immutable data types in javascript?
 A : Image result for what is mutable and immutable data types in javascript Mutable objects are objects whose value can change once created, while immutable objects are those whose value cannot change once created. 
 
