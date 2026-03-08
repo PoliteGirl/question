@@ -168,40 +168,29 @@ The difference between primitives and non-primitives is that primitives are immu
 Non primitive values can also be referred to as reference types because they are being compared by reference instead of value. Two objects are only strictly equal if they refer to the same underlying object.
 ---
 ### Q : What is mutable and immutable data types in javascript?
-A : Image result for what is mutable and immutable data types in javascript Mutable objects are objects whose value can change once created, while immutable objects are those whose value cannot change once created. 
+A : **Mutable vs Immutable in JavaScript**
 
-Primitives are known as being immutable data types because there is no way to change a primitive value once it gets created.
-~~~
-var myString = "Helllooo"
+**Immutable:** Value cannot be changed after creation. Most **primitive types** (`string`, `number`, `boolean`, `null`, `undefined`, `symbol`, `bigint`) are immutable.
 
-console.log('myString[2]', myString[2]);
+```javascript
+let myString = "Helllooo";
+myString[2] = "c";
+console.log(myString); // Helllooo
+```
+String doesn’t change because primitives are immutable.
+**Mutable:** **Objects and arrays** can be modified because they are stored by **reference**.
+```javascript
+let x = { foo: "bar" };
+let y = x;
 
-myString[2] = 'c'
+x.foo = "Something else";
 
-console.log(myString);
-
-==> result : myString[2] l
-             Helllooo
-
-As u can see value of string does not changed to Hecllooo cause string is immutable
-~~~
-On the other hand Non-primitives are known as being mutable data types like Arrays and Objects.
-~~~
-var x = {
-    foo: 'bar'
-};
-var  y = x;
-x.foo = 'Something else';
 console.log(y.foo); // Something else
-console.log(x === y) // true
-
-As you can see, x is a mutable object, and any change in the property of x gets reflected in the value of y.
-They all share the same reference. So, when you update the value of a property of x, you’re modifying 
-the value for all the references to that object.
-~~~
+console.log(x === y); // true
+```
+Both variables reference the **same object**, so changes affect all references.
 
 ### Q : JavaScript provides a variety of string methods to manipulate and work with strings. Here are some commonly used ones:
-
 ### **String Manipulation**
 1. **`charAt(index)`** – Returns the character at the specified index.
    ```js
