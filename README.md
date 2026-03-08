@@ -13,14 +13,9 @@ JavaScript is:
 - A **dynamically typed** language.  
 
 #### **1. "JavaScript is a synchronous, blocking, single-threaded language."**  
-✅ **Correct, but requires clarification:**  
-
 - **Single-threaded**: JavaScript has a **single call stack**, meaning it executes one task at a time.  
 - **Synchronous by default**: JavaScript executes code **line by line** in the order it appears.  
 - **Non-blocking in practice**: JavaScript uses **asynchronous features** like `setTimeout`, Promises, and `async/await` to avoid blocking execution.  
-
-##### **JavaScript’s Execution Model**  
-JavaScript achieves **single-threaded** and **non-blocking** behavior through its **event loop** and **asynchronous features**.  
 
 ##### **1️⃣ Single-threaded Execution**  
 - JavaScript runs code in a **single call stack**.  
@@ -28,12 +23,12 @@ JavaScript achieves **single-threaded** and **non-blocking** behavior through it
 
 ##### **2️⃣ Non-blocking Behavior**  
 Despite being single-threaded, JavaScript is **non-blocking** because it:  
-- Offloads long-running tasks (I/O operations, timers, network requests) to **browser APIs** or **Node.js APIs**.  
+- Offloads long-running tasks (I/O operations, timers, network requests) to **web APIs** or **Node.js APIs**.  
 - Uses an **event loop** to process asynchronous callbacks once the main thread is free.  
 
-##### **Key Asynchronous Features**  
+##### **Key Asynchronous Features**
 
-🔹 **Browser APIs / Node.js APIs**  
+🔹 **Browser/Web APIs / Node.js APIs**  
 - Used for operations like:  
   - Fetching data (`fetch`, `XMLHttpRequest`).  
   - File system operations (in Node.js).  
