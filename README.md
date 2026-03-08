@@ -78,7 +78,14 @@ console.log("End");
 3️⃣ `fetch` is sent to the **network API**.  
 4️⃣ `"End"` is logged (synchronous).  
 5️⃣ The **event loop** processes `"Data fetched"` and `"Timeout callback"` once they are ready.  
-
+---
+### **Expected Output**:
+```
+Start  
+End  
+API response received  
+Timeout callback  
+```
 ---
 #### **2. "JavaScript is a dynamically typed language."**  
 ✅ **Correct**  
@@ -110,24 +117,6 @@ num = "ten";  // No error, type changes at runtime
 let num: number = 10;
 num = "ten";  // ❌ Error: Type 'string' is not assignable to type 'number'
 ```
-
----
-
-#### **🔹 Final Summary**  
-✅ JavaScript is **single-threaded**, but it remains **non-blocking** due to asynchronous features like the **event loop**.  
-✅ JavaScript is **dynamically typed**, meaning variable types are determined **at runtime**.  
-✅ The distinction between **dynamically typed** and **statically typed** languages is accurately described.  
-
----
-
-### **Expected Output**:
-```
-Start  
-End  
-API response received  
-Timeout callback  
-```
-
 ---
 
 ### Q : Task Queue and how JS works with it
