@@ -40,6 +40,12 @@ Despite being single-threaded, JavaScript is **non-blocking** because it:
 3. When the task is complete, its callback is added to the **task queue**.  
 4. The **event loop** ensures the main thread is clear before processing queued tasks.  
 
+✅ Simple analogy
+- Thread → The chef 👨‍🍳
+- Call Stack → The chef’s current list of tasks 📋
+- Event Loop → The waiter checking when the chef is free to give the next order.
+- ##### Event loop runs a callback only when the call stack in the main thread is empty.
+
 🔹 **Promises & `async/await`**  
 - Promises use the **microtask queue**, which has **higher priority** than the regular task queue.  
 - Ensures promise resolutions run as soon as the current stack clears.  
