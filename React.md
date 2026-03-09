@@ -268,6 +268,13 @@ A : In react, a component is reusable building block for creating UI.
 ### Q : What is pure component
 A : A **PureComponent** in React is a type of component that implements **shouldComponentUpdate** with a shallow comparison of props and state. This means it prevents unnecessary re-renders by only updating if there are actual changes in its props or state.
 
+Normally in React:
+- When a parent re-renders, all child components re-render.
+
+But with PureComponent:
+- React checks if props or state actually changed.
+- If no change, it skips rendering → improves performance.
+
 ### **Key Differences Between `PureComponent` and `Component`**
 1. **Automatic Optimization:**  
    - `React.Component` re-renders on any state/prop update.  
