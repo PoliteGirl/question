@@ -621,8 +621,40 @@ A higher-order component (HOC) is a function that takes a component and returns 
 We call them pure components because they can accept any dynamically provided child component but they won't modify or copy any behavior from their input components.
 
 const EnhancedComponent = higherOrderComponent(WrappedComponent)
-HOC can be used for many use cases:
 
+```
+import React from "react";
+
+// HOC
+function withMessage(Component) {
+  return function () {
+    return (
+      <div>
+        <h3>Welcome!</h3>
+        <Component />
+      </div>
+    );
+  };
+}
+
+// Normal component
+function Hello() {
+  return <h2>Hello Foram</h2>;
+}
+
+// Wrap component using HOC
+const EnhancedHello = withMessage(Hello);
+
+// App component
+export default function App() {
+  return (
+    <div>
+      <EnhancedHello />
+    </div>
+  );
+}
+```
+HOC can be used for many use cases:
 * Code reuse, logic and bootstrap abstraction.
 * Render hijacking.
 * State abstraction and manipulation.
