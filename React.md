@@ -476,45 +476,90 @@ Note: You can directly assign to the state object either in constructor or using
 
 ### Q : What are the differences between controlled and uncontrolled components?
 A : 
-* controlled : 
-In a controlled component, the value of the input element is controlled by React. We store the state of the input element inside the code, and by using event-based callbacks, any changes made to the input element will be reflected in the code as well.
-When a user enters data inside the input element of a controlled component, onChange function gets triggered and inside the code, we check whether the value entered is valid or invalid. If the value is valid, we change the state and re-render the input element with the new value.
-```
-handleChange(event) {
-  this.setState({value: event.target.value.toUpperCase()})
+## Controlled vs Uncontrolled Components in React
+These terms are mainly used with **form elements** like `input`, `textarea`, `select`.
+---
+# 1️⃣ Controlled Component
+A **controlled component** is a form element whose **value is controlled by React state**.
+React manages the data using `useState`.
+
+### Example
+
+```javascript
+import React, { useState } from "react";
+
+function App() {
+  const [name, setName] = useState("");
+
+  return (
+    <input
+      type="text"
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+    />
+  );
 }
 ```
 
-* Uncontrolled component: 
-In an uncontrolled component, the value of the input element is handled by the DOM itself. Input elements inside uncontrolled components work just like normal HTML input form elements.
-The state of the input element is handled by the DOM. Whenever the value of the input element is changed, event-based callbacks are not called. Basically, react does not perform any action when there are changes made to the input element.
-```
-class UserProfile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.input = React.createRef();
-  }
+### How it works
+1. User types something
+2. `onChange` fires
+3. React updates state
+4. State updates the input value
 
-  handleSubmit(event) {
-    alert("A name was submitted: " + this.input.current.value);
-    event.preventDefault();
-  }
+So **React controls the input**.
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          {"Name:"}
-          <input type="text" ref={this.input} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    );
-  }
+---
+
+# 2️⃣ Uncontrolled Component
+An **uncontrolled component** stores form data **inside the DOM itself**, not in React state.
+We use **`useRef`** to read the value.
+
+### Example
+
+```javascript
+import React, { useRef } from "react";
+
+function App() {
+  const inputRef = useRef();
+
+  const handleClick = () => {
+    alert(inputRef.current.value);
+  };
+
+  return (
+    <>
+      <input type="text" ref={inputRef} />
+      <button onClick={handleClick}>Submit</button>
+    </>
+  );
 }
 ```
-Whenever use enters data inside the input field, the updated data is shown directly. To access the value of the input element, we can use ref.
+
+### How it works
+1. User types in input
+2. Value stays in DOM
+3. React reads value using `ref`
+
+So **DOM controls the input**.
+---
+# Key Differences
+
+| Controlled             | Uncontrolled      |
+| ---------------------- | ----------------- |
+| Managed by React state | Managed by DOM    |
+| Uses `useState`        | Uses `useRef`     |
+| More control           | Less control      |
+| Easier validation      | Harder validation |
+
+---
+# Simple Interview Answer
+
+> A controlled component is a form element whose value is controlled by React state, while an uncontrolled component stores its value in the DOM and is accessed using refs.
+---
+💡 **Real-world tip:**
+Most React applications use **controlled components** because they make **validation, form handling, and state management easier**.
+---
 
 ### Q : What are the lifecycle methods of React?
 A : 
