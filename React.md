@@ -861,26 +861,61 @@ const Canvas = () => {
 | **Handling timers** | Avoid memory leaks in intervals |
 | **Third-party libraries** | Pass refs for external integrations |
 
-### Q : Diff between usememo and usecallback
-A : 
-useMemo
-useMemo is used to memoize a value (usually an object, function, or any complex computation) and to avoid recalculating it on every render unless the dependencies change.
-It takes a function and an array of dependencies as arguments. The function is only re-executed when one of the dependencies has changed.
-It is useful when you have a costly computation that doesn't need to be recalculated unless its dependencies change.
-Example:
+### Q : Diff between memo, usememo and usecallback
+A :
+Remember this sentence:
+**"memo → component, useMemo → value, useCallback → function"**
+---
+### React.memo
+Used for **components**
+It stops a **component** from re-rendering if props didn't change.
+
+```javascript
+const Child = React.memo((props) => {
+  return <h2>{props.name}</h2>;
+});
 ```
-const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+**Remembers component render**
+---
+### useMemo
+Used for **values / calculations**
+It **stores a calculated value** so React doesn't calculate again.
+```javascript
+const result = useMemo(() => {
+  return num * 2;
+}, [num]);
 ```
-useCallback
-useCallback is used to memoize a callback function to prevent unnecessary renders of components that rely on that callback.
-It takes a callback function and an array of dependencies, similar to useMemo. The difference is that useCallback returns a memoized version of the callback itself.
-It is useful when you want to prevent the recreation of callback functions in child components, which could cause unnecessary re-renders.
-Example:
+**Remembers value**
+---
+### useCallback
+Used for **functions**
+It **stores a function** so it is not recreated on every render.
+```javascript
+const handleClick = useCallback(() => {
+  console.log("clicked");
+}, []);
 ```
-const memoizedCallback = useCallback(() => {
-  doSomethingWith(a, b);
-}, [a, b]);
+**Remembers function**
+---
+# ⚡ Super Easy Table
+| Hook        | Remembers |
+| ----------- | --------- |
+| React.memo  | Component |
+| useMemo     | Value     |
+| useCallback | Function  |
+---
+### 5-Second Interview Answer
+**React.memo** → prevents component re-render
+**useMemo** → memoizes calculated values
+**useCallback** → memoizes functions
+---
+**One last simple way to remember**
 ```
+memo → component
+useMemo → memory of value
+useCallback → memory of function
+```
+---
 In summary, useMemo is used to memoize values, while useCallback is specifically designed for memoizing callback functions. Both are performance optimization tools, and they help in avoiding unnecessary recalculations or re-renders in React components. Use useMemo when dealing with memoizing values, and use useCallback when dealing with memoizing callback functions.
 
 ### Q : what is life cycle equivalent in react function component?
