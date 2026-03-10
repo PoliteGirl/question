@@ -1,14 +1,12 @@
 # React.js
 
 ### Q : What is React?  
-A : React is an open-source JavaScript library for building user interfaces, particularly for single-page applications (SPAs). It follows a **component-based approach**, allowing developers to create reusable UI components for web and mobile applications.  
+A : React is an open-source JavaScript library developed by Facebook for building interactive user interfaces, especially for single-page applications (SPAs). It allows developers to create UI using independent and reusable components.
 
-* Simplifies SPA development by using reusable components.  
-* Supports **server-side rendering (SSR)** for better SEO.  
-* Uses **Virtual DOM** instead of Real DOM to improve performance.  
-* Follows **unidirectional data flow**: Data flows from parent to child via props, ensuring better state management.  
-* Encourages **reusable and composable UI components** for a modular development approach.  
-* The **index.html** file serves as the entry point of a React app.  
+* Used for building dynamic web applications.
+* Focuses only on the view layer of an application (UI).
+* Allows UI to be built using small reusable components.
+* Can be used to build web and mobile applications.
 
 ### Q : Features of React.  
 A :  
@@ -941,189 +939,12 @@ In React functional components, **cleanup** is done using the **cleanup function
 Absolutely! Let's break down how `useEffect` works and why cleanup is important in this case.
 
 ### **Understanding `useEffect` and Cleanup:**
-
 `useEffect` in React is a hook that allows you to run side effects in function components. It runs after the render, which makes it perfect for tasks like:
 - Fetching data from an API
 - Subscribing to events
 - Updating the document title
 
 The **cleanup function** inside `useEffect` is used to **clean up side effects** when the component unmounts or before the effect runs again. This is especially important for scenarios where resources need to be freed (like network requests or subscriptions).
-
-### **The Role of Cleanup in Your Case:**
-
-In your case, you're using `axios` to fetch data from an API inside the `useEffect` hook. But there’s a potential issue when the component unmounts before the request completes:
-
-1. **What could happen?**
-   - If the component unmounts (for example, when you navigate away from the page) before the API request completes, the `setState` call in the `axios` `.then()` or `.catch()` could try to update the state of a component that is no longer in the DOM.
-   - This would result in a **memory leak** and a warning like:
-     ```
-     Can't perform a React state update on an unmounted component.
-     ```
-  
-2. **Why use `cleanup` here?**
-   - To **prevent state updates** when the component unmounts, you can use the cleanup function to cancel or ignore updates. In this case, we use a flag (`isMounted`) to check if the component is still mounted before trying to update the state.
-   - The cleanup function (inside `useEffect`) runs when:
-     - The component unmounts.
-     - The effect is about to run again (if the dependency array changes).
-
-3. **How does the cleanup work here?**
-   - The `isMounted` flag ensures that the `setData` and `setError` functions are only called if the component is still present in the DOM.
-   - When the component unmounts, `isMounted` is set to `false` in the cleanup function, and if the API call completes after the component unmounts, we skip the state update because `isMounted` will be `false`.
-
-### **Code Breakdown:**
-
-```jsx
-useEffect(() => {
-  // Flag to track if component is mounted
-  let isMounted = true; 
-  
-  // API request
-  axios.get("/api/data")
-    .then((response) => {
-      // Only update state if the component is still mounted
-      if (isMounted) {
-        setData(response.data);
-        setLoading(false);
-      }
-    })
-    .catch((err) => {
-      // Handle error, but only update state if component is still mounted
-      if (isMounted) {
-        setError(err.message);
-        setLoading(false);
-      }
-    });
-
-  // Cleanup function that runs when component unmounts
-  return () => {
-    isMounted = false;
-  };
-}, []); // Empty dependency array means this effect runs only once on mount
-```
-
-### **Why Is This Cleanup Necessary?**
-1. **Prevent Memory Leaks:** If an asynchronous task like a network request is still running when the component unmounts, **React cannot update the state** of the unmounted component, and doing so can cause **memory leaks**.
-2. **Improve Performance:** Cleanup ensures that you don’t perform unnecessary operations (like API calls or event listeners) once the component is no longer in the DOM.
-3. **Avoid Warnings:** By preventing state updates on unmounted components, you avoid the React warning about updating an unmounted component.
-
-### **Is Cleanup Always Necessary?**
-No, cleanup is not always required, but it's a **best practice** when dealing with asynchronous tasks, subscriptions, or timers in `useEffect`.
-
-- **Necessary**: If you're making an API request, setting up event listeners, or using `setTimeout`/`setInterval`.
-- **Not Necessary**: If the effect doesn't cause side effects that need to be cleaned up, such as simple state changes or effects that don't interact with outside resources.
-
-### **Summary of Cleanup:**
-- **Cleanup function** inside `useEffect` helps ensure that no **state updates or side effects** occur after a component unmounts.
-- In this case, it prevents trying to **set state** when the component is no longer in the DOM.
-- It’s important for asynchronous operations (like API calls) to ensure **no errors or memory leaks** occur.
-
-### **Example: Cleanup an Event Listener**
-```jsx
-import React, { useState, useEffect } from "react";
-
-const MouseTracker = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const updateMousePosition = (e) => {
-    setPosition({ x: e.clientX, y: e.clientY });
-  };
-
-  useEffect(() => {
-    // Adding event listener when component mounts
-    window.addEventListener("mousemove", updateMousePosition);
-
-    // Cleanup function to remove event listener
-    return () => {
-      window.removeEventListener("mousemove", updateMousePosition);
-      console.log("Cleanup: Event listener removed");
-    };
-  }, []); // Runs only once when component mounts
-
-  return (
-    <div>
-      <h1>Mouse Position</h1>
-      <p>X: {position.x}, Y: {position.y}</p>
-    </div>
-  );
-};
-
-export default MouseTracker;
-```
-
-### **How Cleanup Works Here**
-- **When the component mounts**, the `mousemove` event listener is attached.
-- **When the component unmounts**, the event listener is removed inside the `return` function of `useEffect`.
-- This ensures **no memory leaks** and prevents unnecessary event listeners from staying active.
-
-### **Other Common Use Cases for Cleanup**
-1. **Clearing Timers:**
-   ```jsx
-   useEffect(() => {
-     const timer = setInterval(() => console.log("Running..."), 1000);
-     return () => clearInterval(timer);
-   }, []);
-   ```
-2. **Aborting API Requests:**
-   ```jsx
-   useEffect(() => {
-     const controller = new AbortController();
-     fetch("https://api.example.com/data", { signal: controller.signal });
-
-     return () => controller.abort(); // Cleanup API call
-   }, []);
-   ```
-
-```
-import React, { useEffect } from "react";
-
-    const Timer = () => {
-      const interval = React.useRef();
-      const startGame = () => {
-        interval.current = setInterval(() => {
-          //code
-        }, 3000);
-      };
-      React.useEffect(() => {
-        return () => {
-          clearInterval(interval.current);
-        };
-      }, []);
-    };
-    
-    export default Timer;
-```
-### Q : Why is useEffect often bad practice
-A :
-**Why is `useEffect` Often Considered Bad Practice?**  
-
-While `useEffect` is useful for side effects, **misusing it can lead to issues** like unnecessary re-renders, performance problems, and complex logic.  
-
-**Common Issues with `useEffect`**  
-
-1️⃣ **Unnecessary Effects** → Using `useEffect` for logic that can be done directly in the component.  
-   - **Example:** Setting state based on props inside `useEffect` instead of directly computing it.  
-
-2️⃣ **Dependency Issues** → Wrong dependencies can cause infinite loops or stale data.  
-   - **Fix:** Always include dependencies carefully to avoid unnecessary re-executions.  
-
-3️⃣ **Performance Bottlenecks** → Running expensive computations inside `useEffect`.  
-   - **Fix:** Use **memoization (`useMemo`, `useCallback`)** when needed.  
-
-4️⃣ **Tightly Coupled Code** → Business logic gets mixed with side effects.  
-   - **Fix:** Extract reusable logic into **custom hooks**.  
-
-5️⃣ **Memory Leaks** → Not cleaning up subscriptions, event listeners, or timers.  
-   - **Fix:** Always return a **cleanup function** inside `useEffect`.  
-
-### **When to Avoid `useEffect`?**  
-❌ **Computing derived state** → Use `useState` or direct calculations instead.  
-❌ **Synchronizing props/state unnecessarily** → Instead, compute values inside render.  
-❌ **Fetching data on every render** → Use caching or memoization instead.  
-
-### **When to Use `useEffect`?**  
-✅ **Fetching data** (with proper dependencies).  
-✅ **Subscribing to events, timers, or listeners** (with cleanup).  
-✅ **Interacting with the DOM** (like animations or manual scroll handling).  
 
 ### Q : What are some common usage and pitfalls of useEffect
 A :
