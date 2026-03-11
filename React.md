@@ -25,8 +25,7 @@ A :
 * **Simplifies testing** with tools like Jest for unit and integration tests.  
 
 ### Q : What is JSX?
-A : 
-* with help of babel library jsx code gets convert to js code that browser can understand. Babel is a transpiler.
+A : * with help of babel library jsx code gets convert to js code that browser can understand. Babel is a transpiler.
 
 JSX stands for JavaScript XML. It allows us to write HTML inside JavaScript and place them in the DOM without using functions like appendChild( ) or createElement( ). As stated in the official docs of React, JSX provides syntactic sugar for React.createElement( ) function.
 
@@ -53,7 +52,7 @@ Memory leaks in React often occur when:
 4. **Using `setState` on an unmounted component**, causing React to keep a reference to that component in memory.
 
 ## **Common Causes of Memory Leaks in React**
-### **1️⃣ API Requests Without Cleanup**
+### ** API Requests Without Cleanup**
 #### **Example: Memory Leak**
 If an API request is still in progress when a component unmounts, and it tries to update state, a memory leak occurs.
 
@@ -117,7 +116,7 @@ useEffect(() => {
   return () => controller.abort(); // Cancels request on unmount
 }, []);
 ```
-### **2️⃣ Event Listeners Not Removed**
+### ** Event Listeners Not Removed**
 #### **Example: Memory Leak**
 ```jsx
 useEffect(() => {
@@ -140,7 +139,7 @@ useEffect(() => {
 }, []);
 ```
 
-### **3️⃣ Timers (`setInterval`, `setTimeout`) Not Cleared**
+### ** Timers (`setInterval`, `setTimeout`) Not Cleared**
 #### **Example: Memory Leak**
 ```jsx
 useEffect(() => {
@@ -162,7 +161,7 @@ useEffect(() => {
 }, []);
 ```
 
-### **4️⃣ References to DOM Elements**
+### ** References to DOM Elements**
 If you create DOM elements manually and don't clean them up, they can **persist in memory**.
 
 #### **Example: Memory Leak**
@@ -367,6 +366,9 @@ A : * If the component needs state or lifecycle methods then use class component
 A : As stated by the react team, virtual DOM is a concept where a virtual representation of the real DOM is kept inside the memory and is synced with the real DOM by a library such as ReactDOM.
 
 The Virtual DOM (VDOM) is an in-memory representation of Real DOM. The representation of a UI is kept in memory and synced with the "real" DOM. It's a step that happens between the render function being called and the displaying of elements on the screen. This entire process is called reconciliation.
+
+### Q : What is reconciliation?
+A : When a component's props or state change, React decides whether an actual DOM update is necessary by comparing the newly returned element with the previously rendered one. When they are not equal, React will update the DOM. This process is called reconciliation.
 
 ### Q : What is state in React?  
 A : **State** is an object that stores component-specific data that may change over the component's lifecycle. It is **private** and fully controlled by the component itself. To maintain simplicity, we should keep the state minimal and avoid unnecessary stateful components.  
@@ -657,9 +659,6 @@ HOC can be used for many use cases:
 * Render hijacking.
 * State abstraction and manipulation.
 * Props manipulation.
-
-### Q : What is reconciliation?
-A : When a component's props or state change, React decides whether an actual DOM update is necessary by comparing the newly returned element with the previously rendered one. When they are not equal, React will update the DOM. This process is called reconciliation.
 
 ### Q : What are the rules that must be followed while using React Hooks?
 A :
