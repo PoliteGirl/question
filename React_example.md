@@ -1,3 +1,55 @@
+## Custom Hook with api call, display table and conditional css
+```
+import React, { useEffect, useState } from "react";
+import "./style.css";
+
+export const useFetch = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("https://dummyjson.com/products")
+      .then((res) => res.json())
+      .then((json) => setData(json.products ?? []))
+      .catch((e) => console.log(e));
+  }, []);
+
+  return data;
+};
+
+const App = () => {
+  const data = useFetch();
+
+  return (
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {data.map((item) => (
+          <tr
+            style={
+              item.id % 2 == 0
+                ? { color: "red", backgroundColor: "pink" }
+                : { color: "pink", backgroundColor: "red" }
+            }
+            key={item.id}
+          >
+            <td>{item.id}</td>
+            <td>{item.title}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+export default App;
+```
+
 ## Fetch Api call
 ```
 import React, { useEffect, useState } from "react";
