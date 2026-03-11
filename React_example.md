@@ -1,3 +1,65 @@
+## Fetch Api call
+```
+import React, { useEffect, useState } from "react";
+
+function FetchExample() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((data) => setUsers(data))
+      .catch((error) => console.log(error));
+  }, []);
+
+  return (
+    <div>
+      <h2>User List</h2>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default FetchExample;
+```
+
+## Axios api call
+```
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+function AxiosExample() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  return (
+    <div>
+      <h2>User List</h2>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default AxiosExample;
+```
 ## List diplay and remove perticular item from list
 ```javascrip
 import React, { useRef, useState } from 'react'
@@ -188,67 +250,4 @@ const App = () => {
 };
 
 render(<App />, document.getElementById("root"));
-```
-
-## Fetch Api call
-```
-import React, { useEffect, useState } from "react";
-
-function FetchExample() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((data) => setUsers(data))
-      .catch((error) => console.log(error));
-  }, []);
-
-  return (
-    <div>
-      <h2>User List</h2>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default FetchExample;
-```
-
-## Axios api call
-```
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-function AxiosExample() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  return (
-    <div>
-      <h2>User List</h2>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default AxiosExample;
 ```
