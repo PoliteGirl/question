@@ -1,6 +1,6 @@
 # HTML
 
-## Q : What is diff in Fragment and Layout?
+###  Q : What is diff in Fragment and Layout?
 A : ### Fragment (HTML)
 
 A **fragment** is a **small part of HTML**, not the full page.
