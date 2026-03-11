@@ -1,3 +1,32 @@
+## Using spred operator to update state
+```
+import React, { useEffect, useState } from "react";
+
+const App = () => {
+  const [data, setData] = useState({ name: "Foram", age: 30 });
+
+  return (
+    <>
+      <div>
+        Name : {data.name} & Age : {data.age}
+      </div>
+      <input
+        type="text"
+        value={data?.name}
+        onChange={(e) => {
+          setData((prev) => ({
+            ...prev,
+            name: e.target.value,
+          }));
+        }}
+      />
+    </>
+  );
+};
+
+export default App;
+```
+
 ## Custom Hook with api call, display table and conditional css
 ```
 import React, { useEffect, useState } from "react";
