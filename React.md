@@ -218,37 +218,6 @@ A : ### **Garbage Collection in React (Minimal Explanation)**
 2. **GC removes unreachable objects** using the **Mark & Sweep algorithm**.  
 3. **Memory leaks happen when references persist** after a component unmounts.
 
-### **Common Memory Leaks & Fixes**  
-
-✅ **Not Cleaning Event Listeners**  
-```jsx
-useEffect(() => {
-  const handler = () => console.log("Resizing...");
-  window.addEventListener("resize", handler);
-
-  return () => window.removeEventListener("resize", handler); // ✅ Cleanup
-}, []);
-```
-
-✅ **Unfinished API Calls**  
-```jsx
-useEffect(() => {
-  const controller = new AbortController();
-  fetch("/api/data", { signal: controller.signal }).then(res => res.json());
-
-  return () => controller.abort(); // ✅ Cleanup
-}, []);
-```
-
-✅ **Not Clearing Intervals**  
-```jsx
-useEffect(() => {
-  const interval = setInterval(() => console.log("Running..."), 1000);
-
-  return () => clearInterval(interval); // ✅ Cleanup
-}, []);
-```
-
 ### **Preventing Memory Leaks**  
 - **Use cleanup functions** in `useEffect`.  
 - **Remove unused state** when a component unmounts.  
