@@ -1,3 +1,36 @@
+## Higher Order Function example
+```
+import React from "react";
+
+// HOC
+function withMessage(Component) {
+  return function () {
+    return (
+      <div>
+        <h3>Welcome!</h3>
+        <Component />
+      </div>
+    );
+  };
+}
+
+// Normal component
+function Hello() {
+  return <h2>Hello Foram</h2>;
+}
+
+// Wrap component using HOC
+const EnhancedHello = withMessage(Hello);
+
+// App component
+export default function App() {
+  return (
+    <div>
+      <EnhancedHello />
+    </div>
+  );
+}
+```
 ## Using spred operator to update state
 ```
 import React, { useEffect, useState } from "react";
