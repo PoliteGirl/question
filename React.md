@@ -25,7 +25,7 @@ A :
 * **Simplifies testing** with tools like Jest for unit and integration tests.  
 
 ### Q : What is JSX?
-A : * with help of babel library jsx code gets convert to js code that browser can understand. Babel is a transpiler.
+A : With help of babel library jsx code gets convert to js code that browser can understand. Babel is a transpiler.
 
 JSX stands for JavaScript XML. It allows us to write HTML inside JavaScript and place them in the DOM without using functions like appendChild( ) or createElement( ). As stated in the official docs of React, JSX provides syntactic sugar for React.createElement( ) function.
 
